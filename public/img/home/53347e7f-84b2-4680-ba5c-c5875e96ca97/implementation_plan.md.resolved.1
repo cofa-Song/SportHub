@@ -1,0 +1,50 @@
+# OPE-604 Financial Overview Dashboard Implementation Plan
+
+## Goal Description
+Implement a high-level financial dashboard to monitor real-time fund flows, including Total Deposit, Total Withdrawal, Net Revenue, and Manual Adjustments. It serves as the core for operational decision-making and risk control.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [finance.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/finance.ts)
+- Define `FinanceStats` interface.
+- Implement `getFinanceStats(params: FinanceSearchParams)` (Mock).
+    - Returns aggregated data: totalDeposit, totalWithdraw, netRevenue, manualAdd, manualDeduct, etc.
+    - Mock logic to exclude/include "Test Accounts".
+
+### UI Components
+#### [NEW] [FinancialOverview.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/FinancialOverview.vue)
+- **Filters**:
+    - Date Range (Today, Yesterday, Last 7 Days, Custom).
+    - "Exclude Test Accounts" (Checkbox, checked by default).
+    - Refresh Button (Timer countdown 60s).
+- **KPI Cards**:
+    - **Row 1**: Total Deposit, Total Withdraw, Net Revenue (Hidden for non-managers).
+    - **Row 2**: Manual Add, Manual Deduct, GGR.
+- **Charts**:
+    - Pie Chart: Deposit Channel Distribution.
+    - Pie Chart: Withdrawal Channel Distribution.
+    - Pie Chart: Distribution Composition (Reward/Conversion).
+- **Logic**:
+    - `setInterval` for 60s auto-refresh.
+    - `useAuthStore` to check role for Net Revenue visibility.
+    - Highlight high manual adjustment amounts (Mock threshold).
+
+### Routing
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add new route `/financial-overview`.
+- Meta: `roles: ['DEVELOPER', 'MANAGER']` (General finance role mapping TBD, assume MANAGER for now, will differentiate inside component).
+
+## Verification Plan
+
+### Manual Verification
+1.  **Access Page**: Navigate to `/admin/financial-overview`.
+2.  **KPI Verification**:
+    - Check if "Net Revenue" is visible (as Admin).
+    - Check sums: Net Revenue = Deposit - Withdraw.
+3.  **Test Account Exclusion**:
+    - Toggle "Exclude Test Accounts". Numbers should change (based on mock data logic).
+4.  **Auto Refresh**: Wait 60s or click Refresh. Verify call in Network tab.
+5.  **Manual Adjustment Sync**:
+    - Go to [ManualAdjustment](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ManualAdjustment.vue), add $500.
+    - Return to Dashboard, refresh. "Manual Add" should increase by 500.

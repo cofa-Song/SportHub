@@ -1,0 +1,35 @@
+# 任務完成報告
+
+## 已實作功能
+
+### 1. 導航選單調整
+- 將「營運參數配置」連結從「系統設定」分類移動到「前台設定」分類。
+- 將「營運參數配置」的選單圖示更換為板手工具圖示 (`BuildOutline`)。
+
+### 2. 營運參數配置頁面重構
+- **欄位分區**：將頁面重新組織為四個語意明確的區塊：營運與維護、網站基礎設定、推廣與財務參數、安全性設定。
+- **安全性設定**：整合登入限制、驗證碼、手機綁定與 IP 白名單管理。
+- **組件升級**：使用 `n-grid` 佈局與多語系支援（Select, Switch, Textarea）。
+- **數據架構**：同步更新 [OperationConfig](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/operationConfig.ts#2-36) 介面與 Mock 數據以支援新功能。
+
+### 3. 公會設定功能開發 (OPE-504)
+- **全域設定**：可配置公會創建消耗、等級門檻及成員轉帳手續費減免。
+- **公會清單管理**：
+  - 支援公會名稱/ID 與會長 ID 篩選。
+  - 提供禁言、強制解散、會長轉讓等管理操作。
+- **導航集成**：在側邊欄「玩家管理」分組中新增「公會設定」入口。
+
+## 代碼變更詳情
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/types/guild.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/api/guild.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GuildManagement.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+
+## 驗證結果
+- [x] 公會創建門檻驗證
+- [x] 強制解散連動驗證 (Mock 模擬)
+- [x] 數據統計正確性
+- [x] 手續費減免生效驗證

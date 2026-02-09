@@ -1,0 +1,18 @@
+# 工作報告：群組管理更名完成
+
+我已將系統中「群組管理」相關名稱進行了統一優化。
+
+## 變更內容
+
+### 名稱優化
+- **更名前**: 群組與帳號管理
+- **更名後**: **群組管理**
+
+### 影響範圍
+- **語系檔案**: 更新了 [src/locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) 中的 `navigation.groupManagement` 與 `permission.groupManagement.title`。
+- **頁面標題**: [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GroupManagement.vue) 頁面內部的 H1 標題也已更新為「群組管理」。
+- **權限定義**: 更新了 [src/mocks/admin.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/admin.ts) 中 OPE-102 的功能名稱，確保日誌與權限設定顯示一致。
+
+## 驗證結果
+- 檢查導覽列，名稱已縮短為「群組管理」。
+- 頁面標題與權限設定中的名稱均已同步更新，保持一致性。

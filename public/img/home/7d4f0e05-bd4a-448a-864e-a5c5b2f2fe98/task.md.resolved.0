@@ -1,0 +1,24 @@
+# Competition Blog Task List
+
+- [ ] Project Setup
+    - [ ] Initialize project directory structure [/]
+    - [ ] Setup Frontend (Next.js) [ ]
+    - [ ] Setup Backend (Go) [ ]
+    - [ ] Configure Docker Compose (Local MySQL/Redis) [ ]
+- [ ] Database Design
+    - [ ] MySQL Schema (Users, Competitions, Posts) [ ]
+    - [ ] Redis Data Structure (Live Scores) [ ]
+- [ ] Backend Development
+    - [ ] Database Connection & Models [ ]
+    - [ ] API Development (REST/GraphQL) [ ]
+    - [ ] WebSocket for Real-time Updates [ ]
+    - [ ] JWT Authentication [ ]
+- [ ] Frontend Development
+    - [ ] Design System & Layout [ ]
+    - [ ] Authentication Flow [ ]
+    - [ ] Competition List & Details [ ]
+    - [ ] Real-time Score Dashboard [ ]
+    - [ ] Blog/News Section [ ]
+- [ ] Integration & Testing
+    - [ ] API Integration [ ]
+    - [ ] End-to-end Testing [ ]

@@ -1,0 +1,18 @@
+- [x] **OPE-301 Game Platform Management**
+    - [x] Define [GameProvider](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#35-46) types in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 59 -->
+    - [x] Create `ProviderService` mock in [src/api/provider.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/provider.ts) <!-- id: 60 -->
+    - [x] Implement [GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue) view <!-- id: 61 -->
+    - [x] Verify AC1: Status Change Immediate <!-- id: 62 -->
+    - [x] Verify AC2: Maintenance Mode Display <!-- id: 63 -->
+    - [x] Verify AC3: Sorting Logic <!-- id: 64 -->
+    - [x] Verify AC4: Operation Log <!-- id: 65 -->
+    - [x] Verify AC5: Data Consistency <!-- id: 66 -->
+
+- [/] **OPE-302 Game List Management**
+    - [x] Define [Game](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#57-76) types in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 67 -->
+    - [ ] Create `GameService` mock in [src/api/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/game.ts) <!-- id: 68 -->
+    - [ ] Implement `GameList.vue` view <!-- id: 69 -->
+    - [ ] Verify AC1: Complex Search Accuracy <!-- id: 70 -->
+    - [ ] Verify AC2: Final Rate Logic <!-- id: 71 -->
+    - [ ] Verify AC3: Tag Source Change <!-- id: 72 -->
+    - [ ] Verify AC4: Quick Toggle Switch <!-- id: 73 -->

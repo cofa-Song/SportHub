@@ -1,0 +1,29 @@
+# 修復與優化：後台白名單管理
+
+已完成白名單管理功能的報錯修復以及根據需求的 UI 優化。
+
+## 變更摘要
+
+### 1. 錯誤修復 (TypeError Fix)
+- **原因**：Vue `ref` 物件被錯誤地直接傳遞給 API 函數。
+- **修復**：修正為傳遞 `.value`，並在 API 層的 [ipToInt](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts#7-14) 函數加入類型防禦檢查。
+
+### 2. UI 優化 (UI Optimization)
+- **簡化列表**：移除數據列表「操作」欄位中的狀態開關 (Switch)。
+- **移除二階驗證**：移除彈窗中的「二階驗證」欄位及其前端檢核邏輯，提升操作效率。
+- **精簡按鈕**：移除「加入當前 IP」功能按鈕及相關的 IP 偵測邏輯。
+
+## 變更詳情
+
+### [AdminWhitelist.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+- 移除 `currentIp`、`twoFa` 等相關狀態與函數。
+- 簡化 `columns` 定義與模板結構。
+- 清理 [save](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AdminWhitelist.vue#83-101) 邏輯，不再要求輸入二階驗證。
+
+### [whitelist.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/whitelist.ts)
+- 加強 [ipToInt](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts#7-14) 的輸入驗證。
+
+## 驗證結果
+- [x] **報錯修正**：刪除/編輯操作不再出現 `ip.split` 錯誤。
+- [x] **介面檢視**：確認 Switch、二階驗證欄位、加入 IP 按鈕均已按需求移除。
+- [x] **功能完整性**：基本的新增、編輯、刪除流程依然運作正常且更為簡潔。

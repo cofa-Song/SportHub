@@ -1,0 +1,11 @@
+# Task: Fix Operation Config Validation
+
+- [/] Planning
+    - [x] Analyze the issue: Identify missing `type: 'number'` in validation rules
+    - [ ] Create implementation plan
+    - [ ] Get user approval
+- [ ] Execution
+    - [ ] Update [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) validation rules
+- [ ] Verification
+    - [ ] Manually verify the fix by checking the form validation
+    - [ ] Create walkthrough

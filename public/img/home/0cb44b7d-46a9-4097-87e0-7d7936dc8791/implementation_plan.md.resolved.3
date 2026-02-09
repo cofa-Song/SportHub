@@ -1,0 +1,86 @@
+# 調整導航選單結構實作計劃
+
+用戶希望優化側邊欄導航，將「營運參數配置」調整至更符合其業務分類的「前台設定」下，並更換為更具代表性的工具圖示。
+
+## 擬議變更
+
+### 前端
+
+#### [修改] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+
+- 從 `@vicons/ionicons5` 導入 `BuildOutline` (板手工具圖示)。
+- 在 `menuOptions` 中，將 `operation-config` 項目從 `system-config` 的子選單移動到 `frontend-setting` 的子選單。
+- 將 `operation-config` 的圖示由 `SettingsOutline` 改為 `BuildOutline`。
+
+```diff
+ import {
+   // ...
+   ReaderOutline,
+   KeyOutline,
+   PhonePortraitOutline,
+-  ShieldOutline
++  ShieldOutline,
++  BuildOutline
+ } from '@vicons/ionicons5'
+
+ // ...
+
+   {
+     label: t('navigation.frontendSetting'),
+     key: 'frontend-setting',
+     icon: renderIcon(PhonePortraitOutline),
+     children: [
+       {
+         label: t('navigation.announcement'),
+         key: 'announcement-manager',
+         icon: renderIcon(ListOutline)
+       },
++      {
++        label: t('navigation.operationConfig'),
++        key: 'operation-config',
++        icon: renderIcon(BuildOutline)
++      },
+       {
+         label: '圖片管理',
+         key: 'image-config',
+         icon: renderIcon(LayersOutline)
+       }
+     ]
+   },
+   {
+     label: t('navigation.systemConfig'),
+     key: 'system-config',
+     icon: renderIcon(SettingsOutline),
+     children: [
+       {
+         label: t('navigation.thirdPartyKeys'),
+         key: 'thirdparty-keys',
+         icon: renderIcon(KeyOutline)
+       },
+       {
+         label: t('navigation.appVersionManager'),
+         key: 'app-versions',
+         icon: renderIcon(PhonePortraitOutline)
+       },
+       {
+         label: t('navigation.adminWhitelist'),
+         key: 'admin-whitelist',
+         icon: renderIcon(ShieldOutline)
+       },
+-      {
+-        label: t('navigation.operationConfig'),
+-        key: 'operation-config',
+-        icon: renderIcon(SettingsOutline)
+-      }
+     ]
+   }
+```
+
+## 驗證計劃
+
+### 手動驗證
+1. 觀察側邊欄。
+2. 確認「系統設定」分類下不再顯示「營運參數配置」。
+3. 確認「前台設定」分類下出現「營運參數配置」。
+4. 確認該項目的圖示已更換為板手工具。
+5. 點擊該項目，確認仍能正確導航至配置頁面。

@@ -1,0 +1,6 @@
+# Task Breakdown: Adding Affiliation Column to Player List
+- [x] Update [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-57) type definition with `agent_name` (Completed)
+- [x] Update Mock Data to include `agent_name` scenarios (Completed)
+- [x] Update Locales with `affiliation` and `none` keys (Completed)
+- [x] Update [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) to add the new column with fallback logic (Completed)
+- [x] Verify display (Agent name vs "None") (Logical verification done)

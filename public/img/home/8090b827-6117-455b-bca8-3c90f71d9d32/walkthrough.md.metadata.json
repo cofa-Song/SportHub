@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "Walkthrough of the changes made to Third-party Key Management. Removed environment field and added Proxy field.",
+  "updatedAt": "2026-02-05T02:05:17.472967Z"
+}

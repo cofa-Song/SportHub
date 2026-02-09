@@ -1,0 +1,42 @@
+# OPE-606 Commodity Configuration & OPE-604 Financial Overview Refinement
+
+## Goal Description
+Refine the Financial Overview Dashboard to fully meet OPE-604 requirements, including specific KPI definitions, visualization of "Total Distribution", and enhanced alert systems.
+
+## Proposed Changes
+
+### API Layer
+#### [MODIFY] [finance.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/finance.ts)
+- Add fields to [FinanceStats](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/finance.ts#3-17):
+    - `totalDistribution`: (Activity Rewards + Manual Add Bonus)
+    - `totalRecovery`: (Activity Recovery + Manual Deduct Bonus)
+    - `totalConversion`: (Bonus to Cash)
+    - `depositUserCount`: For ARPU and Conversion Rate calculations.
+- Update Mock Data to populate these fields.
+
+### UI Components
+#### [MODIFY] [FinancialOverview.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/FinancialOverview.vue)
+- **KPI Updates**:
+    - Add "Deposit Conversion Rate" (Deposit Users / Active Users).
+    - Update "Net Revenue" formula if needed (currently Total Deposit - Total Withdraw).
+    - Add "Total Distribution" summary (optional, or just use the chart).
+- **Visualization**:
+    - Add 3rd Pie Chart: "Total Distribution Composition" (Recovery vs Conversion).
+        *Note: Requirement says "Total Distribution: display 'Total Recovery, Total Conversion' by ratio".*
+- **Alert System**:
+    - Implement CSS animation (Flash Red) for High Manual Add.
+    - Add clickable link to "Manual Adjustment" or "Player Detail" for high manual add checks.
+- **Data & Filters**:
+    - Ensure formulas match:
+        - `Net Revenue = Total Deposit - Total Withdraw`
+        - `Total Deposit = Deposit Success + Manual Add Cash` (Ensure API returns this)
+
+## Verification Plan
+1.  **KPI Verification**:
+    - Check if "Deposit Conversion Rate" is displayed and correct (e.g., 320/1500 = ~21%).
+    - Check if "Total Distribution" chart renders.
+2.  **Alert Verification**:
+    - Mock a high manual add value (>50k).
+    - Verify the card flashes red and has a "Check Details" link.
+3.  **Data Consistency**:
+    - Verify Net Revenue = Deposit - Withdraw.

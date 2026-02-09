@@ -1,0 +1,20 @@
+- [x] **OPE-205 Member Tag Management**
+    - [x] Define [PlayerTag](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#18-19) type in [src/types/player.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts) <!-- id: 42 -->
+    - [x] Create `TagService` mock in [src/api/tag.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/tag.ts) <!-- id: 43 -->
+    - [x] Create [TagManagementDrawer.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/TagManagementDrawer.vue) component <!-- id: 44 -->
+    - [x] Integrate Drawer into [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) <!-- id: 45 -->
+    - [x] Verify AC1: Drawer Interaction <!-- id: 46 -->
+    - [x] Verify AC2: Tag Permissions (System vs Custom) <!-- id: 47 -->
+    - [x] Verify AC3: Real-time Sync in Player Edit <!-- id: 48 -->
+    - [x] Verify AC4: Status Control & Logic <!-- id: 49 -->
+
+- [x] **OPE-206 Bonus Card History**
+    - [x] Define [BonusHistory](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/bonus.ts#38-56) types in [src/types/bonus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/bonus.ts) <!-- id: 50 -->
+    - [x] Create `BonusHistoryService` mock in [src/api/bonus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/bonus.ts) <!-- id: 51 -->
+    - [x] Update [RolloverEngine](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#6-315) to generate history snapshots <!-- id: 52 -->
+    - [x] Implement [BonusHistory.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/BonusHistory.vue) view <!-- id: 53 -->
+    - [ ] Verify AC1: Card_ID Search <!-- id: 54 -->
+    - [ ] Verify AC2: Success State & Data <!-- id: 55 -->
+    - [ ] Verify AC3: Failure/Expire State <!-- id: 56 -->
+    - [ ] Verify AC4: Bankruptcy Record <!-- id: 57 -->
+    - [ ] Verify AC5: Data Consistency <!-- id: 58 -->

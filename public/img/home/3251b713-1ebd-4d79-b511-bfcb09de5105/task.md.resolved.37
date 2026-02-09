@@ -1,0 +1,20 @@
+- [x] **OPE-206 Bonus Card History**
+    - [x] Define [BonusHistory](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/bonus.ts#38-56) types in [src/types/bonus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/bonus.ts) <!-- id: 50 -->
+    - [x] Create `BonusHistoryService` mock in [src/api/bonus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/bonus.ts) <!-- id: 51 -->
+    - [x] Update [RolloverEngine](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#6-315) to generate history snapshots <!-- id: 52 -->
+    - [x] Implement [BonusHistory.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/BonusHistory.vue) view <!-- id: 53 -->
+    - [x] Verify AC1: Card_ID Search <!-- id: 54 -->
+    - [x] Verify AC2: Success State & Data <!-- id: 55 -->
+    - [x] Verify AC3: Failure/Expire State <!-- id: 56 -->
+    - [x] Verify AC4: Bankruptcy Record <!-- id: 57 -->
+    - [x] Verify AC5: Data Consistency <!-- id: 58 -->
+
+- [/] **OPE-301 Game Platform Management**
+    - [x] Define [GameProvider](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#35-46) types in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 59 -->
+    - [x] Create `ProviderService` mock in [src/api/provider.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/provider.ts) <!-- id: 60 -->
+    - [ ] Implement `GameProviders.vue` view <!-- id: 61 -->
+    - [ ] Verify AC1: Status Change Immediate <!-- id: 62 -->
+    - [ ] Verify AC2: Maintenance Mode Display <!-- id: 63 -->
+    - [ ] Verify AC3: Sorting Logic <!-- id: 64 -->
+    - [ ] Verify AC4: Operation Log <!-- id: 65 -->
+    - [ ] Verify AC5: Data Consistency <!-- id: 66 -->

@@ -1,0 +1,74 @@
+{
+    "nav": {
+        "home": "首頁",
+        "liveStats": "賽事數據",
+        "latestNews": "最新消息",
+        "analyses": "賽事分析",
+        "authors": "作者群",
+        "baseball": "棒球",
+        "basketball": "籃球",
+        "others": "其他"
+    },
+    "hero": {
+        "badge": "競技運動綜合平台",
+        "title1": "掌握即時比分",
+        "title2": "贏在每一個瞬間",
+        "desc": "SportHub 為您提供最專業的運動資訊，從即時數據流到深度專家分析，讓您不錯過任何精彩時刻。",
+        "btnScore": "查看即時比分",
+        "btnNews": "閱讀最新新聞"
+    },
+    "sections": {
+        "matches": {
+            "title": "熱門賽事",
+            "subtitle": "即時同步全球頂尖聯賽數據",
+            "more": "查看更多"
+        },
+        "news": {
+            "title": "最新消息",
+            "subtitle": "深度專家分析與賽後回顧",
+            "more": "閱讀全部"
+        },
+        "hotArticles": {
+            "title": "熱門文章"
+        },
+        "latestArticles": {
+            "title": "最新文章"
+        },
+        "specials": {
+            "title": "精選專題"
+        },
+        "liveScores": {
+            "title": "賽事比分"
+        }
+    },
+    "common": {
+        "loading": "讀取中...",
+        "readMore": "閱讀全文",
+        "live": "直播中",
+        "upcoming": "未開始",
+        "login": "登入",
+        "register": "註冊"
+    },
+    "footer": {
+        "about": {
+            "title": "關於SportHub",
+            "aboutUs": "關於我們",
+            "becomeAuthor": "成為作者",
+            "faq": "常見問題",
+            "announcements": "站方公告"
+        },
+        "rights": {
+            "title": "作者權益",
+            "tos": "服務條款",
+            "authorTerms": "作者條款"
+        },
+        "sponsorship": {
+            "title": "贊助相關",
+            "ads": "廣告贊助",
+            "support": "付費支持"
+        },
+        "follow": {
+            "title": "追蹤我們"
+        }
+    }
+}

@@ -1,0 +1,68 @@
+# Task List - Competition Blog Frontend
+
+- [x] Project Initialization
+    - [x] Create task list
+    - [x] Create implementation plan
+    - [x] Initialize Next.js project with Tailwind CSS
+    - [x] Set up project structure (Atomic design, reusable components)
+    - [x] Configure Tailwind theme and design tokens
+
+- [x] Multi-language & Bright Theme Upgrade
+    - [x] Set up i18n framework (TC, SC, EN)
+    - [x] Redesign `globals.css` for a bright, high-contrast theme
+    - [x] Implement Level 1 & Level 2 Dropdown Navigation in Header
+    - [x] Update Home and other components for i18n support
+
+- [x] Header & Mobile Menu UX
+    - [x] Fix dropdown hover gap bug in `Header.tsx`
+    - [x] Implement mobile SideMenu with hamburger toggle
+    - [x] Optimize Header RWD for mobile navigation
+- [x] Specification Alignment
+    - [x] Update Z-Index hierarchy (Ticker: 1000, Header: 999, B2T: 998)
+    - [x] Refactor Nav to be API-driven (simulate `/api/layout/navigation`)
+    - [x] Add scroll listener throttling for performance
+    - [x] Align RWD breakpoint to 1024px (LG) for Mobile Menu
+    - [x] Update Ticker to handle "No Match" and "Connection Lost" states
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [x] Core Features Implementation
+    - [x] Homepage (Latest posts, featured matches)
+    - [x] Match Center (Real-time scores placeholder)
+    - [ ] Blog Post Page (SEO optimized)
+    - [ ] Front-end Editing Experience (Draft mode/CMS integration)
+    - [x] Loading System (Skeletons & Spinners for all async parts)
+    - [x] Service Layer (Shared API client with delay simulation & error handling)
+
+
+
+- [x] Homepage Content Overhaul
+    - [x] Update types and API mock for banners, ads, and specialties
+    - [x] Implement `HeroBanner` carousel component
+    - [x] Create `HotArticlesGrid` (3x2) and `NewsCarousel` (4x2)
+    - [x] Design `FeaturedSpecials` (Zigzag layout)
+    - [x] Build `MainSectionSplit` (Left: Paginated Articles, Right: Match Sidebar + Ad)
+    - [x] Finalize `page.tsx` assembly
+
+- [ ] SEO Optimization
+    - [ ] Configure Metadata API with i18n
+    - [ ] Generate Sitemap & Robots.txt
+    - [ ] Open Graph & Twitter Cards
+
+- [ ] Verification & Testing
+    - [ ] Performance audit (Lighthouse)
+    - [ ] Responsive design check
+    - [ ] Build & Type check

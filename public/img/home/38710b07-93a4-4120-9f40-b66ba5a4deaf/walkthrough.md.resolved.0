@@ -1,0 +1,25 @@
+# walkthrough.md
+
+## Changes Made
+I have updated the "Image Management" (圖片管理) interface as requested:
+1.  **Terminology Update**:
+    - "公告類型" (Announcement Type) changed to "圖片類型" (Image Type).
+    - "公告標題" (Announcement Title) changed to "圖片標題" (Image Title).
+2.  **UI Component Update**:
+    - Replaced the `NRadioGroup` for selecting "圖片類型" with an `NSelect` (dropdown menu) in the creation/edit modal.
+3.  **i18n Support**:
+    - Created dedicated translation keys in [src/locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) under the `imageConfig` namespace to ensure these changes do not affect the "Announcement" system.
+
+## Verification Results
+
+### Files Modified
+- [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts): Added `imageConfig` translation keys.
+- [ImageConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue): Updated UI and terminology.
+
+### Manual Verification Steps
+1.  **Terminology**: Verified that the table header and search filters now display "圖片類型" and "圖片標題".
+2.  **Modal UI**: Verified that the "新增" modal now uses a dropdown menu for "圖片類型".
+3.  **Localization**: Confirmed that the changes are correctly mapped to `zh-TW` and `zh-CN`.
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue)

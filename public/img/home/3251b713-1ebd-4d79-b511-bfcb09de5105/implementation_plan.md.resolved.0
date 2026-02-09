@@ -1,0 +1,87 @@
+# Implementation Plan - OPE-201 Player Management
+
+This plan outlines the steps to implement the Player Management module (OPE-201), including the player list, detail view, wallet monitoring, and status control.
+
+## User Review Required
+
+> [!IMPORTANT]
+> - **WebSocket Integration**: The spec mentions "Force Kick" via WebSocket. Since I don't have a real backend, I will implement a mock signal or a placeholder function for the "Force Kick" action.
+> - **Route Structure**: I will add `/admin/players` (List) and `/admin/players/:id` (Detail).
+> - **Mock Data**: I will generate realistic mock data for players, wallets, and logs to verify the UI.
+
+## Proposed Changes
+
+### 1. Type Definitions & API
+
+#### [NEW] [src/types/player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/player.ts)
+- Define `Player` interface (matching fields in spec).
+- Define `Wallet` and `WalletType` interfaces.
+- Define `PlayerAuditLog` interface.
+- Define `PlayerStatus` enum.
+
+#### [NEW] [src/api/player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/player.ts)
+- `getPlayers(params: PlayerSearchParams)`
+- `getPlayerDetail(id: string)`
+- `createPlayer(data: CreatePlayerRequest)`
+- `updatePlayer(id: string, data: UpdatePlayerRequest, reason: string)`
+- `updatePlayerStatus(id: string, status: PlayerStatus, reason: string, forceKick: boolean)`
+- `abandonBonus(id: string, reason: string)`
+- `getPlayerWallets(id: string)`
+
+#### [NEW] [src/mocks/player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/player.ts)
+- Mock data generator for players and wallets.
+- MSW handlers for API endpoints.
+
+### 2. UI Components (Master Portal)
+
+#### [NEW] [src/views/Master/PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- **Search Bar**: ID, Phone, Tag, Status, Date Range, Referrer.
+- **Data Table**: Columns as specified in spec.
+- **Actions**: View Detail, Asset Logs (Link), Game Logs (Link).
+- **Create Player Modal**: Form for creating test accounts.
+
+#### [NEW] [src/views/Master/PlayerDetail.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerDetail.vue)
+- **Info Card**: Basic info (ID, Name, VIP, Referrer, Source).
+- **Edit Form**: Phone, Password, Tags, etc.
+- **Status Control**: Switch for "Active/Locked/Frozen/Suspended" with "Reason" prompt.
+- **Wallet Card**: Display all wallet balances.
+- **Bonus Control**: "Abandon Bonus" button with reason prompt.
+- **Audit Log**: Tab or section to show changes (linked to OPE-104 logic or separate).
+
+### 3. Routing & Navigation
+
+#### [MODIFY] [src/router/index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add routes:
+    - `/admin/players` (PlayerList)
+    - `/admin/players/:id` (PlayerDetail)
+
+#### [MODIFY] [src/views/Master/Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Add "Player Management" (`/admin/players`) to the sidebar menu.
+- Icon: `PersonIcon` (or similar from Naive UI/ionicons).
+
+## Verification Plan
+
+### Automated Verification
+- No automated tests currently exist in the project for UI. Usage of `npm run dev` and manual verification is required.
+
+### Manual Verification Steps
+1.  **Player List**:
+    - Open `/admin/players`.
+    - Verify mock data is loaded.
+    - Test filtering by Status and ID.
+2.  **Create Player**:
+    - Click "Create Player".
+    - Fill form and submit.
+    - Verify new player appears in list (mocked).
+3.  **Player Detail**:
+    - Click on a player ID.
+    - Verify detail page loads with correct data.
+    - Check Wallet balances are displayed.
+4.  **Edit Status**:
+    - Change status to "Suspended".
+    - Verify "Reason" modal appears.
+    - Confirm and verify status update in UI.
+5.  **Abandon Bonus**:
+    - Click "Abandon Bonus".
+    - Enter reason and confirm.
+    - Verify success message.

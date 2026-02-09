@@ -1,0 +1,21 @@
+# Bug Fix: TypeError in whitelist.ts
+
+The `TypeError: ip.split is not a function` occurs because `currentIp` (a Vue `ref`) is passed as an object to `whitelistApi` functions instead of its string value.
+
+## Proposed Changes
+
+### Frontend View
+
+#### [MODIFY] [AdminWhitelist.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+- Update calls to `whitelistApi.update` and `whitelistApi.remove` to use `currentIp.value`.
+
+### API Layer
+
+#### [MODIFY] [whitelist.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/whitelist.ts)
+- Add a type check at the beginning of [ipToInt](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts#7-13) to ensure the input is a string.
+
+## Verification Plan
+
+### Manual Verification
+- Attempt to delete a whitelist entry in the UI and ensure no error occurs.
+- Check that the self-lock prevention still works (trying to delete the rule matching your own IP).

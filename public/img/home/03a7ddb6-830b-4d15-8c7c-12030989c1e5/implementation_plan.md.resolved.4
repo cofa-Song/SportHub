@@ -1,0 +1,33 @@
+# Plan: Refine Admin Status Management
+
+The goal is to move account status management exclusively to the "Edit Account" dialog and enforce a mandatory "Change Reason" for all account modifications.
+
+## Proposed Changes
+
+### Components
+
+#### [MODIFY] [AccountManagement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AccountManagement.vue)
+- **Table**: Remove the `NSwitch` from the "Account Status" column. Keep only the `NTag` displaying the status.
+- **Form State**: Add a `reason` field to `accountForm`.
+- **Form UI**: 
+    - Add an `NFormItem` for "Change Reason" (異動原因) in the account modal.
+    - This field should only be mandatory (or only shown) during an edit.
+- **Validation**: 
+    - Update [handleSaveAccount](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AccountManagement.vue#252-337) to check if `reason` is provided when `editingAccountId` is present.
+- **Logic Cleanup**: Remove [handleToggleStatus](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AccountManagement.vue#359-383) as it's no longer needed for quick toggling.
+
+### Locales
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add labels for "Change Reason" and corresponding validation messages to `permission.accountManagement`.
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "Admin List".
+2. Verify that the switch in the "Account Status" column is gone.
+3. Click "Edit" on an admin account.
+4. Verify the "Change Reason" field is present.
+5. Try to save without filling the reason; verify that an error message appears.
+6. Fill the reason and change the status, then save; verify the status is updated.
+7. Verify that for "New Account", the reason field is NOT required (or not shown).

@@ -1,0 +1,74 @@
+{
+    "nav": {
+        "home": "Home",
+        "liveStats": "Live Stats",
+        "latestNews": "Latest News",
+        "analyses": "Analyses",
+        "authors": "Authors",
+        "baseball": "Baseball",
+        "basketball": "Basketball",
+        "others": "Others"
+    },
+    "hero": {
+        "badge": "Sports Competition Platform",
+        "title1": "Master Live Scores",
+        "title2": "Win Every Moment",
+        "desc": "SportHub provides you with the most professional sports information, from real-time data streams to in-depth expert analysis.",
+        "btnScore": "Check Live Scores",
+        "btnNews": "Read Latest News"
+    },
+    "sections": {
+        "matches": {
+            "title": "Hot Matches",
+            "subtitle": "Real-time sync of top league data worldwide",
+            "more": "View More"
+        },
+        "news": {
+            "title": "Latest News",
+            "subtitle": "Expert analysis and post-match reviews",
+            "more": "Read All"
+        },
+        "hotArticles": {
+            "title": "Hot Articles"
+        },
+        "latestArticles": {
+            "title": "Latest Articles"
+        },
+        "specials": {
+            "title": "Featured Specials"
+        },
+        "liveScores": {
+            "title": "Match Scores"
+        }
+    },
+    "common": {
+        "loading": "Loading...",
+        "readMore": "Read More",
+        "live": "LIVE",
+        "upcoming": "Upcoming",
+        "login": "Login",
+        "register": "Register"
+    },
+    "footer": {
+        "about": {
+            "title": "About SportHub",
+            "aboutUs": "About Us",
+            "becomeAuthor": "Become an Author",
+            "faq": "FAQ",
+            "announcements": "Site Announcements"
+        },
+        "rights": {
+            "title": "Author Rights",
+            "tos": "Terms of Service",
+            "authorTerms": "Author Terms"
+        },
+        "sponsorship": {
+            "title": "Sponsorship",
+            "ads": "Ad Sponsorship",
+            "support": "Paid Support"
+        },
+        "follow": {
+            "title": "Follow Us"
+        }
+    }
+}

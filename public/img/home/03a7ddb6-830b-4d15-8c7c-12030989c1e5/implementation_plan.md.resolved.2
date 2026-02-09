@@ -1,0 +1,34 @@
+# Plan: Modify Group Permission Settings
+
+The goal is to enhance the permission configuration in the "Group Settings" dialog. We need to ensure that the permission levels (None, Read, Write) are clearly mutually exclusive and add a "Sensitive Data" toggle for each function module.
+
+## Proposed Changes
+
+### Data Types
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/index.ts)
+- Update [PermissionGroup](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/index.ts#32-46) to include `sensitive_permissions: Record<string, boolean>`.
+
+### Components
+
+#### [MODIFY] [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GroupManagement.vue)
+- **Data State**: Add `sensitivePermissions` to `groupForm`.
+- **UI Logic**: 
+    - Replace the current button-based selection with `NRadioGroup` or fix the button highlighting logic for "None/Read/Write".
+    - Add a "Sensitive Data" checkbox (or switch) to the header of each module group in the permission tree.
+- **Save Logic**: Ensure the new `sensitivePermissions` are captured and saved.
+
+### Mock Data
+
+#### [MODIFY] [admin.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/admin.ts)
+- Update initial mock groups to include the `sensitive_permissions` field.
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "Group & Account Management".
+2. Edit an existing group.
+3. Verify that "None", "Read", and "Write" are mutually exclusive (only one can be active at a time).
+4. Verify that each function module (e.g., "系統設定", "帳號管理") has a "Sensitive Data" checkbox.
+5. Check and uncheck various options, then click "Save".
+6. Re-open the same group and verify that the settings were persisted.

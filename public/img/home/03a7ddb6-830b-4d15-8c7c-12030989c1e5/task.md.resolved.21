@@ -1,0 +1,7 @@
+# Task Breakdown: Implementing Search Type Selection
+- [x] Update [PlayerSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#59-71) interface (Completed)
+- [x] Update `playerApi.getPlayers` mock logic (Completed)
+- [x] Update [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) UI with Radio Group (Completed)
+- [x] Align search input with other fields using absolute positioning (Completed)
+- [x] Fix Radio Group wrapping issue with `whitespace-nowrap` (Completed)
+- [x] Verify search filtering logic (Logical verification done)

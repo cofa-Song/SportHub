@@ -1,0 +1,6 @@
+# Task Breakdown: IP and Date Range Search
+- [x] Update [PlayerSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#60-74) interface (Already has IP and Date fields)
+- [/] Update `playerApi.getPlayers` mock logic with Date and IP filtering
+- [ ] Add translation keys for IP and Date Range
+- [ ] Update [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) UI with IP Input and DatePicker
+- [ ] Verify functionality

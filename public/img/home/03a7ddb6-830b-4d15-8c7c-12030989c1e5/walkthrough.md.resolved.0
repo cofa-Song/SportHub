@@ -1,0 +1,28 @@
+# 任務完成：修復 i18n 鍵值與代碼優化
+
+我已完成您報告的 i18n 鍵值缺失修復，並對相關組件進行了代碼優化。
+
+## 變更內容
+
+### 語系檔管理
+- **檔案**: [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- **變更**:
+    - 在所有語系中補齊 `permission.personalAccount.success`。
+    - 補齊 `zhCN` 和 [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue#77-78) 語系中 `permission.operationLog` 的 `login` 與 `logout` 鍵值。
+    - 新增 `game.provider.maintenance` 鍵值，用於更精確地表示平台維護狀態。
+
+### 組件優化
+- **檔案**: [GameProviders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameProviders.vue)
+- **變更**:
+    - **狀態顯示**: 將原先暫時借用的 `permission.operationLog.login` 替換為新定義的 `game.provider.maintenance`。
+    - **型別修復**: 修復了 `authStore.user` 屬性引用的型別錯誤（從 `username` 改為 `user_id`）。
+    - **清理代碼**: 移除了未使用的 `NSpace` 組件和 `useDialog` 引用。
+
+## 驗證結果
+- 控制台不再出現 `[intlify] Not found...` 的警告。
+- `GameProviders` 頁面的編輯彈窗與狀態標籤現在能正確顯示翻譯。
+- `PersonalAccount` 頁面的保存操作現在會顯示正確的成功提示。
+
+---
+> [!NOTE]
+> 我已經確保所有變更都符合您的語境要求，並使用了正體中文進行溝通。

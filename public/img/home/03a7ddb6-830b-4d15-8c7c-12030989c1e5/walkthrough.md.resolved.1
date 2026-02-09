@@ -1,0 +1,19 @@
+# 工作報告：群組管理成員過濾
+
+我已更新了「群組與帳號管理」頁面的邏輯，以優化成員分配體驗。
+
+## 變更內容
+
+### 功能優化
+- **檔案**: [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GroupManagement.vue)
+- **變更**: 
+    - 修改了 [getAvailableMembers](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GroupManagement.vue#265-280) 函數，在「可加入成員」清單中增加了狀態過濾。
+    - 現在，狀態為 **「停用」(DISABLED)** 的帳號將不會顯示在可加入成員清單中。
+    - 此項改動能有效避免管理員將已停用的帳號誤加入權限群組。
+
+### 代碼清理
+- 移除了 [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GroupManagement.vue) 中未使用的組件引用 (`NTable`, `NAlert`)，提升代碼整潔度。
+
+## 驗證結果
+- 打開「成員管理」抽屜後，「可加入成員」清單已正確過濾掉停用的帳號。
+- 現有的群組成員顯示不受影響。

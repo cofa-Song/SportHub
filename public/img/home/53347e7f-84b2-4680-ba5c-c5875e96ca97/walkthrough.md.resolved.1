@@ -1,0 +1,41 @@
+# OPE-604 財務概覽看板驗收 (Financial Overview Verification)
+
+## 1. 功能總覽
+提供財務核心數據監控，包含總入金、總出金、淨營收、人工存提監控及自動刷新機制。
+
+## 2. 驗收步驟 (Verification Steps)
+
+### AC 1: 數據排除驗證 (Test Account Exclusion)
+- [ ] **操作**: 進入看板，預設勾選「排除測試帳號」。
+- [ ] **Action**: 記錄「今日總儲值」。
+- [ ] **Action**: 取消勾選「排除測試帳號」。
+- [ ] **Expected**: 「今日總儲值」數值應增加 (因 Mock 資料設定測試帳號有額外 20% 交易量)。
+
+### AC 2: 人工存提累加驗證 (Manual Adjustment Sync)
+- [ ] **操作**: 前往「人工存提管理」 (Manual Adjustment)。
+- [ ] **Action**: 對任意玩家執行「人工存款 (Cash)」，金額 $1000。
+- [ ] **Action**: 回到「財務概覽看板」，點擊刷新或等待自動刷新。
+- [ ] **Expected**: 「人工加點合計 (Cash)」應同步增加，若原為 X，應變為 X + 1000 (Mock 場景下需確認是否共用狀態，目前各自獨立 Mock 資料，此項需在真實 API 串接後驗證，目前可驗證 UI 欄位存在)。
+
+### AC 3: 跨模組數據一致性
+- [ ] **操作**: 比對「財務概覽」的今日總儲值與「儲值訂單」列表的成功總額。
+- [ ] **Expected**: 兩者數值應在邏輯上一致 (Mock 資料可能不同步，僅驗證欄位顯示)。
+
+### AC 4: 時間區間篩選 (Time Range Filter)
+- [ ] **操作**: 切換上方篩選器「今日 / 昨日 / 過去 7 天」。
+- [ ] **Expected**: 頁面 Loading 後數據發生變化，且圖表重新渲染。
+
+### AC 5: 權限分級顯示 (Permission Check)
+- [ ] **操作**: 以管理員 (Manager) 身份登入。
+- [ ] **Expected**: 「淨營收 (Net Revenue)」卡片顯示具體金額。
+- [ ] **操作**: 若能模擬非管理員權限 (或修改 Code 中 `useAuthStore` mock)。
+- [ ] **Expected**: 「淨營收」卡片顯示 Skeleton 遮罩或隱藏。
+
+## 3. 測試情境範例 (Test Cases)
+
+| Case ID | Action | Condition | Expected Result |
+| :--- | :--- | :--- | :--- |
+| T-001 | 載入頁面 | Default | 顯示今日數據，排除測試帳號，Net Revenue 可見 |
+| T-002 | 切換區間 | "過去 7 天" | 數據變大，圖表更新 |
+| T-003 | 自動刷新 | 等待 60秒 | 觸發 API 請求 (可看 Network Tab) |
+| T-004 | 人工加點警示 | (Mock) > 50000 | 金額變紅，出現「異常高」標籤 |

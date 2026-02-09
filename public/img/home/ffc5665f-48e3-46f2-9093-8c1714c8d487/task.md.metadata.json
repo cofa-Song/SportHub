@@ -1,0 +1,6 @@
+{
+  "artifactType": "ARTIFACT_TYPE_TASK",
+  "summary": "OPE-605 金流通道管理開發任務清單。\n包含數據模型定義、Mock API 實作、亮色高端 UI 開發及熔斷等核心邏輯驗證。",
+  "updatedAt": "2026-02-03T10:06:42.131097500Z",
+  "version": "10"
+}

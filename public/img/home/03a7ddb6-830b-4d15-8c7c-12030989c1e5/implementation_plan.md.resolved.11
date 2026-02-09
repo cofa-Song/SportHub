@@ -1,0 +1,33 @@
+# Plan: Implementing Search Type Selection
+
+Add a radio button group above the search input in Player List to allow users to specify the search field (ID, Username, or Phone).
+
+## Proposed Changes
+
+### Data Layer
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/player.ts)
+- Update [PlayerSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#59-70) interface to include `search_type?: 'id' | 'username' | 'phone'`.
+
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/player.ts)
+- Update [getPlayers](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/player.ts#21-59) function to filter based on `params.search_type` if provided.
+- If `search_type` is present, `q` only matches that specific field.
+
+### UI Layer
+#### [MODIFY] [PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add `NRadioGroup` above the search `NInput`.
+- Bind radio group to `searchForm.search_type`.
+- Options: ID, Account (Username), Phone.
+- Default selection: 'id'.
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add translation keys for search types if needed (or reuse existing auth/common keys).
+- `auth.username` exists.
+- `common.search` exists.
+- Need keys for "ID" and "Phone" (Check existing keys first).
+
+## Verification Plan
+1.  Check the UI for radio buttons.
+2.  Select "ID" -> Search "P100" -> Should find player. Search "user" -> Should NOT find player.
+3.  Select "Account" -> Search "user" -> Should find player.
+4.  Select "Phone" -> Search "0912" -> Should find player.

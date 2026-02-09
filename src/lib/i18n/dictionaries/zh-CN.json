@@ -1,0 +1,74 @@
+{
+    "nav": {
+        "home": "首页",
+        "liveStats": "赛事数据",
+        "latestNews": "最新消息",
+        "analyses": "赛事分析",
+        "authors": "作者群",
+        "baseball": "棒球",
+        "basketball": "篮球",
+        "others": "其他"
+    },
+    "hero": {
+        "badge": "竞技運動综合平台",
+        "title1": "掌握即时比分",
+        "title2": "赢在每一个瞬間",
+        "desc": "SportHub 为您提供最专业的運動資訊，從即時數據流到深度專家分析，讓您不錯過任何精彩時刻。",
+        "btnScore": "查看即时比分",
+        "btnNews": "阅读最新新聞"
+    },
+    "sections": {
+        "matches": {
+            "title": "热门赛事",
+            "subtitle": "即时同步全球顶尖联赛数据",
+            "more": "查看更多"
+        },
+        "news": {
+            "title": "最新消息",
+            "subtitle": "深度专家分析与赛后回顾",
+            "more": "阅读全部"
+        },
+        "hotArticles": {
+            "title": "热门文章"
+        },
+        "latestArticles": {
+            "title": "最新文章"
+        },
+        "specials": {
+            "title": "精选专题"
+        },
+        "liveScores": {
+            "title": "赛事比分"
+        }
+    },
+    "common": {
+        "loading": "读取中...",
+        "readMore": "阅读全文",
+        "live": "直播中",
+        "upcoming": "未开始",
+        "login": "登录",
+        "register": "注册"
+    },
+    "footer": {
+        "about": {
+            "title": "关于SportHub",
+            "aboutUs": "关于我们",
+            "becomeAuthor": "成为作者",
+            "faq": "常见问题",
+            "announcements": "站方公告"
+        },
+        "rights": {
+            "title": "作者权益",
+            "tos": "服务条款",
+            "authorTerms": "作者条款"
+        },
+        "sponsorship": {
+            "title": "赞助相关",
+            "ads": "广告赞助",
+            "support": "付费支持"
+        },
+        "follow": {
+            "title": "追踪我们"
+        }
+    }
+}

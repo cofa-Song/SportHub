@@ -1,0 +1,29 @@
+# walkthrough.md
+
+## Changes Made
+### Image Management (圖片管理)
+1.  **Terminology Update**:
+    - "公告類型" changed to "圖片類型".
+    - "公告標題" changed to "圖片標題".
+2.  **UI Component Update**:
+    - Replaced `NRadioGroup` with `NSelect` (dropdown menu) for "圖片類型".
+3.  **i18n Support**:
+    - Created dedicated translation keys in `src/locales/index.ts`.
+
+### Article Management (文章管理)
+1.  **Button Alignment**:
+    - Moved "新增文章" button to the card header and changed type to `info` (consistent with Image Management).
+    - Moved "存取操作" button above the search filters.
+2.  **Visual Cleanup**:
+    - Removed icons from "新增文章" and "搜尋" buttons to match the cleaner layout of Image Management.
+
+## Verification Results
+
+### Files Modified
+- [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- [ImageConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue)
+- [ArticleManager.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ArticleManager.vue)
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ArticleManager.vue)

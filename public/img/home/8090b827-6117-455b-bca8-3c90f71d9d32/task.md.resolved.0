@@ -1,0 +1,10 @@
+# Task Checklist
+
+- [ ] Find the Third-party Key Management component and related files [/]
+- [ ] Create implementation plan [ ]
+- [ ] Implement UI changes:
+    - [ ] Remove "Production / Test Environment" from the list
+    - [ ] Remove "Production / Test Environment" from the form
+    - [ ] Add "Proxy" field to the form
+- [ ] Update types and API services if needed
+- [ ] Verify changes
