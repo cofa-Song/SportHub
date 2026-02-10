@@ -1,39 +1,32 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { Post } from '@/types';
-import { SportApi } from '@/services/api';
+import React, { useState } from 'react';
+import { ArticleDTO } from '@/types';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 
+
+interface NewsCarouselProps {
+    news: ArticleDTO[];
+}
 
 /**
  * NewsCarousel Component.
  * Displays 4 items per page, 2 pages total (8 items).
  */
-export const NewsCarousel: React.FC = () => {
-    const [news, setNews] = useState<Post[]>([]);
+export const NewsCarousel: React.FC<NewsCarouselProps> = ({ news }) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
     const { t } = useTranslation();
 
+    if (!news || news.length === 0) return null;
 
-    useEffect(() => {
-        const fetchNews = async () => {
-            const res = await SportApi.getNews(1, 8); // Fetches 8 items total
-            if (res.status === 200) {
-                setNews(res.data);
-            }
-            setIsLoading(false);
-        };
-        fetchNews();
-    }, []);
-
-
-    if (isLoading) {
-        return <div className="w-full h-48 bg-slate-50 animate-pulse rounded-3xl mb-20"></div>;
+    // chunk into pages of 4
+    const pages = [];
+    for (let i = 0; i < news.length; i += 4) {
+        pages.push(news.slice(i, i + 4));
     }
+    // Limit to 2 pages max as per design
+    const displayPages = pages.slice(0, 2);
 
-    const pages = [news.slice(0, 4), news.slice(4, 8)];
 
     return (
         <section className="mb-20 overflow-hidden">
@@ -49,17 +42,17 @@ export const NewsCarousel: React.FC = () => {
                     className="flex transition-transform duration-700 ease-in-out"
                     style={{ transform: `translateX(-${currentPage * 100}%)` }}
                 >
-                    {pages.map((page, pIdx) => (
+                    {displayPages.map((page, pIdx) => (
                         <div key={pIdx} className="w-full shrink-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-1">
                             {page.map((item) => (
                                 <a
                                     key={item.id}
-                                    href={`/post/${item.id}`}
+                                    href={item.target_url || `/post/${item.id}`}
                                     className="group relative block h-[500px] rounded-[2.5rem] overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-brand-primary/20"
                                 >
                                     {/* Background Image */}
                                     <img
-                                        src={item.coverImage}
+                                        src={item.cover_url}
                                         alt={item.title}
                                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60"
                                     />
@@ -83,7 +76,7 @@ export const NewsCarousel: React.FC = () => {
                                         </h4>
                                         <div className="flex items-center justify-between pt-4 border-t border-white/10">
                                             <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
-                                                {item.publishedAt}
+                                                {new Date(item.created_at).toLocaleDateString()}
                                             </span>
                                             <svg className="w-5 h-5 text-white/20 group-hover:text-brand-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                         </div>
@@ -97,18 +90,15 @@ export const NewsCarousel: React.FC = () => {
 
             {/* Bottom Centered Pagination Bars */}
             <div className="flex justify-center gap-3">
-                <button
-                    onClick={() => setCurrentPage(0)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${currentPage === 0 ? 'w-16 bg-brand-primary shadow-[0_0_10px_rgba(255,59,48,0.5)]' : 'w-8 bg-slate-200 hover:bg-slate-300'
-                        }`}
-                    aria-label="Page 1"
-                />
-                <button
-                    onClick={() => setCurrentPage(1)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${currentPage === 1 ? 'w-16 bg-brand-primary shadow-[0_0_10px_rgba(255,59,48,0.5)]' : 'w-8 bg-slate-200 hover:bg-slate-300'
-                        }`}
-                    aria-label="Page 2"
-                />
+                {displayPages.map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setCurrentPage(idx)}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${currentPage === idx ? 'w-16 bg-brand-primary shadow-[0_0_10px_rgba(255,59,48,0.5)]' : 'w-8 bg-slate-200 hover:bg-slate-300'
+                            }`}
+                        aria-label={`Page ${idx + 1}`}
+                    />
+                ))}
             </div>
         </section>
 

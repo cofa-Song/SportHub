@@ -1,10 +1,8 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
-import { Ad } from '@/types';
-import { SportApi } from '@/services/api';
+import React from 'react';
+import { AdDTO } from '@/types';
 
 interface AdBannerProps {
+    ads?: AdDTO[];
     position: 'TOP' | 'SIDE' | 'BOTTOM';
 }
 
@@ -12,40 +10,25 @@ interface AdBannerProps {
  * AdBanner Component.
  * Unified way to display ads in different positions.
  */
-export const AdBanner: React.FC<AdBannerProps> = ({ position }) => {
-    const [ads, setAds] = useState<Ad[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+export const AdBanner: React.FC<AdBannerProps> = ({ ads, position }) => {
+    // Filter ads by position just in case, though parent likely passes specific ones
+    const relevantAds = ads?.filter(a => a.position === position) || [];
 
-    useEffect(() => {
-        const fetchAds = async () => {
-            const res = await SportApi.getAds(position);
-            if (res.status === 200) {
-                setAds(res.data);
-            }
-            setIsLoading(false);
-        };
-        fetchAds();
-    }, [position]);
-
-    if (isLoading) {
-        return <div className="w-full h-24 bg-slate-50 animate-pulse rounded-2xl"></div>;
-    }
-
-    if (ads.length === 0) return null;
+    if (relevantAds.length === 0) return null;
 
     return (
         <div className={`w-full ${position === 'SIDE' ? '' : 'my-12 flex justify-center'}`}>
-            {ads.map((ad) => (
+            {relevantAds.map((ad) => (
                 <a
                     key={ad.id}
-                    href={ad.link}
+                    href={ad.target_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`block group relative overflow-hidden rounded-[1.5rem] border border-slate-100/50 shadow-sm transition-all hover:shadow-xl hover:border-brand-primary/20 ${position === 'SIDE' ? 'w-full' : 'w-full max-w-[970px] aspect-[970/250]'
                         }`}
                 >
                     <img
-                        src={ad.image}
+                        src={ad.image_url}
                         alt="Sponsorship"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />

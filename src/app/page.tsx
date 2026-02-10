@@ -4,30 +4,39 @@ import { HotArticlesGrid } from '@/components/home/HotArticlesGrid';
 import { NewsCarousel } from '@/components/home/NewsCarousel';
 import { FeaturedSpecials } from '@/components/home/FeaturedSpecials';
 import { MainSectionSplit } from '@/components/home/MainSectionSplit';
+import { SportApi } from '@/services/api';
 
-export default function Home() {
+export default async function Home() {
+  // SSR Data Fetching
+  const response = await SportApi.getHomeData();
+  const data = response.data;
+
   return (
     <div className="container mx-auto px-6">
       {/* 1. Banner Carousel (Hero) */}
-      <HeroBanner />
+      <HeroBanner banners={data.banners} />
 
       {/* 2. Horizontal Ad Section */}
-      <AdBanner position="TOP" />
+      <AdBanner ads={data.ads_top} position="TOP" />
 
       {/* 3. Hot Articles Grid (3x2) */}
-      <HotArticlesGrid />
+      <HotArticlesGrid posts={data.hot_picks} />
 
       {/* 4. Latest News Carousel (4x2) */}
-      <NewsCarousel />
+      <NewsCarousel news={data.latest_news} />
 
       {/* 5. Featured Specials (Zigzag) */}
-      <FeaturedSpecials />
+      <FeaturedSpecials specials={data.featured_topic} />
 
       {/* 6. Main Content Split (Paginated Articles & Score Sidebar) */}
-      <MainSectionSplit />
+      <MainSectionSplit
+        initialPosts={data.latest_feed.data}
+        initialMatches={data.live_stats}
+        sideAds={data.ads_side}
+      />
 
       {/* 7. Bottom Ad Section */}
-      <AdBanner position="BOTTOM" />
+      <AdBanner ads={data.ads_bottom} position="BOTTOM" />
     </div>
   );
 }
