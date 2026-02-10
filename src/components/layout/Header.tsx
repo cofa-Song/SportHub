@@ -184,7 +184,7 @@ export const Header: React.FC = () => {
                                         <Link
                                             href={item.href}
                                             className="text-xl font-black text-brand-heading py-3 block"
-                                            onClick={() => !item.hasChildren && setIsMobileMenuOpen(false)}
+                                            onClick={() => setIsMobileMenuOpen(false)}
                                         >
                                             {t.nav[item.key as keyof typeof t.nav] || item.key}
                                         </Link>

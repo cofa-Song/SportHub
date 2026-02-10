@@ -4,8 +4,10 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { LiveTicker } from "@/components/layout/LiveTicker";
-import { BackToTop } from "@/components/shared/BackToTop";
+import { BackToTop } from "@/components/layout/BackToTop";
+import { GetAdFetch } from "@/components/layout/GetAdFetch";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
+import { AuthProvider } from "@/components/shared/MockAuthProvider";
 
 
 
@@ -36,16 +38,19 @@ export default function RootLayout({
     <html lang="zh-TW" className="scroll-smooth">
       <body className={`${inter.variable} font-sans antialiased text-foreground bg-background`}>
         <LanguageProvider>
-          <LiveTicker />
-          <Header />
-          <main className="relative z-[1] min-h-screen pt-40 pb-12">
-            {children}
-          </main>
+          <AuthProvider>
+            <LiveTicker />
+            <Header />
+            <main className="relative z-[1] min-h-screen pt-40 pb-12">
+              {children}
+            </main>
 
-          <div className="relative z-[1]">
-            <Footer />
-          </div>
-          <BackToTop />
+            <div className="relative z-[1]">
+              <Footer />
+            </div>
+            <BackToTop />
+            <GetAdFetch />
+          </AuthProvider>
         </LanguageProvider>
 
       </body>

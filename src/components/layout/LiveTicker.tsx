@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { Match } from '@/types';
+import { MatchScoreDTO } from '@/types';
 import { SportApi } from '@/services/api';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 
@@ -12,7 +12,7 @@ import { useTranslation } from '@/lib/i18n/LanguageProvider';
  * Displays real-time scores with auto-scroll and hover-pause.
  */
 export const LiveTicker: React.FC = () => {
-    const [matches, setMatches] = useState<Match[]>([]);
+    const [matches, setMatches] = useState<MatchScoreDTO[]>([]);
     const [isPaused, setIsPaused] = useState(false);
     const [isConnecting, setIsConnecting] = useState(true);
     const [error, setError] = useState(false);
@@ -21,7 +21,7 @@ export const LiveTicker: React.FC = () => {
 
     const fetchTickerData = async () => {
         try {
-            const res = await SportApi.getTickerMatches();
+            const res = await SportApi.getMatches();
             if (res.status === 200) {
                 setMatches(res.data);
                 setError(false);
@@ -73,24 +73,24 @@ export const LiveTicker: React.FC = () => {
                         >
                             {[...matches, ...matches].map((match, idx) => (
                                 <Link
-                                    key={`${match.id}-${idx}`}
-                                    href={`/match/${match.id}`}
+                                    key={`${match.match_id}-${idx}`}
+                                    href={match.target_url || `/match/${match.match_id}`}
                                     className="flex items-center gap-4 hover:text-brand-primary transition-colors h-full px-2 group"
                                 >
                                     <span className="text-[10px] font-bold opacity-30 group-hover:opacity-100 transition-opacity uppercase tracking-tighter">
-                                        {match.league}
+                                        {match.league_name}
                                     </span>
 
                                     <div className="flex items-center gap-2">
-                                        <span className="text-sm font-black">{match.homeTeam.name}</span>
-                                        <span className="text-sm font-black text-brand-primary font-mono">{match.homeTeam.score}</span>
+                                        <span className="text-sm font-black">{match.home_team.name}</span>
+                                        <span className="text-sm font-black text-brand-primary font-mono">{match.home_team.score}</span>
                                         <span className="text-white/10">-</span>
-                                        <span className="text-sm font-black text-brand-primary font-mono">{match.awayTeam.score}</span>
-                                        <span className="text-sm font-black">{match.awayTeam.name}</span>
+                                        <span className="text-sm font-black text-brand-primary font-mono">{match.away_team.score}</span>
+                                        <span className="text-sm font-black">{match.away_team.name}</span>
                                     </div>
 
                                     <div className="px-2 py-0.5 bg-white/5 rounded text-[9px] font-bold text-slate-500 group-hover:bg-brand-primary group-hover:text-white transition-all">
-                                        {match.live_period || match.matchInfo}
+                                        {match.current_period}
                                     </div>
                                 </Link>
                             ))}

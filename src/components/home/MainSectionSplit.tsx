@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArticleDTO, Match, AdDTO } from '@/types';
+import { ArticleDTO, MatchScoreDTO, AdDTO } from '@/types';
 import { SportApi } from '@/services/api';
-import { AdBanner } from './AdBanner';
+import { AdBanner } from '../shared/AdBanner';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 
 interface MainSectionSplitProps {
     initialPosts: ArticleDTO[];
-    initialMatches: Match[];
+    initialMatches: MatchScoreDTO[];
     sideAds?: AdDTO[];
 }
 
@@ -20,7 +20,7 @@ interface MainSectionSplitProps {
  */
 export const MainSectionSplit: React.FC<MainSectionSplitProps> = ({ initialPosts, initialMatches, sideAds }) => {
     const [posts, setPosts] = useState<ArticleDTO[]>(initialPosts);
-    const [matches, setMatches] = useState<Match[]>(initialMatches);
+    const [matches, setMatches] = useState<MatchScoreDTO[]>(initialMatches);
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingPosts, setIsLoadingPosts] = useState(false);
 
@@ -164,22 +164,22 @@ export const MainSectionSplit: React.FC<MainSectionSplitProps> = ({ initialPosts
 
                     <div className="space-y-6 relative z-10">
                         {matches.map((match) => (
-                            <div key={match.id} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-brand-primary/30 transition-all group">
+                            <div key={match.match_id} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-brand-primary/30 transition-all group">
                                 <div className="flex items-center justify-between mb-4">
-                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{match.league}</span>
+                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{match.league_name}</span>
                                     <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${match.status === 'LIVE' ? 'bg-red-500 text-white animate-pulse' : 'bg-white/10 text-slate-400'}`}>
                                         {match.status}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between gap-4">
                                     <div className="flex-1 flex flex-col items-center">
-                                        <span className="text-xs font-black text-white truncate w-full text-center">{match.homeTeam.name}</span>
-                                        <span className="text-2xl font-black text-brand-primary font-mono">{match.homeTeam.score}</span>
+                                        <span className="text-xs font-black text-white truncate w-full text-center">{match.home_team.name}</span>
+                                        <span className="text-2xl font-black text-brand-primary font-mono">{match.home_team.score}</span>
                                     </div>
                                     <div className="text-white/10 font-black text-xl italic mt-6">VS</div>
                                     <div className="flex-1 flex flex-col items-center">
-                                        <span className="text-xs font-black text-white truncate w-full text-center">{match.awayTeam.name}</span>
-                                        <span className="text-2xl font-black text-brand-primary font-mono">{match.awayTeam.score}</span>
+                                        <span className="text-xs font-black text-white truncate w-full text-center">{match.away_team.name}</span>
+                                        <span className="text-2xl font-black text-brand-primary font-mono">{match.away_team.score}</span>
                                     </div>
                                 </div>
                             </div>

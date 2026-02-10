@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card } from '../ui/Card';
 import { Skeleton } from '../ui/Skeleton';
-import { Match } from '@/types';
+import { MatchScoreDTO } from '@/types';
 
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 
 interface ScoreCardProps {
-    match?: Match;
+    match?: MatchScoreDTO;
     isLoading?: boolean;
 }
 
@@ -49,25 +49,25 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ match, isLoading }) => {
             )}
 
             <div className="flex justify-between items-center mb-4">
-                <span className="text-xs font-bold text-brand-primary opacity-80 uppercase tracking-widest">{match.league}</span>
-                <span className="text-[10px] font-medium text-slate-400">{match.matchInfo}</span>
+                <span className="text-xs font-bold text-brand-primary opacity-80 uppercase tracking-widest">{match.league_name}</span>
+                <span className="text-[10px] font-medium text-slate-400">{match.current_period}</span>
             </div>
 
             <div className="flex items-center justify-between gap-4">
                 {/* Home Team */}
                 <div className="flex-1 flex flex-col items-center text-center">
                     <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                        <span className="text-lg font-bold text-brand-heading">{match.homeTeam.name[0]}</span>
+                        <span className="text-lg font-bold text-brand-heading">{match.home_team.name[0]}</span>
                     </div>
-                    <span className="text-sm font-bold truncate w-full text-brand-heading">{match.homeTeam.name}</span>
+                    <span className="text-sm font-bold truncate w-full text-brand-heading">{match.home_team.name}</span>
                 </div>
 
                 {/* Score */}
                 <div className="flex flex-col items-center justify-center min-w-[80px]">
                     <div className="text-2xl font-black tracking-tighter flex items-center gap-2">
-                        <span className={isLive ? 'text-brand-heading' : 'text-slate-300'}>{match.homeTeam.score}</span>
+                        <span className={isLive ? 'text-brand-heading' : 'text-slate-300'}>{match.home_team.score}</span>
                         <span className="text-slate-200 text-lg">-</span>
-                        <span className={isLive ? 'text-brand-heading' : 'text-slate-300'}>{match.awayTeam.score}</span>
+                        <span className={isLive ? 'text-brand-heading' : 'text-slate-300'}>{match.away_team.score}</span>
                     </div>
                     {match.status === 'PRE' && (
                         <span className="text-[10px] font-bold text-brand-primary mt-1 uppercase tracking-widest">
@@ -79,9 +79,9 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ match, isLoading }) => {
                 {/* Away Team */}
                 <div className="flex-1 flex flex-col items-center text-center">
                     <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                        <span className="text-lg font-bold text-brand-heading">{match.awayTeam.name[0]}</span>
+                        <span className="text-lg font-bold text-brand-heading">{match.away_team.name[0]}</span>
                     </div>
-                    <span className="text-sm font-bold truncate w-full text-brand-heading">{match.awayTeam.name}</span>
+                    <span className="text-sm font-bold truncate w-full text-brand-heading">{match.away_team.name}</span>
                 </div>
             </div>
         </Card>

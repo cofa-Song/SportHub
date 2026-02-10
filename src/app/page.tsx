@@ -1,5 +1,5 @@
 import { HeroBanner } from '@/components/home/HeroBanner';
-import { AdBanner } from '@/components/home/AdBanner';
+import { AdBanner } from '@/components/shared/AdBanner';
 import { HotArticlesGrid } from '@/components/home/HotArticlesGrid';
 import { NewsCarousel } from '@/components/home/NewsCarousel';
 import { FeaturedSpecials } from '@/components/home/FeaturedSpecials';
