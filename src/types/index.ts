@@ -35,6 +35,7 @@ export interface ArticleDTO {
     comment_count: number;
     view_count: number;
     share_count: number;
+    collect_count: number;
     is_ad: boolean;
     created_at: string; // ISO 8601, Changed from publishedAt
     target_url: string; // e.g., /article/{id}

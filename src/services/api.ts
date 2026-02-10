@@ -24,9 +24,10 @@ const generateArticles = (count: number, prefix: string): ArticleDTO[] => {
         created_at: '2026-02-09T12:00:00Z',
         category: i % 2 === 0 ? 'Basketball' : 'Baseball',
         comment_count: Math.floor(Math.random() * 50),
-        view_count: Math.floor(Math.random() * 5000) + 100,
-        share_count: Math.floor(Math.random() * 200),
-        is_ad: false,
+        view_count: Math.floor(Math.random() * 10000),
+        share_count: Math.floor(Math.random() * 500),
+        collect_count: Math.floor(Math.random() * 200),
+        is_ad: i % 10 === 0,
         target_url: `/post/${prefix}-${i + 1}`
     }));
 };
@@ -49,12 +50,12 @@ export const SportApi = {
 
         // Special Features - Mix of ad and high share count
         const featuredTopic = generateArticles(2, 'special');
-        featuredTopic[0].title = 'Special: Basketball Evolution';
-        featuredTopic[0].description = 'Exploring the history of the jump shot and its impact on modern play.';
+        (featuredTopic[0] as any).title = 'Special: Basketball Evolution';
+        (featuredTopic[0] as any).description = 'Exploring the history of the jump shot and its impact on modern play.';
         featuredTopic[0].cover_url = `${ASSET_PATH}/special_basketball_evolution_1770628508648.png`;
 
-        featuredTopic[1].title = 'Special: The Art of the Curveball';
-        featuredTopic[1].description = 'Physics and finesse: How elite pitchers master the most deceptive pitch in baseball.';
+        (featuredTopic[1] as any).title = 'Special: The Art of the Curveball';
+        (featuredTopic[1] as any).description = 'Physics and finesse: How elite pitchers master the most deceptive pitch in baseball.';
         featuredTopic[1].cover_url = `${ASSET_PATH}/special_baseball_physics_1770628528009.png`;
 
         const latestFeed = generateArticles(20, 'feed');
