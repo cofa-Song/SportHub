@@ -81,10 +81,11 @@ export interface ArticleDTO {
     view_count: number;         // 總瀏覽次數
     share_count: number;        // 總轉發次數
     collect_count: number;      // 總收藏次數
-    is_ad: boolean;             // 是否為廣告內容
+    type: 'NEWS' | 'ANALYSIS' | 'AD'; // 文章類型：新聞、分析(文章)、廣告
     created_at: string;         // 生成時間 (ISO 8601 DateTime)
     target_url: string;         // 跳轉路徑
     excerpt?: string;           // 摘要（選填，用於卡片預覽）
+    source?: string;            // 文章來源 (僅 type='NEWS' 時有值, e.g., "聯合新聞網")
 }
 
 // ============================================================================
@@ -184,6 +185,7 @@ export interface ArticleDetailDTO extends ArticleDTO {
     content: string;            // 完整文章內容 (HTML or Markdown)
     tags: string[];             // 標籤
     related_articles: ArticleDTO[]; // 相關文章
+    author_latest_articles?: ArticleDTO[]; // 作者最新文章 (用於分析文側邊欄)
     comments: CommentDTO[];     // 評論列表
 }
 

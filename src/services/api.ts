@@ -8,28 +8,96 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const ASSET_PATH = '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c';
 
-// Helper to generate mock articles
-const generateArticles = (count: number, prefix: string): ArticleDTO[] => {
-    return Array.from({ length: count }).map((_, i) => ({
-        id: `${prefix}-${i + 1}`,
-        title: i % 2 === 0 ? `NBA 季後賽分析：湖人隊的防守策略轉變 #${i + 1}` : `2026 世界盃預選賽亮點回顧 #${i + 1}`,
-        excerpt: '在最近的一系列比賽中，該球隊展現出了全新的聯防體系，並在進攻端保持穩定...',
-        cover_url: i % 2 === 0 ? `${ASSET_PATH}/hero_nba_finals_1770628434041.png` : `${ASSET_PATH}/hero_mlb_game_1770628451873.png`,
-        author: {
-            id: `auth-${i}`,
-            name: i % 3 === 0 ? '張大衛' : i % 3 === 1 ? '李小青' : '王教練',
-            avatar: '',
-            level_tag: 'Official'
-        },
-        created_at: '2026-02-09T12:00:00Z',
-        category: i % 2 === 0 ? 'Basketball' : 'Baseball',
-        comment_count: Math.floor(Math.random() * 50),
-        view_count: Math.floor(Math.random() * 10000),
-        share_count: Math.floor(Math.random() * 500),
-        collect_count: Math.floor(Math.random() * 200),
-        is_ad: i % 10 === 0,
-        target_url: `/post/${prefix}-${i + 1}`
-    }));
+// --- Mock Data Arrays ---
+
+const MOCK_NEWS_TITLES = [
+    "NBA／詹姆斯大三元領軍 湖人延長賽氣走勇士",
+    "MLB／大谷翔平雙響砲 刷新道奇隊史單季全壘打紀錄",
+    "中職／鋼龍優質先發封鎖暴力猿 味全龍中止三連敗",
+    "NBA／柯瑞單場10記三分彈 勇士大勝太陽25分",
+    "PLG／林書豪加盟新北國王 兄弟聯手衝擊總冠軍",
+    "日職／佐佐木朗希完全比賽 13K震驚日本球界",
+    "WBC／中華隊30人名單出爐 旅外好手全數入列",
+    "法網／喬科維奇第23座大滿貫到手 獨居史上第一",
+    "世大運／台灣代表團創佳績 累積10金17銀9銅",
+    "NBA／文班亞馬首秀驚艷 20分5阻攻展現天賦"
+];
+
+const MOCK_ANALYSIS_TITLES = [
+    "數據分析：為什麼現代籃球越來越依賴三分球？",
+    "戰術解析：湖人隊如何破解區域聯防？",
+    "深度報導：從小聯盟到大聯盟——一位投手的奮鬥史",
+    "球探報告：2026 選秀大會前五順位預測",
+    "運科專欄：投球機制與受傷風險的關聯性研究",
+    "薪資空間分析：勇士隊如何在豪華稅壓力下維持競爭力",
+    "歷史回顧：90年代公牛王朝的防守哲學",
+    "教練視角：如何在關鍵時刻設計最後一擊戰術",
+    "數據看球：進階數據如何改變棒球比賽的樣貌",
+    "心理素質：頂尖運動員如何面對高壓環境"
+];
+
+const MOCK_AUTHORS = [
+    { id: 'auth-1', name: '張大衛', level_tag: '資深球評', avatar: '' },
+    { id: 'auth-2', name: '李小青', level_tag: '數據專家', avatar: '' },
+    { id: 'auth-3', name: '王教練', level_tag: '戰術分析師', avatar: '' },
+    { id: 'auth-4', name: '陳運動', level_tag: '專欄作家', avatar: '' },
+    { id: 'auth-5', name: 'Sarah Wu', level_tag: '特約記者', avatar: '' },
+];
+
+const MOCK_SOURCES = ['聯合新聞網', 'ESPN', 'Yahoo Sports', 'Bleacher Report', '中央社'];
+
+// --- Helper Functions ---
+
+const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+const generateArticles = (count: number, prefix: string, options?: { type?: 'NEWS' | 'ANALYSIS' | 'AD', category?: string }): ArticleDTO[] => {
+    return Array.from({ length: count }).map((_, i) => {
+        // Determine Type
+        let type: 'NEWS' | 'ANALYSIS' | 'AD' = options?.type || 'NEWS';
+        if (!options?.type) {
+            // If type not forced, use prefix or simple logic
+            if (prefix.includes('hot') || prefix.includes('news')) type = 'NEWS';
+            else if (prefix.includes('analysis') || prefix.includes('special')) type = 'ANALYSIS';
+            else type = i % 10 === 0 ? 'AD' : (Math.random() > 0.5 ? 'NEWS' : 'ANALYSIS');
+        }
+
+        // Determine Category
+        const category = options?.category || (i % 2 === 0 ? 'Basketball' : 'Baseball');
+
+        // Determine Title based on Type
+        let title = '';
+        if (type === 'NEWS') {
+            title = MOCK_NEWS_TITLES[i % MOCK_NEWS_TITLES.length] + (i > 9 ? ` #${i - 9}` : '');
+        } else if (type === 'ANALYSIS') {
+            title = MOCK_ANALYSIS_TITLES[i % MOCK_ANALYSIS_TITLES.length] + (i > 9 ? ` #${i - 9}` : '');
+        } else {
+            title = `贊助商廣告：${i + 1}`;
+        }
+
+        // Determine Author/Source
+        const author = getRandomItem(MOCK_AUTHORS);
+        const source = type === 'NEWS' ? getRandomItem(MOCK_SOURCES) : undefined;
+
+        // Determine Cover
+        const coverSuffix = category === 'Basketball' ? 'hero_nba_finals_1770628434041.png' : 'hero_mlb_game_1770628451873.png';
+
+        return {
+            id: `${prefix}-${i + 1}`,
+            title: title,
+            excerpt: type === 'ANALYSIS' ? '這是一篇深度分析文章的摘要，探討了相關議題的深層原因與影響...' : '這是一則即時新聞的快訊，為您帶來最新的第一手報導...',
+            cover_url: `${ASSET_PATH}/${coverSuffix}`,
+            author: author,
+            created_at: new Date(Date.now() - Math.floor(Math.random() * 86400000 * 7)).toISOString(), // Last 7 days
+            category: category,
+            comment_count: Math.floor(Math.random() * 50),
+            view_count: Math.floor(Math.random() * 10000),
+            share_count: Math.floor(Math.random() * 500),
+            collect_count: Math.floor(Math.random() * 200),
+            type: type,
+            target_url: `/post/${prefix}-${i + 1}`,
+            source: source
+        };
+    });
 };
 
 // Helper for Mock Ads
@@ -61,8 +129,8 @@ const generateMatches = (): MatchScoreDTO[] => [
     },
     {
         match_id: '3', sport_type: 'BASEBALL',
-        home_team: { name: '兄弟', score: 0, logo_url: '' },
-        away_team: { name: '味全', score: 0, logo_url: '' },
+        home_team: { name: '中信兄弟', score: 0, logo_url: '' },
+        away_team: { name: '味全龍', score: 0, logo_url: '' },
         status: 'PRE', league_name: 'CPBL', match_time: '2026-02-11T18:35:00Z',
         current_period: '未開賽', is_live: false, target_url: '/match/3'
     },
@@ -81,20 +149,29 @@ export const SportApi = {
             { banner_id: 'b3', image_url: `${ASSET_PATH}/ad_sports_gear_1770628472549.png`, title: 'Summer Sale: Get 50% Off Gear', target_url: 'https://store.sporthub.com', type: 'AD' },
         ];
 
-        const hotPicks = generateArticles(6, 'hot');
-        const latestNews = generateArticles(8, 'news');
+        // Ensure Hot Picks have a mix but mostly News/Analysis
+        const hotPicks = generateArticles(6, 'hot', { type: 'NEWS' });
 
-        // Special Features
-        const featuredTopic = generateArticles(2, 'special');
-        (featuredTopic[0] as any).title = 'Special: Basketball Evolution';
-        (featuredTopic[0] as any).description = 'Exploring the history of the jump shot and its impact on modern play.';
+        // Latest News strictly News
+        const latestNews = generateArticles(8, 'news', { type: 'NEWS' });
+
+        // Special Features - Analysis
+        const featuredTopic = generateArticles(2, 'special', { type: 'ANALYSIS' });
+        featuredTopic[0].title = '專題：籃球的演變與未來';
+        featuredTopic[0].category = 'Basketball';
         featuredTopic[0].cover_url = `${ASSET_PATH}/special_basketball_evolution_1770628508648.png`;
 
-        (featuredTopic[1] as any).title = 'Special: The Art of the Curveball';
-        (featuredTopic[1] as any).description = 'Physics and finesse: How elite pitchers master the most deceptive pitch in baseball.';
+        featuredTopic[1].title = '專題：棒球曲球的物理學';
+        featuredTopic[1].category = 'Baseball';
         featuredTopic[1].cover_url = `${ASSET_PATH}/special_baseball_physics_1770628528009.png`;
 
-        const latestFeed = generateArticles(20, 'feed');
+        // Mixed Feed
+        const latestFeed = [
+            ...generateArticles(6, 'feed-1', { type: 'NEWS' }),
+            ...generateArticles(6, 'feed-2', { type: 'ANALYSIS' }),
+            ...generateArticles(1, 'feed-ad', { type: 'AD' }),
+            ...generateArticles(7, 'feed-3', { type: 'NEWS' })
+        ].sort(() => Math.random() - 0.5); // Shuffle
 
         const liveStats = generateMatches();
 
@@ -125,9 +202,20 @@ export const SportApi = {
     /**
     * Fetch latest blog posts (For pagination in MainSectionSplit).
     */
-    getPosts: async (page = 1, limit = 5, category?: string): Promise<ApiResponse<ArticleDTO[]>> => {
+    getPosts: async (page = 1, limit = 5, category?: string, type?: 'NEWS' | 'ANALYSIS' | 'AD'): Promise<ApiResponse<ArticleDTO[]>> => {
         await delay(300);
-        const allPosts = generateArticles(30, 'page-load');
+        // Generate a large pool of mixed content
+        let allPosts = [
+            ...generateArticles(15, 'page-news', { type: 'NEWS', category }),
+            ...generateArticles(15, 'page-analysis', { type: 'ANALYSIS', category }),
+        ];
+
+        if (type) {
+            allPosts = allPosts.filter(p => p.type === type);
+        }
+
+        allPosts = allPosts.sort(() => Math.random() - 0.5);
+
         const start = (page - 1) * limit;
         return {
             status: 200,
@@ -168,21 +256,14 @@ export const SportApi = {
         await delay(500);
 
         const mockCategory = category ? (category === 'basketball' ? 'Basketball' : category === 'baseball' ? 'Baseball' : undefined) : undefined;
+        const options = { type: 'NEWS' as const, category: mockCategory };
 
-        const getMock = (count: number, prefix: string) => {
-            const items = generateArticles(count, prefix);
-            if (mockCategory) {
-                items.forEach(i => i.category = mockCategory);
-            }
-            return items;
-        }
+        const hotNews = generateArticles(6, 'news-hot', options);
+        const featuredNews = generateArticles(2, 'news-featured', options);
+        (featuredNews[0] as any).description = '獨家報導：本賽季最令人震驚的交易案內幕。';
+        (featuredNews[1] as any).description = '深入訪談：從替補到先發的心路歷程。';
 
-        const hotNews = getMock(6, 'news-hot');
-        const featuredNews = getMock(2, 'news-featured');
-        (featuredNews[0] as any).description = 'Exclusive coverage of the season highlights.';
-        (featuredNews[1] as any).description = 'In-depth player interviews and analysis.';
-
-        const latestNews = getMock(10, 'news-latest');
+        const latestNews = generateArticles(10, 'news-latest', options);
         latestNews.forEach((item, idx) => {
             const date = new Date();
             date.setDate(date.getDate() - idx);
@@ -229,13 +310,14 @@ export const SportApi = {
      */
     getAnalysisData: async (category?: string): Promise<ApiResponse<NewsData>> => {
         await delay(500);
-        // Reuse NewsData structure for Analysis Hall for now
-        const items = generateArticles(10, 'analysis');
-        if (category) items.forEach(i => i.category = category);
 
-        const hotNews = items.slice(0, 6);
-        const featuredNews = items.slice(6, 8);
-        const latestNews = items.slice(0, 10);
+        const mockCategory = category ? (category === 'basketball' ? 'Basketball' : category === 'baseball' ? 'Baseball' : undefined) : undefined;
+        const options = { type: 'ANALYSIS' as const, category: mockCategory };
+
+        const hotNews = generateArticles(6, 'analysis-hot', options);
+        const featuredNews = generateArticles(2, 'analysis-featured', options);
+        const latestNews = generateArticles(10, 'analysis-latest', options);
+
         const topAd = [createMockAd('analysis-top', 'ad_sports_gear_1770628472549.png')];
 
         return {
@@ -257,22 +339,27 @@ export const SportApi = {
 
         // Generate mock content with multiple paragraphs
         const content = [
-            "湖人隊在昨晚的比賽中展現出了令人驚訝的防守強度。這不僅僅是單一球員的表現，而是整個團隊體系的升級。從第一節開始，他們就對持球人進行了高強度的壓迫，迫使對手發生了多次失誤。",
-            "進攻端方面，詹姆斯依然是球隊的核心發動機。他在關鍵時刻的兩記三分球穩住了局勢。然而，更值得注意的是戴維斯在內線的統治力，他不僅在進攻端予取予求，更在防守端送出了關鍵的火鍋。",
-            "這場比賽的轉捩點出現在第三節中段。當對手試圖反撲時，湖人隊的替補陣容挺身而出。里夫斯的幾次突破分球撕裂了對方的防線，為外線射手創造了極佳的空檔機會。",
-            "教練團的調度也功不可沒。在對手改守區域聯防時，教練及時喊出暫停並調整戰術，利用高位擋拆成功破解了對方的防守策略。這種臨場應變能力正是季後賽球隊所需要的。",
-            "值得一提的是，新加入的側翼球員在這場比賽中也發揮了重要作用。雖然得分不多，但他對於對方頭號得分手的限制做得非常出色，讓對手全場命中率不足四成。",
-            "賽後採訪中，球隊主帥表示：「我們還有很長的路要走，但這場勝利證明了我們的方向是正確的。」他也特別稱讚了幾位年輕球員的拼勁和專注度。",
-            "展望下一場比賽，對手擁有全聯盟最強的內線組合，這將是對湖人隊禁區防守的一次重大考驗。球隊需要在籃板保護上做得更好，避免給對手太多的二次進攻機會。",
-            "總結來說，這是一場團隊的勝利。每個人都各司其職，並且在關鍵時刻都能夠挺身而出。如果能夠保持這樣的狀態，湖人隊在今年的季後賽中絕對大有可為。",
-            "這場比賽也再次證明了防守贏得冠軍的道理。在高強度的對抗中，穩定的防守往往比華麗的進攻更能夠決定比賽的勝負。",
-            "最後，我們不能忽視主場球迷的支持。全場震耳欲聾的歡呼聲給了球員們巨大的動力，這也是湖人隊能夠在落後時迅速反超的重要因素之一。"
+            "在此次賽事中，選手們展現了極高的競技水準。無論是進攻端的流暢配合，還是防守端的強硬對抗，都讓觀眾大呼過癮。特別是關鍵時刻的戰術執行，更是決定比賽勝負的分水嶺。",
+            "數據顯示，勝利的一方在籃板球和抄截數上都佔據了明顯優勢。這不僅意味著更多的進攻機會，也反映了球隊整體的積極性。教練在賽後訪問中也特別提到了這一點，強調防守是贏球的基石。",
+            "另一場焦點戰役中，王牌投手主宰了比賽。他全場送出雙位數的三振，僅被擊出零星安打。這種壓倒性的表現，不僅幫助球隊中止連敗，也讓他成為本週最佳球員的有力競爭者。",
+            "不過，比賽中也出現了一些爭議判決。雖然科技輔助執法已經相當普及，但在某些關鍵球的認定上，裁判的主觀判斷依然引發了雙方激烈的討論。這也是未來賽事組織需要持續改進的地方。",
+            "對於落敗的一方來說，這場失利或許是個轉機。透過檢討比賽錄像，找出攻守失序的原因，並在接下來的訓練中加以修正，相信他們很快就能重整旗鼓，在下一場比賽中打出應有的水準。",
+            "值得關注的是，年輕球員的成長速度令人驚艷。幾位新秀在面對高強度的比賽時，展現出了超越年齡的成熟度。他們的崛起，無疑為聯盟注入了新的活力，也讓未來的比賽更加充滿變數。",
+            "總結來說，本週的賽事精彩紛呈，充滿了戲劇性和話題性。隨著賽季進入白熱化階段，各隊的競爭也將更加激烈。身為球迷的我們，只需準備好爆米花，盡情享受這場體育盛宴吧！"
         ].join('\n\n');
 
-        const article = generateArticles(1, 'post')[0] as ArticleDetailDTO;
+        const isAnalysis = id.includes('analysis') || Math.random() > 0.5;
+        const type = isAnalysis ? 'ANALYSIS' : 'NEWS';
+
+        const article = generateArticles(1, 'post', { type })[0] as ArticleDetailDTO;
+        article.id = id; // Ensure ID matches
         article.content = content;
-        article.tags = ['NBA', 'Lakers', 'LeBron', 'Defense'];
-        article.related_articles = generateArticles(3, 'related');
+        article.tags = ['NBA', 'Lakers', 'LeBron', 'Defense', 'Analysis'];
+        article.related_articles = generateArticles(3, 'related', { category: article.category });
+        if (type === 'ANALYSIS') {
+            article.author_latest_articles = generateArticles(5, 'author-latest', { type: 'ANALYSIS', category: article.category });
+        }
+
         article.comments = Array.from({ length: 15 }).map((_, i) => {
             const reply_count = i % 3 === 0 ? 12 : i % 5 === 0 ? 5 : 0;
             return {

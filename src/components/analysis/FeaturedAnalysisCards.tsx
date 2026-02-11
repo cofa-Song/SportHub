@@ -4,27 +4,27 @@ import React from 'react';
 import Link from 'next/link';
 import { ArticleDTO } from '@/types';
 
-interface FeaturedNewsCardsProps {
-    news: ArticleDTO[];
+interface FeaturedAnalysisCardsProps {
+    analysis: ArticleDTO[];
 }
 
 /**
- * FeaturedNewsCards Component.
- * Zigzag alternating layout for featured news - inspired by sportsv design.
+ * FeaturedAnalysisCards Component.
+ * Zigzag alternating layout for featured analysis - inspired by sportsv design.
  */
-export const FeaturedNewsCards: React.FC<FeaturedNewsCardsProps> = ({ news }) => {
-    if (!news || news.length === 0) return null;
+export const FeaturedAnalysisCards: React.FC<FeaturedAnalysisCardsProps> = ({ analysis }) => {
+    if (!analysis || analysis.length === 0) return null;
 
     return (
         <section className="mb-24">
             <div className="mb-16">
                 <h2 className="text-4xl font-black text-brand-heading tracking-tight border-b-4 border-brand-primary pb-4 inline-block">
-                    精選新聞
+                    精選分析
                 </h2>
             </div>
 
             <div className="space-y-20">
-                {news.map((article, index) => {
+                {analysis.map((article, index) => {
                     const isEven = index % 2 === 0;
 
                     return (
@@ -58,7 +58,7 @@ export const FeaturedNewsCards: React.FC<FeaturedNewsCardsProps> = ({ news }) =>
                                                 </svg>
                                             </li>
                                             <li className="flex items-center gap-2">
-                                                專題報導
+                                                深度分析
                                             </li>
                                         </ul>
 
@@ -80,7 +80,7 @@ export const FeaturedNewsCards: React.FC<FeaturedNewsCardsProps> = ({ news }) =>
                                                 href={article.target_url || `/post/${article.id}`}
                                                 className="inline-flex items-center gap-3 px-8 py-4 bg-white border-2 border-brand-primary text-brand-primary font-bold rounded-lg hover:bg-brand-primary hover:text-white transition-all duration-300 shadow-md hover:shadow-xl group"
                                             >
-                                                完整專題
+                                                完整分析
                                                 <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                                                 </svg>

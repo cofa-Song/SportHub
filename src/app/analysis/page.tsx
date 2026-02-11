@@ -1,60 +1,37 @@
-import { AdBanner } from '@/components/shared/AdBanner';
-import { NewsHotGrid } from '@/components/news/NewsHotGrid';
-import { FeaturedNewsCards } from '@/components/news/FeaturedNewsCards';
+import React from 'react';
 import { SportApi } from '@/services/api';
+import { AdBanner } from '@/components/shared/AdBanner';
+import { AnalysisHotGrid } from '@/components/analysis/AnalysisHotGrid';
+import { FeaturedAnalysisCards } from '@/components/analysis/FeaturedAnalysisCards';
+import { AnalysisList } from '@/components/analysis/AnalysisList';
+
+export const metadata = {
+    title: '賽事分析 | SportHub',
+    description: '深度賽事分析、戰術解讀與比賽預測',
+};
 
 export default async function AnalysisPage() {
     const response = await SportApi.getAnalysisData();
-    const data = response.data;
+    const data = {
+        ...response.data,
+        hot_news: response.data.hot_news.filter(n => n.type === 'ANALYSIS'),
+        featured_news: response.data.featured_news.filter(n => n.type === 'ANALYSIS'),
+        latest_news: response.data.latest_news.filter(n => n.type === 'ANALYSIS')
+    };
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-32">
-            <div className="container mx-auto px-6">
-                {/* Top Ad */}
-                <AdBanner ads={data.top_ad} position="TOP" />
+        <div className="container mx-auto px-6 pb-8">
+            {/* 1. Top Horizontal Ad */}
+            <AdBanner ads={data.top_ad} position="TOP" />
 
-                {/* Hot Analysis */}
-                <NewsHotGrid posts={data.hot_news} />
+            {/* 2. Hot Analysis Grid (2x3) */}
+            <AnalysisHotGrid posts={data.hot_news} />
 
-                {/* Featured Analysis */}
-                <FeaturedNewsCards news={data.featured_news} />
+            {/* 3. Featured Analysis (2 items) */}
+            <FeaturedAnalysisCards analysis={data.featured_news} />
 
-                {/* Latest Analysis (Reusing the same grid style for now) */}
-                <section className="mt-20 mb-24">
-                    <div className="mb-10 text-center">
-                        <h2 className="text-4xl font-black text-brand-heading tracking-tighter uppercase italic">
-                            最新分析文章
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {data.latest_news.map((item) => (
-                            <div key={item.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-6 shadow-lg">
-                                    <img
-                                        src={item.cover_url}
-                                        alt={item.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="bg-brand-primary px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
-                                            {item.category}
-                                        </span>
-                                    </div>
-                                </div>
-                                <h4 className="text-xl font-black text-brand-heading group-hover:text-brand-primary transition-colors line-clamp-2">
-                                    {item.title}
-                                </h4>
-                                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                    <span className="text-xs font-bold text-slate-400">
-                                        {new Date(item.created_at).toLocaleDateString()}
-                                    </span>
-                                    <span className="text-xs font-black text-brand-primary">READ MORE +</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            </div>
+            {/* 4. Latest Analysis List */}
+            <AnalysisList analysis={data.latest_news} />
         </div>
     );
 }

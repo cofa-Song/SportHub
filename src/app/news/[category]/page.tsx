@@ -33,7 +33,12 @@ export default async function NewsCategoryPage({ params }: NewsCategoryPageProps
         notFound();
     }
 
-    const data = response.data;
+    const data = {
+        ...response.data,
+        hot_news: response.data.hot_news.filter(n => n.type === 'NEWS'),
+        featured_news: response.data.featured_news.filter(n => n.type === 'NEWS'),
+        latest_news: response.data.latest_news.filter(n => n.type === 'NEWS')
+    };
 
     return (
         <div className="container mx-auto px-6 py-8">

@@ -41,7 +41,7 @@ export default function RootLayout({
           <AuthProvider>
             <LiveTicker />
             <Header />
-            <main className="relative z-[1] min-h-screen pt-40 pb-12">
+            <main className="relative z-[1] min-h-screen pt-20 pb-12">
               {children}
             </main>
 

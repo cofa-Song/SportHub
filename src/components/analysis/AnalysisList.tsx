@@ -6,25 +6,25 @@ import { ArticleDTO } from '@/types';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 import { formatFriendlyDate } from '@/lib/utils/date';
 
-interface NewsListProps {
-    news: ArticleDTO[];
+interface AnalysisListProps {
+    analysis: ArticleDTO[];
 }
 
-export const NewsList: React.FC<NewsListProps> = ({ news }) => {
+export const AnalysisList: React.FC<AnalysisListProps> = ({ analysis }) => {
     const { t } = useTranslation();
 
-    if (!news || news.length === 0) return null;
+    if (!analysis || analysis.length === 0) return null;
 
     return (
         <section className="mb-20">
             <div className="mb-8 border-b-2 border-slate-50 pb-4">
                 <h3 className="text-2xl font-black text-brand-heading uppercase tracking-tighter italic">
-                    最新新聞
+                    最新分析
                 </h3>
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-                {news.map((item) => (
+                {analysis.map((item) => (
                     <Link
                         key={item.id}
                         href={item.target_url || `/post/${item.id}`}
@@ -49,12 +49,8 @@ export const NewsList: React.FC<NewsListProps> = ({ news }) => {
                             <div>
                                 <div className="flex items-center gap-2 mb-3 text-xs text-slate-400 font-bold uppercase tracking-wider">
                                     <span>{formatFriendlyDate(item.created_at)}</span>
-                                    {item.source && (
-                                        <>
-                                            <span className="w-1 h-1 rounded-full bg-slate-200"></span>
-                                            <span className="text-brand-primary/80">{item.source}</span>
-                                        </>
-                                    )}
+                                    <span className="w-1 h-1 rounded-full bg-slate-200"></span>
+                                    <span className="text-brand-primary/80">{item.author.name}</span>
                                 </div>
 
                                 <h4 className="text-xl font-black text-brand-heading mb-3 leading-snug group-hover:text-brand-primary transition-colors">
@@ -97,7 +93,7 @@ export const NewsList: React.FC<NewsListProps> = ({ news }) => {
 
             <div className="mt-8 flex justify-center">
                 <button className="px-8 py-3 rounded-xl bg-slate-100 text-brand-heading text-xs font-black uppercase tracking-widest hover:bg-brand-primary hover:text-white transition-colors">
-                    更多新聞
+                    更多分析
                 </button>
             </div>
         </section>

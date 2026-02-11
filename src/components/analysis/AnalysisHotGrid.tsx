@@ -6,15 +6,15 @@ import { ArticleDTO } from '@/types';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 import { formatFriendlyDate } from '@/lib/utils/date';
 
-interface NewsHotGridProps {
+interface AnalysisHotGridProps {
     posts: ArticleDTO[];
 }
 
 /**
- * NewsHotGrid Component.
- * Horizontal card layout (2 columns) for News Hall hot articles.
+ * AnalysisHotGrid Component.
+ * Horizontal card layout (2 columns) for Analysis Hall hot articles.
  */
-export const NewsHotGrid: React.FC<NewsHotGridProps> = ({ posts }) => {
+export const AnalysisHotGrid: React.FC<AnalysisHotGridProps> = ({ posts }) => {
     const { locale } = useTranslation();
 
     if (!posts || posts.length === 0) return null;
@@ -27,7 +27,7 @@ export const NewsHotGrid: React.FC<NewsHotGridProps> = ({ posts }) => {
                         {locale === 'en' ? 'Trending' : '熱門焦點'}
                     </span>
                     <h3 className="text-4xl font-black text-brand-heading tracking-tighter">
-                        熱門新聞
+                        熱門分析
                     </h3>
                 </div>
             </div>
@@ -58,12 +58,8 @@ export const NewsHotGrid: React.FC<NewsHotGridProps> = ({ posts }) => {
                                     <span>
                                         {formatFriendlyDate(post.created_at)}
                                     </span>
-                                    {post.source && (
-                                        <>
-                                            <span className="w-1 h-1 rounded-full bg-slate-200"></span>
-                                            <span className="text-brand-primary/80">{post.source}</span>
-                                        </>
-                                    )}
+                                    <span className="w-1 h-1 rounded-full bg-slate-200"></span>
+                                    <span className="text-brand-primary/80">{post.author.name}</span>
                                 </div>
 
                                 {/* Breadcrumb */}
@@ -77,7 +73,7 @@ export const NewsHotGrid: React.FC<NewsHotGridProps> = ({ posts }) => {
                                         </svg>
                                     </li>
                                     <li className="font-semibold text-brand-primary">
-                                        熱門
+                                        熱門分析
                                     </li>
                                 </ul>
 

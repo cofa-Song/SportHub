@@ -12,7 +12,7 @@ export default async function Home() {
   const data = response.data;
 
   return (
-    <div className="container mx-auto px-6">
+    <div className="container pt-10 mx-auto px-6">
       {/* 1. Banner Carousel (Hero) */}
       <HeroBanner banners={data.banners} />
 

@@ -6,6 +6,8 @@ import { AdBanner } from '@/components/shared/AdBanner';
 import { CommentSection } from '@/components/shared/CommentSection';
 import { CoverAdModel } from '@/components/layout/CoverAdModel';
 import { InteractionBar } from '@/components/news/InteractionBar';
+import { RelatedArticles } from '@/components/article/RelatedArticles';
+import { AuthorCard } from '@/components/article/AuthorCard';
 
 // Helper to inject ads into content
 const ContentWithAds = ({ content }: { content: string }) => {
@@ -71,49 +73,81 @@ export default async function PostPage({ params }: { params: { id: string } }) {
                 </div>
             </div>
 
-            {/* 3. Main Content (Contained) */}
-            <div className="container mx-auto px-4 max-w-4xl">
-                {/* Breadcrumb & Date */}
-                <div className="flex items-center justify-between mb-6 text-sm text-slate-500 font-bold">
-                    <div className="flex items-center gap-2">
-                        <Link href="/" className="hover:text-brand-primary transition-colors">首頁</Link>
-                        <span>/</span>
-                        <Link href="/news" className="hover:text-brand-primary transition-colors">最新消息</Link>
-                        <span>/</span>
-                        <span className="text-brand-primary">{article.category}</span>
+            {/* 3. Main Content Area */}
+            <div className={`container mx-auto px-4 ${article.type === 'ANALYSIS' ? 'max-w-6xl' : 'max-w-4xl'}`}>
+                <div className={`flex flex-col ${article.type === 'ANALYSIS' ? 'lg:flex-row gap-12' : ''}`}>
+                    {/* Left Column: Article Content */}
+                    <div className={article.type === 'ANALYSIS' ? 'lg:w-2/3' : 'w-full'}>
+                        {/* Breadcrumb & Date */}
+                        <div className="flex items-center justify-between mb-6 text-sm text-slate-500 font-bold">
+                            <div className="flex items-center gap-2">
+                                <Link
+                                    href={article.type === 'ANALYSIS' ? "/analysis" : "/news"}
+                                    className="hover:text-brand-primary transition-colors"
+                                >
+                                    {article.type === 'ANALYSIS' ? "賽事分析" : "最新消息"}
+                                </Link>
+                                <span>/</span>
+                                <span className="text-brand-primary">{article.category}</span>
+                            </div>
+                            <div>
+                                {new Date(article.created_at).toLocaleDateString()}
+                                -
+                                {article.type === 'ANALYSIS' ? article.author.name : article.source}
+                            </div>
+                        </div>
+
+                        {/* Title & Stats */}
+                        <div className="mb-10 text-center">
+                            <h1 className="text-3xl md:text-4xl font-black text-brand-heading mb-4 leading-tight">
+                                {article.title}
+                            </h1>
+                            <div className="flex items-center justify-center gap-6 text-slate-400 text-sm font-bold">
+                                <span className="flex items-center gap-1">
+                                    👀 {article.view_count.toLocaleString()} 阅读
+                                </span>
+                                <span className="flex items-center gap-1">
+                                    💬 {article.comment_count} 评论
+                                </span>
+                                <span className="flex items-center gap-1">
+                                    🔥 {article.collect_count} 收藏
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Article Content */}
+                        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 mb-12">
+                            <ContentWithAds content={article.content} />
+                        </div>
+
+                        {/* Interaction Bar */}
+                        <InteractionBar article={article} />
+
+                        {/* Related Articles */}
+                        <RelatedArticles articles={article.related_articles} />
+
+                        {/* Mobile Author Card (Horizontal) */}
+                        {article.type === 'ANALYSIS' && (
+                            <div className="lg:hidden mt-8">
+                                <AuthorCard
+                                    author={article.author}
+                                    latestArticles={article.author_latest_articles}
+                                    isMobile={true}
+                                />
+                            </div>
+                        )}
+
+                        {/* Comments Section */}
+                        <CommentSection articleId={article.id} initialComments={article.comments} />
                     </div>
-                    <div>{new Date(article.created_at).toLocaleDateString()}</div>
+
+                    {/* Right Column: Sidebar (Only for Analysis) */}
+                    {article.type === 'ANALYSIS' && (
+                        <div className="hidden lg:block lg:w-1/3">
+                            <AuthorCard author={article.author} latestArticles={article.author_latest_articles} />
+                        </div>
+                    )}
                 </div>
-
-                {/* Title & Stats */}
-                <div className="mb-10 text-center">
-                    <h1 className="text-3xl md:text-4xl font-black text-brand-heading mb-4 leading-tight">
-                        {article.title}
-                    </h1>
-                    <div className="flex items-center justify-center gap-6 text-slate-400 text-sm font-bold">
-                        <span className="flex items-center gap-1">
-                            👀 {article.view_count.toLocaleString()} 阅读
-                        </span>
-                        <span className="flex items-center gap-1">
-                            💬 {article.comment_count} 评论
-                        </span>
-                        <span className="flex items-center gap-1">
-                            🔥 {article.collect_count} 收藏
-                        </span>
-                    </div>
-                </div>
-
-                {/* Article Content */}
-                <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 mb-12">
-                    <ContentWithAds content={article.content} />
-                </div>
-
-                {/* Interaction Bar */}
-                <InteractionBar article={article} />
-
-                {/* Comments Section */}
-                <CommentSection articleId={article.id} initialComments={article.comments} />
-
             </div>
         </div>
     );
