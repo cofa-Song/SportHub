@@ -273,13 +273,29 @@ export const SportApi = {
         article.content = content;
         article.tags = ['NBA', 'Lakers', 'LeBron', 'Defense'];
         article.related_articles = generateArticles(3, 'related');
-        article.comments = Array.from({ length: 15 }).map((_, i) => ({
-            id: `c-${i}`,
-            content: i % 2 === 0 ? '這場比賽真的太精彩了！' : '防守確實進步很多，但進攻還要加強。',
-            author: { id: `u-${i}`, name: `User ${i + 1}`, avatar: '', level_tag: 'Fan' },
-            created_at: new Date(Date.now() - i * 3600000).toISOString(),
-            like_count: Math.floor(Math.random() * 50)
-        }));
+        article.comments = Array.from({ length: 15 }).map((_, i) => {
+            const reply_count = i % 3 === 0 ? 12 : i % 5 === 0 ? 5 : 0;
+            return {
+                id: `c-${i}`,
+                content: i % 2 === 0 ? '這場比賽真的太精彩了！' : '防守確實進步很多，但進攻還要加強。',
+                author: { id: `u-${i}`, name: `User ${i + 1}`, avatar: '', level_tag: 'Fan' },
+                created_at: new Date(Date.now() - i * 3600000).toISOString(),
+                like_count: Math.floor(Math.random() * 50),
+                reply_count: reply_count,
+                is_author: i === 0, // Mock first comment as author
+                is_like: i % 4 === 0,
+                replies: Array.from({ length: reply_count }).map((_, j) => ({
+                    id: `c-${i}-r-${j}`,
+                    content: `這是對評論 #${i + 1} 的第 ${j + 1} 則回覆。`,
+                    author: { id: `u-r-${i}-${j}`, name: `Replier ${j + 1}`, avatar: '', level_tag: 'Member' },
+                    created_at: new Date(Date.now() - i * 3600000 + (j + 1) * 60000).toISOString(),
+                    like_count: Math.floor(Math.random() * 5),
+                    reply_count: 0,
+                    is_author: false,
+                    is_like: false
+                }))
+            };
+        });
 
         return {
             status: 200,
@@ -292,13 +308,29 @@ export const SportApi = {
      */
     getComments: async (articleId: string, page = 1): Promise<ApiResponse<CommentDTO[]>> => {
         await delay(500);
-        const comments = Array.from({ length: 30 }).map((_, i) => ({
-            id: `c-more-${page}-${i}`,
-            content: `這是第 ${page} 頁的評論 #${i + 1} - 湖人總冠軍！`,
-            author: { id: `u-${page}-${i}`, name: `Fan ${page}-${i}`, avatar: '', level_tag: 'Member' },
-            created_at: new Date().toISOString(),
-            like_count: Math.floor(Math.random() * 20)
-        }));
+        const comments = Array.from({ length: 30 }).map((_, i) => {
+            const reply_count = (i + page) % 4 === 0 ? 3 : 0;
+            return {
+                id: `c-more-${page}-${i}`,
+                content: `這是第 ${page} 頁的評論 #${i + 1} - 湖人總冠軍！`,
+                author: { id: `u-${page}-${i}`, name: `Fan ${page}-${i}`, avatar: '', level_tag: 'Member' },
+                created_at: new Date().toISOString(),
+                like_count: Math.floor(Math.random() * 20),
+                reply_count: reply_count,
+                is_author: false,
+                is_like: false,
+                replies: Array.from({ length: reply_count }).map((_, j) => ({
+                    id: `c-more-${page}-${i}-r-${j}`,
+                    content: `這是分頁評論的回覆 ${j + 1}`,
+                    author: { id: `u-r-more-${page}-${i}-${j}`, name: `User ${j}`, avatar: '', level_tag: 'Fan' },
+                    created_at: new Date().toISOString(),
+                    like_count: 0,
+                    reply_count: 0,
+                    is_author: false,
+                    is_like: false
+                }))
+            };
+        });
 
         const start = (page - 1) * 10;
         return {

@@ -171,6 +171,10 @@ export interface CommentDTO {
     author: Author;
     created_at: string;
     like_count: number;
+    reply_count: number;
+    is_author: boolean;
+    is_like: boolean;
+    replies?: CommentDTO[];
 }
 
 /**
