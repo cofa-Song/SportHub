@@ -67,6 +67,19 @@ export interface Author {
     name: string;           // 作者名稱
     avatar: string;         // 作者頭像 URL
     level_tag: string;      // 作者等級/標籤 (e.g., "Official", "Expert")
+    bio?: string;           // 作者簡介
+}
+
+/**
+ * 作者列表項目 DTO
+ */
+export interface AuthorListItemDTO {
+    author: Author;
+    latest_articles: ArticleDTO[];
+    stats: {
+        monthly_views: number;
+        followers: number;
+    };
 }
 
 /**

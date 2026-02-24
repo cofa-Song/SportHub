@@ -87,7 +87,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, latestArticles, 
                 {/* Info & Stats Row - Layout change for mobile horizontal */}
                 <div className={`flex ${isMobile ? 'flex-col md:flex-row gap-8' : 'flex-col'} mb-8`}>
                     <p className={`text-base text-slate-500 leading-relaxed font-medium ${isMobile ? 'md:w-1/2' : ''}`}>
-                        專注於 NBA 與 MLB 賽事分析，擁有超過 10 年的球評經驗。擅長戰術解析與數據建模。
+                        {author.bio || '專注於 NBA 與 MLB 賽事分析，擁有超過 10 年的球評經驗。擅長戰術解析與數據建模。'}
                     </p>
 
                     {/* Stats Box - Enlarged Text */}

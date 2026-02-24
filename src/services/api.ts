@@ -1,4 +1,4 @@
-import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus } from '@/types';
+import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus, AuthorListItemDTO, PaginatedResponse } from '@/types';
 
 /**
  * Base API Service.
@@ -37,11 +37,16 @@ const MOCK_ANALYSIS_TITLES = [
 ];
 
 const MOCK_AUTHORS = [
-    { id: 'auth-1', name: '張大衛', level_tag: '資深球評', avatar: '' },
-    { id: 'auth-2', name: '李小青', level_tag: '數據專家', avatar: '' },
-    { id: 'auth-3', name: '王教練', level_tag: '戰術分析師', avatar: '' },
-    { id: 'auth-4', name: '陳運動', level_tag: '專欄作家', avatar: '' },
-    { id: 'auth-5', name: 'Sarah Wu', level_tag: '特約記者', avatar: '' },
+    { id: 'auth-1', name: '張大衛', level_tag: '資深球評', avatar: '', bio: '專精於 MLB 與中職賽事分析，擁有超過 15 年的球評經驗與獨到的戰術見解。' },
+    { id: 'auth-2', name: '李小青', level_tag: '數據專家', avatar: '', bio: '以進階數據為核心，深入探討 NBA 與各國職籃的戰術趨勢與球員發展空間。' },
+    { id: 'auth-3', name: '王教練', level_tag: '戰術分析師', avatar: '', bio: '前職業籃球員，退役後轉任球評，擅長拆解複雜防守陣型與戰術跑位。' },
+    { id: 'auth-4', name: '陳運動', level_tag: '專欄作家', avatar: '', bio: '長期關注國際體育賽事與田徑項目，帶您看見賽場背後動人的運動員故事。' },
+    { id: 'auth-5', name: 'Sarah Wu', level_tag: '特約記者', avatar: '', bio: '旅居海外多年的駐外記者，為您帶來第一手的大聯盟與歐洲足球賽事現場報導。' },
+    { id: 'auth-6', name: '王大力', level_tag: '運動防護員', avatar: '', bio: '專業運動防護與體能訓練，分享最新運動科學知識。' },
+    { id: 'auth-7', name: '林編輯', level_tag: '編輯', avatar: '', bio: '聚焦熱門話題，提供最快速、最準確的國內外新聞總結。' },
+    { id: 'auth-8', name: 'Jacky Chen', level_tag: '名人堂', avatar: '', bio: '殿堂級體育專欄作家，曾五度獲得年度最佳體育新聞獎。' },
+    { id: 'auth-9', name: '阿Ken', level_tag: '新銳作家', avatar: '', bio: '熱愛各種運動裝備評測，帶你找到最適合的戰靴與球具。' },
+    { id: 'auth-10', name: '球迷阿龍', level_tag: '熱血球迷', avatar: '', bio: '從死忠球迷視角出發，用最接地氣的文字寫出對球隊的熱愛與期待。' },
 ];
 
 const MOCK_SOURCES = ['聯合新聞網', 'ESPN', 'Yahoo Sports', 'Bleacher Report', '中央社'];
@@ -512,6 +517,70 @@ export const SportApi = {
             status: 200,
             data: {
                 bottom_ad: bottomAd
+            }
+        };
+    },
+
+    /**
+     * Get Authors Group Data
+     */
+    getAuthorsGroupData: async (
+        page = 1,
+        limit = 12,
+        sortBy: 'all' | 'top20' = 'all',
+        category?: string
+    ): Promise<ApiResponse<PaginatedResponse<AuthorListItemDTO>>> => {
+        await delay(500);
+
+        // Generate a larger list by repeating authors for demo pagination purposes
+        let authorsList: AuthorListItemDTO[] = [];
+
+        const mockCategory = category && category !== '全部' ?
+            (category === '籃球' ? 'Basketball' : category === '棒球' ? 'Baseball' : undefined) : undefined;
+
+        for (let i = 0; i < 48; i++) {
+            const baseAuthor = MOCK_AUTHORS[i % MOCK_AUTHORS.length];
+            const authorId = `${baseAuthor.id}-dup-${i}`;
+
+            // Randomly assign categories if not filtering, or force category if filtering
+            const currCategory = mockCategory || (i % 2 === 0 ? 'Basketball' : 'Baseball');
+
+            // Generate some latest articles for this author
+            const latestArticles = generateArticles(4, `author-art-${i}`, {
+                type: 'ANALYSIS',
+                category: currCategory
+            });
+
+            // Make up some fake stats based on index (so first few have more)
+            const views = Math.floor(Math.random() * 50000) + (50 - i) * 10000;
+            const subs = Math.floor(Math.random() * 2000) + (50 - i) * 500;
+
+            authorsList.push({
+                author: { ...baseAuthor, id: authorId },
+                latest_articles: latestArticles,
+                stats: {
+                    monthly_views: views,
+                    followers: subs
+                }
+            });
+        }
+
+        if (sortBy === 'top20') {
+            // Sort by monthly views descending
+            authorsList.sort((a, b) => b.stats.monthly_views - a.stats.monthly_views);
+        }
+
+        const totalItems = authorsList.length;
+        const totalPages = Math.ceil(totalItems / limit);
+        const start = (page - 1) * limit;
+        const pagedData = authorsList.slice(start, start + limit);
+
+        return {
+            status: 200,
+            data: {
+                data: pagedData,
+                current_page: page,
+                total_pages: totalPages
             }
         };
     },
