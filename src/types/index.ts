@@ -203,6 +203,33 @@ export interface ArticleDetailDTO extends ArticleDTO {
     comments: CommentDTO[];     // 評論列表
 }
 
+// ============================================================================
+// 4. 會員與認證規格 (User & Auth DTO)
+// ============================================================================
+
+export type GenderType = 'MALE' | 'FEMALE' | 'OTHER';
+
+/**
+ * 使用者介面 - 支援會員資料與個人檔案
+ */
+export interface User {
+    id: string;                 // 使用者唯一 ID
+    username: string;           // 帳號
+    name: string;               // 顯示名稱 (註冊時隨機生成)
+    avatar: string;             // 頭像 URL
+    email: string;              // 電子郵件
+    email_verified?: boolean;   // Email 是否已驗證
+    gender: GenderType;         // 性別
+    birthday?: string;          // 生日 (ISO Date)
+    phone?: string;             // 手機號碼
+    phone_verified?: boolean;   // 手機是否已驗證
+    bio?: string;               // 自我介紹
+    fb_link?: string;           // FB 連結
+    ig_link?: string;           // IG 連結
+    yt_link?: string;           // Youtube 連結
+    password?: string;          // 密碼 (Mock 用)
+}
+
 /**
  * API 統一響應格式
  */

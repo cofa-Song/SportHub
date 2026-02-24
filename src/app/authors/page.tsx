@@ -13,17 +13,19 @@ export default function AuthorsPage() {
     // Filters & Pagination state
     const [sortBy, setSortBy] = useState<'all' | 'top20'>('all');
     const [category, setCategory] = useState<string>('全部');
+    const [searchKeyword, setSearchKeyword] = useState<string>('');
+    const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 12;
 
     const categories = ['全部', '籃球', '棒球', '足球', '網球', '綜合'];
 
-    const fetchAuthors = async (page: number, sort: 'all' | 'top20', cat: string) => {
+    const fetchAuthors = async (page: number, sort: 'all' | 'top20', cat: string, keyword?: string) => {
         setIsLoading(true);
         try {
             const currentLimit = sort === 'top20' ? 20 : limit;
-            const res = await SportApi.getAuthorsGroupData(page, currentLimit, sort, cat);
+            const res = await SportApi.getAuthorsGroupData(page, currentLimit, sort, cat, keyword);
             if (res.status === 200) {
                 setAuthors(res.data.data);
                 setTotalPages(res.data.total_pages);
@@ -54,21 +56,25 @@ export default function AuthorsPage() {
         return pages;
     };
 
-    // Refetch when filters change
+    // Debounce search keyword
     useEffect(() => {
-        fetchAuthors(1, sortBy, category);
-    }, [sortBy, category]);
+        const timer = setTimeout(() => {
+            setDebouncedKeyword(searchKeyword);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchKeyword]);
+
+    // Refetch when filters or debounced keyword change
+    useEffect(() => {
+        fetchAuthors(1, sortBy, category, debouncedKeyword);
+    }, [sortBy, category, debouncedKeyword]);
 
     // Refetch when page changes
     useEffect(() => {
-        // Prevent double fetch on mount by not running if page is 1 and it's the first render
-        // Actually, easiest is just to fetch if page changes and not on initial if we already run the effect above
-        // Since we want to scroll up on page change, let's just make a simple scroll + fetch
         if (currentPage !== 1 || (currentPage === 1 && !isLoading && authors.length > 0)) {
-            fetchAuthors(currentPage, sortBy, category);
+            fetchAuthors(currentPage, sortBy, category, debouncedKeyword);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
     return (
@@ -108,21 +114,40 @@ export default function AuthorsPage() {
                     </button>
                 </div>
 
-                {/* Dropdown Filter */}
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                    <span className="text-sm font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">
-                        專項運動類別
-                    </span>
-                    <select
-                        value={category}
-                        onChange={(e) => { setCategory(e.target.value); setCurrentPage(1); }}
-                        className="flex-1 md:w-48 px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-brand-heading focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary/50 transition-all appearance-none cursor-pointer"
-                        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%23a1a1aa\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")', backgroundPosition: 'right 1rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1em' }}
-                    >
-                        {categories.map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                    </select>
+                {/* Filters & Search */}
+                <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
+                    {/* Search Field */}
+                    <div className="relative w-full md:w-64">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="搜尋作者"
+                            value={searchKeyword}
+                            onChange={(e) => { setSearchKeyword(e.target.value); setCurrentPage(1); }}
+                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-brand-heading placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary/50 transition-all"
+                        />
+                    </div>
+
+                    {/* Dropdown Filter */}
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <span className="text-sm font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap hidden lg:inline">
+                            專項運動
+                        </span>
+                        <select
+                            value={category}
+                            onChange={(e) => { setCategory(e.target.value); setCurrentPage(1); }}
+                            className="flex-1 md:w-40 px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-brand-heading focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary/50 transition-all appearance-none cursor-pointer"
+                            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%23a1a1aa\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")', backgroundPosition: 'right 1rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1em' }}
+                        >
+                            {categories.map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
 

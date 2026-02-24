@@ -1,4 +1,4 @@
-import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus, AuthorListItemDTO, PaginatedResponse } from '@/types';
+import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus, AuthorListItemDTO, PaginatedResponse, User } from '@/types';
 
 /**
  * Base API Service.
@@ -528,7 +528,8 @@ export const SportApi = {
         page = 1,
         limit = 12,
         sortBy: 'all' | 'top20' = 'all',
-        category?: string
+        category?: string,
+        keyword?: string
     ): Promise<ApiResponse<PaginatedResponse<AuthorListItemDTO>>> => {
         await delay(500);
 
@@ -541,6 +542,11 @@ export const SportApi = {
         for (let i = 0; i < 48; i++) {
             const baseAuthor = MOCK_AUTHORS[i % MOCK_AUTHORS.length];
             const authorId = `${baseAuthor.id}-dup-${i}`;
+
+            // Filter by keyword if provided
+            if (keyword && !baseAuthor.name.toLowerCase().includes(keyword.toLowerCase())) {
+                continue;
+            }
 
             // Randomly assign categories if not filtering, or force category if filtering
             const currCategory = mockCategory || (i % 2 === 0 ? 'Basketball' : 'Baseball');
@@ -584,4 +590,118 @@ export const SportApi = {
             }
         };
     },
+
+    /**
+     * Auth Methods
+     */
+    login: async (username: string, password: string): Promise<ApiResponse<User>> => {
+        await delay(800);
+        // Test account
+        if (username === 'aerixc001' && password === 'Aerixc001') {
+            const user: User = {
+                id: 'u-preset-1',
+                username: 'aerixc001',
+                name: 'Aerix 測試員',
+                avatar: '',
+                email: 'aerixc001@example.com',
+                email_verified: true,
+                gender: 'MALE',
+                birthday: '1995-01-01',
+                phone: '0912345678',
+                phone_verified: true,
+                bio: '哈囉！我是預設的測試帳號。',
+                fb_link: 'https://facebook.com/aerix',
+                ig_link: 'https://instagram.com/aerix',
+                yt_link: 'https://youtube.com/@aerix'
+            };
+            localStorage.setItem('sporthub_user', JSON.stringify(user));
+            return { status: 200, data: user, message: '登入成功' };
+        }
+
+        // Check localStorage for registered users
+        const stored = localStorage.getItem('sporthub_users_db');
+        const users: User[] = stored ? JSON.parse(stored) : [];
+        const found = users.find(u => u.username === username && u.password === password);
+
+        if (found) {
+            localStorage.setItem('sporthub_user', JSON.stringify(found));
+            return { status: 200, data: found, message: '登入成功' };
+        }
+
+        return { status: 401, data: null as any, message: '帳號或密碼錯誤' };
+    },
+
+    register: async (data: Omit<User, 'id' | 'name' | 'avatar'>): Promise<ApiResponse<User>> => {
+        await delay(800);
+        const newUser: User = {
+            ...data,
+            id: `u-${Date.now()}`,
+            name: `跑者${Math.floor(Math.random() * 9000) + 1000}`,
+            avatar: ''
+        };
+
+        // Save to mock DB
+        const stored = localStorage.getItem('sporthub_users_db');
+        const users: User[] = stored ? JSON.parse(stored) : [];
+        users.push(newUser);
+        localStorage.setItem('sporthub_users_db', JSON.stringify(users));
+        localStorage.setItem('sporthub_user', JSON.stringify(newUser));
+
+        return { status: 200, data: newUser, message: '註冊成功' };
+    },
+
+    updateProfile: async (userId: string, data: Partial<User>): Promise<ApiResponse<User>> => {
+        await delay(800);
+        const current = localStorage.getItem('sporthub_user');
+        if (!current) return { status: 401, data: null as any, message: '未登入' };
+
+        const user = JSON.parse(current);
+        const updated = { ...user, ...data };
+        localStorage.setItem('sporthub_user', JSON.stringify(updated));
+
+        // Update in mock DB as well
+        const stored = localStorage.getItem('sporthub_users_db');
+        if (stored) {
+            let users: User[] = JSON.parse(stored);
+            users = users.map(u => u.id === userId ? { ...u, ...data } : u);
+            localStorage.setItem('sporthub_users_db', JSON.stringify(users));
+        }
+
+        return { status: 200, data: updated, message: '資料更新成功' };
+    },
+
+    getCurrentUser: (): User | null => {
+        if (typeof window === 'undefined') return null;
+        const current = localStorage.getItem('sporthub_user');
+        return current ? JSON.parse(current) : null;
+    },
+
+    logout: () => {
+        localStorage.removeItem('sporthub_user');
+    },
+
+    sendVerificationCode: async (target: string, type: 'email' | 'phone'): Promise<ApiResponse<null>> => {
+        await delay(1000);
+        console.log(`[Mock] Sending verification code to ${target} via ${type}`);
+        return { status: 200, data: null, message: '驗證碼已發送' };
+    },
+
+    verifyCode: async (target: string, code: string, type: 'email' | 'phone'): Promise<ApiResponse<null>> => {
+        await delay(1000);
+        if (code === '123456') {
+            const current = SportApi.getCurrentUser();
+            if (current) {
+                if (type === 'email') {
+                    current.email = target;
+                    current.email_verified = true;
+                } else {
+                    current.phone = target;
+                    current.phone_verified = true;
+                }
+                localStorage.setItem('sporthub_user', JSON.stringify(current));
+            }
+            return { status: 200, data: null, message: '綁定成功' };
+        }
+        return { status: 400, data: null, message: '驗證碼錯誤或已過期' };
+    }
 };
