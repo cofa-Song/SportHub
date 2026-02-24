@@ -25,7 +25,7 @@ export interface AdDTO {
 // 2. 賽事比分組件規格 (Match Score DTO)
 // ============================================================================
 
-export type SportType = 'BASEBALL' | 'BASKETBALL';
+export type SportType = 'BASEBALL' | 'BASKETBALL' | 'FOOTBALL' | 'TENNIS' | 'ESPORTS' | 'OTHERS';
 export type MatchStatus = 'PRE' | 'LIVE' | 'FINAL';
 
 /**
@@ -45,6 +45,7 @@ export interface MatchScoreDTO {
     match_id: string;               // 賽事唯一 ID
     sport_type: SportType;          // 運動類型：BASEBALL, BASKETBALL
     league_name: string;            // 聯盟名稱 (e.g., "MLB", "CPBL", "NBA")
+    league_logo_url: string;        // 聯盟 Logo URL
     status: MatchStatus;            // PRE (預報), LIVE (進行中), FINAL (完賽)
     match_time: string;             // 賽事開始時間 (ISO 8601 DateTime)
     home_team: TeamInfo;            // 主隊資訊

@@ -1,4 +1,4 @@
-import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData } from '@/types';
+import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus } from '@/types';
 
 /**
  * Base API Service.
@@ -112,29 +112,65 @@ const createMockAd = (id: string, suffix: string): AdDTO => ({
 });
 
 // Helper to generate mock matches
-const generateMatches = (): MatchScoreDTO[] => [
-    {
-        match_id: '1', sport_type: 'BASKETBALL',
-        home_team: { name: '湖人', score: 102, logo_url: '' },
-        away_team: { name: '勇士', score: 98, logo_url: '' },
-        status: 'LIVE', league_name: 'NBA', match_time: '2026-02-10T20:00:00Z',
-        current_period: 'Q4 02:45', is_live: true, target_url: '/match/1'
-    },
-    {
-        match_id: '2', sport_type: 'BASEBALL',
-        home_team: { name: '道奇', score: 2, logo_url: '' },
-        away_team: { name: '洋基', score: 2, logo_url: '' },
-        status: 'LIVE', league_name: 'MLB', match_time: '2026-02-10T19:30:00Z',
-        current_period: '8局下', is_live: true, target_url: '/match/2'
-    },
-    {
-        match_id: '3', sport_type: 'BASEBALL',
-        home_team: { name: '中信兄弟', score: 0, logo_url: '' },
-        away_team: { name: '味全龍', score: 0, logo_url: '' },
-        status: 'PRE', league_name: 'CPBL', match_time: '2026-02-11T18:35:00Z',
-        current_period: '未開賽', is_live: false, target_url: '/match/3'
-    },
-];
+const generateMatches = (count = 10, sport?: SportType): MatchScoreDTO[] => {
+    const sports: SportType[] = sport ? [sport] : ['BASKETBALL', 'BASEBALL', 'FOOTBALL', 'TENNIS', 'ESPORTS'];
+    const leagues: Record<SportType, string[]> = {
+        'BASKETBALL': ['NBA', 'EuroLeague', 'P. LEague+', 'T1 League', 'CBA'],
+        'BASEBALL': ['MLB', 'NPB', 'CPBL', 'KBO'],
+        'FOOTBALL': ['Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Champions League'],
+        'TENNIS': ['ATP Tour', 'WTA Tour', 'Wimbledon', 'US Open'],
+        'ESPORTS': ['LoL Worlds', 'LCK', 'LPL', 'VCT', 'The International'],
+        'OTHERS': ['UFC', 'Olympic Games', 'F1']
+    };
+
+    const teams: Record<SportType, string[]> = {
+        'BASKETBALL': ['湖人', '勇士', '塞爾提克', '公鹿', '快艇', '獨行俠'],
+        'BASEBALL': ['道奇', '洋基', '中信兄弟', '味全龍', '軟銀', '巨人'],
+        'FOOTBALL': ['曼聯', '曼城', '皇馬', '巴薩', '利物浦', '拜仁'],
+        'TENNIS': ['喬科維奇', '阿爾卡拉斯', '辛納', '梅德維夫', '納達爾'],
+        'ESPORTS': ['T1', 'Gen.G', 'JDG', 'G2', 'Team Liquid', 'Soniqs'],
+        'OTHERS': ['選手 A', '選手 B', '選手 C', '選手 D']
+    };
+
+    const leagueLogos: Record<string, string> = {
+        'NBA': 'https://upload.wikimedia.org/wikipedia/en/thumb/0/03/National_Basketball_Association_logo.svg/105px-National_Basketball_Association_logo.svg.png',
+        'MLB': 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a6/Major_League_Baseball_logo.svg/1200px-Major_League_Baseball_logo.svg.png',
+        'Premier League': 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/1200px-Premier_League_Logo.svg.png',
+        'LoL Worlds': 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/League_of_Legends_World_Championship_logo.svg/1200px-League_of_Legends_World_Championship_logo.svg.png',
+    };
+
+    return Array.from({ length: count }).map((_, i) => {
+        const s = sport || getRandomItem(sports);
+        const leagueList = leagues[s] || ['Other League'];
+        const league = getRandomItem(leagueList);
+        const teamList = teams[s] || ['Team A', 'Team B'];
+        const home = teamList[i % teamList.length];
+        const away = teamList[(i + 1) % teamList.length];
+
+        const status = i % 3 === 0 ? 'LIVE' : (i % 3 === 1 ? 'PRE' : 'FINAL');
+
+        let period = '未開賽';
+        if (status === 'LIVE') {
+            period = s === 'BASKETBALL' ? 'Q4 02:45' : (s === 'BASEBALL' ? '8局下' : '75\'');
+        } else if (status === 'FINAL') {
+            period = '已結束 (02:15:30)';
+        }
+
+        return {
+            match_id: `${s}-${i}-${Date.now()}`,
+            sport_type: s,
+            league_name: league,
+            league_logo_url: leagueLogos[league] || '',
+            status: status,
+            match_time: new Date(Date.now() + (i - 2) * 3600000).toISOString(),
+            home_team: { name: home, score: status === 'PRE' ? 0 : Math.floor(Math.random() * 10), logo_url: '' },
+            away_team: { name: away, score: status === 'PRE' ? 0 : Math.floor(Math.random() * 10), logo_url: '' },
+            current_period: period,
+            is_live: status === 'LIVE',
+            target_url: `/match/${s}-${i}`
+        };
+    });
+};
 
 export const SportApi = {
     /**
@@ -224,13 +260,50 @@ export const SportApi = {
     },
 
     /**
+     * Get Recommended Matches (One per sport, closest to now)
+     */
+    getRecommendedMatches: async (): Promise<ApiResponse<MatchScoreDTO[]>> => {
+        await delay(400);
+        const sports: SportType[] = ['FOOTBALL', 'BASKETBALL', 'BASEBALL', 'ESPORTS', 'TENNIS'];
+        const matches = sports.map(s => {
+            const m = generateMatches(1, s)[0];
+            m.status = Math.random() > 0.5 ? 'LIVE' : 'PRE'; // Prioritize active or upcoming
+            return m;
+        });
+        return { status: 200, data: matches };
+    },
+
+    /**
      * Unified matches endpoint
      */
-    getMatches: async (): Promise<ApiResponse<MatchScoreDTO[]>> => {
+    getMatches: async (sport?: string, state?: string, date?: string, league?: string): Promise<ApiResponse<MatchScoreDTO[]>> => {
         await delay(500);
+        let matches = generateMatches(30, sport?.toUpperCase() as SportType);
+
+        if (league) {
+            matches = matches.filter(m => m.league_name === league);
+        }
+
+        if (state && state !== 'all') {
+            const statusMap: Record<string, MatchStatus> = {
+                'live': 'LIVE',
+                'finished': 'FINAL',
+                'upcoming': 'PRE'
+            };
+            const targetStatus = statusMap[state.toLowerCase()];
+            if (targetStatus) {
+                matches = matches.filter(m => m.status === targetStatus);
+            }
+        }
+
+        // For simplicity, we just shuffle or filter slightly for date
+        if (date) {
+            matches = matches.sort(() => Math.random() - 0.5);
+        }
+
         return {
             status: 200,
-            data: generateMatches(),
+            data: matches,
         };
     },
 
@@ -241,7 +314,7 @@ export const SportApi = {
             status: 200,
             data: [
                 { key: 'home', href: '/' },
-                { key: 'liveStats', href: '/matches', hasChildren: true, children: [{ key: 'baseball', href: '/baseball' }, { key: 'basketball', href: '/basketball' }, { key: 'others', href: '/others' }] },
+                { key: 'liveStats', href: '/matches' },
                 { key: 'latestNews', href: '/news', hasChildren: true, children: [{ key: 'baseball', href: '/baseball' }, { key: 'basketball', href: '/basketball' }, { key: 'others', href: '/others' }] },
                 { key: 'analyses', href: '/analysis', hasChildren: true, children: [{ key: 'baseball', href: '/baseball' }, { key: 'basketball', href: '/basketball' }, { key: 'others', href: '/others' }] },
                 { key: 'authors', href: '/authors' },

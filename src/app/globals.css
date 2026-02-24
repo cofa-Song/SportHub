@@ -57,6 +57,15 @@ body {
   .dropdown-active {
     @apply scale-100 opacity-100 pointer-events-auto;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 /* Custom Scrollbar */

@@ -163,7 +163,7 @@ export const MainSectionSplit: React.FC<MainSectionSplitProps> = ({ initialPosts
                     </h3>
 
                     <div className="space-y-6 relative z-10">
-                        {matches.map((match) => (
+                        {matches.slice(0, 3).map((match) => (
                             <div key={match.match_id} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-brand-primary/30 transition-all group">
                                 <div className="flex items-center justify-between mb-4">
                                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{match.league_name}</span>
