@@ -1,0 +1,37 @@
+# Plan: Consolidate Operation Logs and Enhance Display
+
+The goal is to merge "Player Operation Logs" into the "Admin Operation Logs" and ensure all admin activities are recorded in a single place. Additionally, we will replace cryptic module codes (like OPE-103) with their human-readable names.
+
+## Proposed Changes
+
+### Navigation & Routing
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Remove the "Player Operation Log" (玩家操作日誌) item from the "Player Management" group.
+- Ensure the "Operation Log" (後台操作日誌) under "Permission Management" remains as the central log view.
+- Update `watch` and `menuKeyToRoute` to reflect the removal.
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Remove the route for `/admin/player-logs`.
+
+### Log View Enhancement
+
+#### [MODIFY] [OperationLog.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationLog.vue)
+- Add a mapping function to convert module codes (e.g., `OPE-102`) to readable names (e.g., `群組與帳號管理`).
+- Use this mapping in the table display and detail view.
+- Ensure the filters correctly use the readable names or handle the mapping.
+
+### Data Model & Mocks
+
+#### [MODIFY] [admin.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/admin.ts)
+- Add representative mock logs for player-related operations (e.g., `OPS-601`, `OPS-603`) to demonstrate the integration.
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "Permission Management > Operation Log".
+2. Verify that the "Module" column displays names (e.g., "群組與帳號管理") instead of codes (OPE-102).
+3. Verify that player-related operation logs are visible in this combined list.
+4. Open a detail view and verify the module name is correctly displayed.
+5. Check the sidebar and confirm "Player Operation Log" is gone.
+6. Verify searching/filtering by module still works with the new names.

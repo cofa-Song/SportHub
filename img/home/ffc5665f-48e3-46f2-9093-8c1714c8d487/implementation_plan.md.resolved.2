@@ -1,0 +1,27 @@
+# 優化白名單功能頁面
+
+根據使用者需求，簡化白名單管理的 UI 操作與邏輯。
+
+## 建議變更
+
+### 前端視圖 (Frontend View)
+
+#### [MODIFY] [AdminWhitelist.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+- **移除列表開關**：在 `columns` 定義中，從「操作」列中移除 `NSwitch` 組件。同時移除 [toggleEnabled](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AdminWhitelist.vue#136-145) 函數。
+- **移除二階驗證**：
+    - 從 `NModal` 彈窗中移除「二階驗證 (模擬)」的 `NFormItem`。
+    - 移除組件內的 `twoFa` ref 變數。
+    - 在 [save](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AdminWhitelist.vue#100-124) 函數中移除對二階驗證的檢查邏輯。
+- **移除「加入當前 IP」**：
+    - 移除頁面頂部的「加入當前 IP」按鈕。
+    - 移除 [detectIp](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AdminWhitelist.vue#75-85) 函數及其在 `onMounted` 中的調用。
+    - 移除 `currentIp` ref 變數。
+    - 清理顯示「當前偵測 IP」的 UI。
+
+## 驗證計畫
+
+### 手動驗證
+- 進入「後台白名單管理」頁面，確認「加入當前 IP」按鈕已消失。
+- 檢查數據列表，確認「操作」列中僅剩「編輯」與「刪除」按鈕。
+- 開啟「新增」或「編輯」彈窗，確認不再顯示二階驗證欄位。
+- 嘗試新增或儲存變更，確保在無二階驗證的情況下仍能成功操作。

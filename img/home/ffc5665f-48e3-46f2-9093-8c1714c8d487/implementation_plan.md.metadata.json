@@ -1,0 +1,6 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "OPE-605 金流通道管理實作計畫。\n採用亮色高端科技美學，提供完整的通道配置、風控熔斷及權限分層功能。支援 API 參數安全配置與 App 審核遮蔽模式。",
+  "updatedAt": "2026-02-03T10:06:50.377150Z",
+  "version": "6"
+}

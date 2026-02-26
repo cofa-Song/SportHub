@@ -1,0 +1,47 @@
+# OPE-606 Commodity Configuration Management Implementation Plan
+
+## Goal Description
+Implement a system to configure purchasable commodities across iOS, Android, and Web. Includes a sub-feature for managing "Marketing Badges" (Hot, New, etc.) that can be attached to commodities.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [badge.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/badge.ts)
+- `getBadges()`
+- `createBadge()`, `updateBadge()`, `deleteBadge()`
+- Mock data validation (prevent delete if used).
+
+#### [NEW] [commodity.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/commodity.ts)
+- `getCommodities()`
+- `getCommodity()`
+- `createCommodity()`, `updateCommodity()`, `deleteCommodity()`
+- Interfaces for `Commodity`, `PlatformPrice`, `PricingRule`.
+
+### UI Components
+#### [NEW] [CommodityConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/CommodityConfig.vue)
+- **Badge Management**: "Manage Marketing Badges" button opens a Modal.
+- **List View**: Display commodities with main info (Image, Name, Price, Status).
+- **Form Drawer/Page**:
+    - **Visual**: Name, Image, Badge Select.
+    - **Content**: Paid/Free Coins, Items (Mock search).
+    - **Pricing**: Web/iOS/Android settings. Special check for iOS Tier prices.
+    - **Rules**: Limit (Daily/Life), Schedule, VIP visibility.
+
+### Routing
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add `/commodity-config` route.
+
+## Verification Plan
+
+### Manual Verification
+1.  **Badge Management**:
+    - Open Modal, Create Badge "Hot Sale".
+    - Create Commodity, see "Hot Sale" in dropdown.
+    - Try deleting "Hot Sale" while attached -> Expect Error.
+2.  **Commodity Creation**:
+    - Fill all fields.
+    - Enter iOS Price `35` -> Expect Warning (Not standard tier).
+    - Enter iOS ID `invalid id` -> Expect Format Error.
+    - Save -> Verify in list.
+3.  **Pricing Rules**:
+    - Set "Life One-time" AND "Daily Reset" -> Expect Error.

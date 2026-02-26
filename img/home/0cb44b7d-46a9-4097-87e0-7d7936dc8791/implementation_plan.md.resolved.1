@@ -1,0 +1,35 @@
+# 修復營運配置驗證問題實作計劃
+
+營運配置頁面中的數值欄位（如「P2P 轉帳手續費」）驗證失敗，是因為驗證規則中沒有指定 `type: 'number'`。在 `naive-ui`（使用 `async-validator`）中，如果未指定類型，預設會按字串進行驗證，這導致與 `NInputNumber` 提供的數值類型不匹配。
+
+## 擬議變更
+
+### 前端
+
+#### [修改] [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+
+更新 `rules` 物件，為以下欄位新增 `type: 'number'` 和 `trigger: ['blur', 'change']`：
+- `p2p_transaction_fee`
+- `bonus_rollover_multiplier`
+- `login_error_limit`
+
+```diff
+ const rules = {
+-  p2p_transaction_fee: { min: 0, max: 100, message: '手續費應在 0-100% 之間' },
+-  bonus_rollover_multiplier: { min: 0, max: 100, message: '流水倍數應在 0-100 之間' },
+-  login_error_limit: { min: 1, max: 20, message: '錯誤上限應在 1-20 之間' }
++  p2p_transaction_fee: { type: 'number', min: 0, max: 100, message: '手續費應在 0-100% 之間', trigger: ['blur', 'change'] },
++  bonus_rollover_multiplier: { type: 'number', min: 0, max: 100, message: '流水倍數應在 0-100 之間', trigger: ['blur', 'change'] },
++  login_error_limit: { type: 'number', min: 1, max: 20, message: '錯誤上限應在 1-20 之間', trigger: ['blur', 'change'] }
+ }
+```
+
+## 驗證計劃
+
+### 手動驗證
+1. 導航至「營運參數配置」頁面。
+2. 在「P2P 轉帳手續費」欄位輸入「5.00」。
+3. 確認「手續費應在 0-100% 之間」的錯誤提示消失或不再出現。
+4. 測試「活動錢包流水倍數」輸入有效值（例如 20.0）。
+5. 測試「登入錯誤上限」輸入有效值（例如 5）。
+6. 點擊「存取操作」，確認表單驗證成功。

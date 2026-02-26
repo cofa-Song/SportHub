@@ -1,0 +1,18 @@
+- [x] **OPE-204 Game Round Records**
+    - [x] Define [GameLog](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#3-19) type in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 35 -->
+    - [x] Create `GameLogService` mock in [src/api/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/game.ts) <!-- id: 36 -->
+    - [x] Implement [GameLogs.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameLogs.vue) with advanced filtering and detail view <!-- id: 37 -->
+    - [x] Verify AC1: Data Consistency (Mock) <!-- id: 38 -->
+    - [x] Verify AC2: Valid Turnover Display <!-- id: 39 -->
+    - [x] Verify AC3: Detail Modal with Raw JSON <!-- id: 40 -->
+    - [x] Verify AC4: Search <!-- id: 41 -->
+
+- [x] **OPE-205 Member Tag Management**
+    - [x] Define [PlayerTag](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#18-19) type in [src/types/player.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts) <!-- id: 42 -->
+    - [ ] Create `TagService` mock in `src/api/tag.ts` <!-- id: 43 -->
+    - [ ] Create `TagManagementDrawer.vue` component <!-- id: 44 -->
+    - [ ] Integrate Drawer into [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) <!-- id: 45 -->
+    - [ ] Verify AC1: Drawer Interaction <!-- id: 46 -->
+    - [ ] Verify AC2: Tag Permissions (System vs Custom) <!-- id: 47 -->
+    - [ ] Verify AC3: Real-time Sync in Player Edit <!-- id: 48 -->
+    - [ ] Verify AC4: Status Control & Logic <!-- id: 49 -->

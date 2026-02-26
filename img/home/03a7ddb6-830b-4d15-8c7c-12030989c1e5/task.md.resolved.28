@@ -1,0 +1,7 @@
+# Task Breakdown: Currency Formatting and Naming
+- [x] Update [locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) with full currency names (`gold`, `silver`, `copper`) (Completed)
+- [x] Implement [formatAmount](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerDetail.vue#192-195) (thousands separator) in [PlayerDetail.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerDetail.vue) (Completed)
+- [x] Replace suffixes `G`, `S`, `C` with prefix `$ ` in UI (Completed)
+- [x] Ensure full currency names are used in labels and tags (Completed)
+- [x] Update operation messages for consistency (Completed)
+- [x] Verify UI layout and readability (Completed)

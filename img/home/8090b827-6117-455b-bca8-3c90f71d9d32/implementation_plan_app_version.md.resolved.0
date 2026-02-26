@@ -1,0 +1,35 @@
+# Remove "Allowed Player Types" Field in App Version Management
+
+This plan outlines the steps to remove the "Allowed Player Types" (開放玩家類型) field from the App Version Management interface and related systems.
+
+## Proposed Changes
+
+### [Backend/Data Layer]
+
+#### [MODIFY] [version.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/version.ts)
+- Remove [PlayerType](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/version.ts#3-4) type definition.
+- Remove `target_player_types` field from [VersionRecord](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/version.ts#5-19) and [CreateVersionRequest](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/version.ts#20-31) interfaces.
+
+#### [MODIFY] [version.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/version.ts)
+- Update [checkForUpdate](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/version.ts#58-75) method to remove filtering logic based on `playerTypes`.
+
+#### [MODIFY] [version.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/version.ts)
+- Remove `target_player_types` field from all mock records.
+
+### [Frontend/UI]
+
+#### [MODIFY] [AppVersionManager.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AppVersionManager.vue)
+- Remove `target_player_types` from `formModel`.
+- Remove `playerTypeOptions` constant.
+- Update [openCreate](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/ThirdPartyKeys.vue#111-118) and [openEdit](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PaymentChannels.vue#248-253) functions to remove `target_player_types` assignment.
+- Remove the "開放玩家類型" `NFormItem` from the settings modal.
+
+## Verification Plan
+
+### Manual Verification
+- [ ] Navigate to "系統設定 > App 版本管理".
+- [ ] Click "新增版本":
+    - [ ] Verify that the "開放玩家類型" field is no longer present.
+- [ ] Click "編輯" on an existing version:
+    - [ ] Verify that the "開放玩家類型" field is no longer present.
+- [ ] Verify that version listing still works correctly.

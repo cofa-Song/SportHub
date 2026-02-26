@@ -1,0 +1,7 @@
+# Task: Project Review & Setup
+
+- [ ] Locate and verify project directory <!-- id: 0 -->
+- [ ] Analyze project structure against [CODE_STYLE_GUIDE.md](file:///c:/Users/Administrator/Desktop/%E6%96%B0%E6%89%8B%E5%8C%85/CODE_STYLE_GUIDE.md) <!-- id: 1 -->
+- [ ] Check dependencies and configuration (package.json, vite.config.ts) <!-- id: 2 -->
+- [ ] Identify discrepancies with [FRONTEND_TECH_SPEC.md](file:///c:/Users/Administrator/Desktop/%E6%96%B0%E6%89%8B%E5%8C%85/FRONTEND_TECH_SPEC.md) and [BACKEND_TECH_SPEC.md](file:///c:/Users/Administrator/Desktop/%E6%96%B0%E6%89%8B%E5%8C%85/BACKEND_TECH_SPEC.md) <!-- id: 3 -->
+- [ ] Create `implementation_plan.md` for necessary fixes/refactors <!-- id: 4 -->

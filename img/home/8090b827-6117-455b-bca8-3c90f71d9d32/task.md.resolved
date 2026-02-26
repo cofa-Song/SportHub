@@ -1,0 +1,39 @@
+# Task Checklist
+
+## Third-party Key Management
+- [x] Remove "Environment" field from list and form
+- [x] Add "Proxy" field to form
+- [x] Add "Abnormal" field to list
+- [x] Implement "Access Operation" batch status update
+
+## App Version Management
+- [x] Remove "Allowed Player Types" field
+
+## Deposit Orders
+- [x] Add "Status" multi-select filter
+- [x] Match "Player List" filter style and behavior
+- [x] Fix input interaction and selection visibility issues
+
+## Article Management
+- [x] Remove "Meta Keywords" from SEO options
+- [x] Integrate TinyMCE rich text editor (free version)
+
+## Image Management
+- [x] Unify PC/Mobile image upload into a single field
+- [x] Add "Display Frequency" dropdown select
+
+## Admin Whitelist
+- [x] Remove "Last Visit" field from list
+- [x] Add search functionality (IP, Status)
+- [x] Implement "Access Operation" batch status update
+
+## Commodity Config
+- [x] Fix missing Add icon import
+
+## Guild Management
+- [x] Fix missing NSpin import
+- [x] Fix NText slot warning in DataTable
+
+## Debugging / Maintenance
+- [x] Fix accessibility warning in Bonus History (Reverted problematic fix, restored stability)
+- [ ] Investigate safer fix for Bonus History accessibility warning

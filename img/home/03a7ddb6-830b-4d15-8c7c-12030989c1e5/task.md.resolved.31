@@ -1,0 +1,10 @@
+# Task Breakdown: Game Provider Management Restructuring
+- [x] Rename "遊戲平台管理" to "遊戲廠商管理" in locales and navigation (Completed)
+- [x] Add search filters: Vendor Code, Platform Type, Status, Date Range (Completed)
+- [x] Update table columns: Current Players, Total Bet, Total Payout (Completed)
+- [x] Remove old columns: Wallet Support, Last Operator, Updated At (Completed)
+- [x] Update [GameProvider](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#35-49) type and mock API filtering (Completed)
+- [x] Implement amount formatting ($ prefix + thousands separator) (Completed)
+- [x] Clean up unused imports and fix linting warnings (Completed)
+- [x] Audit and fix localization keys (game.provider.date) (Completed)
+- [x] Convert Vendor Code search from Input to Select (Completed)

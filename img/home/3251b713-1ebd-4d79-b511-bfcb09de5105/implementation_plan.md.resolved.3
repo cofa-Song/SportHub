@@ -1,0 +1,39 @@
+## OPE-204 Game Round Records (New)
+
+> [!NOTE]
+> Centralized game history from all providers (PG, JILI, etc.).
+
+### 1. Data Models (`src/types/game.ts`)
+- **GameLog**:
+    - `id`: string (UID)
+    - `provider_id`: string (PG, JILI, EVOLUTION)
+    - `provider_round_id`: string (External ID)
+    - `game_name`: string
+    - `player_id`: string
+    - `bet_amount`: number
+    - `win_amount`: number
+    - `net_amount`: number (Win - Bet)
+    - `valid_turnover`: number
+    - `settle_time`: string (ISO)
+    - `status`: 'SETTLED' | 'VOID' | 'PENDING'
+    - `raw_json`: string (JSON string of original payload)
+
+### 2. Logic (`src/api/game.ts`)
+- **Mock Generation**: Create diverse mock data including:
+    - Normal wins/losses.
+    - Void bets (valid_turnover = 0).
+    - Free spins (bet = 0).
+    - Cross-day settlements.
+
+### 3. UI Updates
+#### [MODIFY] [src/views/Master/GameLogs.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameLogs.vue)
+- **Refactor**: Replace `useOpeStore` with `gameApi`.
+- **New Filters**: Provider, Game Name, Settle Time (Date Range), Round ID.
+- **Columns**: Add `valid_turnover`, `settle_time`, Provider Tag.
+- **Detail Modal**: Pretty print JSON.
+
+### 4. Verification Plan
+- **AC1 Consistency**: Check total net amount vs mock wallet changes (conceptual in mock).
+- **AC2 Valid Turnover**: Verify VOID bets show 0 turnover.
+- **AC3 Detail View**: Click "Details" -> Inspect JSON.
+- **AC4 Search**: Test searching by Provider Round ID.

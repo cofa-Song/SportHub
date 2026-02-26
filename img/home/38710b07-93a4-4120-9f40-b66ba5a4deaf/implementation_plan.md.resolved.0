@@ -1,0 +1,42 @@
+# implementation_plan.md
+
+## Goal Description
+Modify the "Image Management" (圖片管理) creation interface to improve user experience and clarity.
+1. Update terminology: "公告類型" -> "圖片類型", "公告標題" -> "圖片標題".
+2. Change the input for "圖片類型" from a radio group to a dropdown menu (Select).
+
+## User Review Required
+> [!IMPORTANT]
+> The labels "公告類型" and "公告標題" are currently shared with the Announcement system. I will create new translation keys specifically for Image Management to avoid affecting other modules.
+
+## Proposed Changes
+
+### i18n
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add `imageConfig` section to `zhTW` and `zhCN` objects.
+- Define `imageConfig.type: '圖片類型'` and `imageConfig.title: '圖片標題'`.
+
+### Image Management View
+#### [MODIFY] [ImageConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue)
+- Update table column titles and search labels to use [t('imageConfig.type')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302) and [t('imageConfig.title')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302).
+- In the creation/edit modal:
+    - Change [t('announcement.type')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302) to [t('imageConfig.type')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302).
+    - Replace `NRadioGroup` with `NSelect` for selecting image types.
+    - Change [t('announcement.announcementTitle')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302) to [t('imageConfig.title')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Announcement.vue#298-302).
+
+## Verification Plan
+
+### Automated Tests
+- No existing automated tests for this UI. Verification will be done manually.
+
+### Manual Verification
+1.  Navigate to **前台設定 > 圖片管理**.
+2.  Verify the table header "公告類型" has changed to "圖片類型" and "公告標題" to "圖片標題".
+3.  Click the **新增 (Add)** button.
+4.  Verify the modal labels:
+    - "公告類型" should now be "圖片類型".
+    - "公告標題" should now be "圖片標題".
+5.  Check the "圖片類型" input:
+    - It should be a dropdown menu (Select) instead of radio buttons.
+    - Verify that options ("首頁 Banner", "促銷彈窗") are available and selectable.
+6.  Ensure saving a new image configuration still works as expected.

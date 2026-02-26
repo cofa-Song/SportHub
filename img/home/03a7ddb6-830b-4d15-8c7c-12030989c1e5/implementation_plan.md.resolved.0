@@ -1,0 +1,38 @@
+# Plan: Fix Missing i18n Keys
+
+The user is reporting missing i18n keys in [PersonalAccount.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PersonalAccount.vue) and [GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue). This plan addresses those missing keys and slightly refactors [GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue) to use a more appropriate key for "Maintenance" status.
+
+## Proposed Changes
+
+### Locales
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+
+- Add `success` key to `permission.personalAccount` in all locales (`zhTW`, `zhCN`, [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue#78-79)).
+- Add `login` and `logout` keys to `permission.operationLog` in `zhCN` and [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue#78-79) (already exists in `zhTW`).
+- Add `maintenance` key to `game.provider` in all locales.
+
+### Components
+
+#### [MODIFY] [GameProviders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameProviders.vue)
+
+- Update `statusOptions` to use `game.provider.maintenance` instead of `permission.operationLog.login`.
+- Update `labelMap` in `columns` to use `game.provider.maintenance` instead of hardcoded Chinese.
+
+#### [MODIFY] [PersonalAccount.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PersonalAccount.vue)
+
+- The code already uses `permission.personalAccount.success`, so adding the key to [index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) will fix the warning.
+
+## Verification Plan
+
+### Automated Tests
+- No automated tests available for i18n keys.
+
+### Manual Verification
+1. Open `PersonalAccount` page.
+2. Click "Save" on personal info.
+3. Verify that the success message "Update successful" (or equivalent) appears without console warnings.
+4. Open `GameProviders` page.
+5. Open the edit modal for a provider.
+6. Verify that the "Maintenance" option label is correctly translated.
+7. Verify that no `[intlify]` warnings appear in the console.

@@ -1,0 +1,43 @@
+# Implementation Plan - Competition Blog
+
+This plan outlines the development of a competition blog platform using Next.js, Go, MySQL, and Redis.
+
+## Proposed Changes
+
+### Project Structure
+We will use a monorepo-style structure or a split structure. For simplicity and clarity, we'll use:
+- `frontend/`: Next.js application
+- `backend/`: Go application
+- `docker-compose.yml`: For local development services (MySQL, Redis)
+
+### Frontend (Next.js)
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS
+- **Components**: Shadcn/ui (for premium look)
+- **State Management**: React Query (TanStack Query) for API fetching, Context API for UI state.
+- **Real-time**: Socket.io-client or native WebSockets.
+
+### Backend (Go)
+- **Framework**: Gin-gonic or Echo (Gin is very popular and robust)
+- **ORM**: GORM (MySQL)
+- **Cache**: Go-redis
+- **Real-time**: Gorillas WebSocket
+
+### Database Schema
+- **MySQL**:
+    - `users`: ID, username, password_hash, role, created_at
+    - `competitions`: ID, title, description, start_time, end_time, status
+    - `posts`: ID, competition_id, author_id, title, content, created_at
+- **Redis**:
+    - `score:{competition_id}`: Hash or Sorted Set for real-time scores.
+
+## Verification Plan
+
+### Automated Tests
+- Go unit tests for business logic.
+- Playwright/Cypress for frontend E2E tests.
+
+### Manual Verification
+- Verify real-time score updates across multiple browser tabs.
+- Check responsive design on mobile/desktop.
+- Test JWT login/logout flow.

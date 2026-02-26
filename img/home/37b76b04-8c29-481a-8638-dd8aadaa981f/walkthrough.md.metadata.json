@@ -1,0 +1,6 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "Walkthrough covering OPE-501, OPE-502, OPE-503 and UX synchronization across all modules. Documented the new 'Access Operation' pattern and bug fixes.",
+  "updatedAt": "2026-02-02T06:10:28.406856Z",
+  "version": "4"
+}

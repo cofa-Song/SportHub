@@ -1,0 +1,38 @@
+# OPE-704 Realtime Operations Data Implementation Plan
+
+## Goal Description
+Implement a "Realtime Operations Dashboard" to visualize live metrics like CCU, GGR, and player distribution across platforms. This helps ops teams monitor traffic and revenue health.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [realtime.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/realtime.ts)
+- `getRealtimeStats(excludeTest: boolean)`: Returns:
+    - **Traffic**: `ccu`, `dau`
+    - **Finance**: `ggr`, `totalBet`
+    - **Distribution**: `providerStats` (Pie), `deviceStats` (Pie)
+    - **Trend**: `ggrTrend` (Line mock)
+
+### UI Components
+#### [NEW] [RealtimeDashboard.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/DataCenter/RealtimeDashboard.vue)
+- **Filters**: "Exclude Test Accounts" (Switch).
+- **KPI Cards**:
+    - CCU (Update every 10s)
+    - GGR (Update every 30s)
+    - DAU, Turnover
+- **Charts**:
+    - **Provider Distribution**: Pie Chart (ECharts)
+    - **Device Distribution**: Donut Chart (ECharts)
+
+### Routing & Menu
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add `/data/realtime` route.
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Add "即時運作數據 (Realtime Data)" to the "Data Center" group.
+
+## Verification Plan
+1.  **Metric Updates**: Check if CCU/GGR updates every 10-30s.
+2.  **Test Account Exclusion**: Toggle the exclusion switch and verify numbers decrease (mock logic).
+3.  **Visualization**: Verify Pie charts render correctly.
+4.  **Time Reset**: Verify logic (in mock) handles "Today" accumulation.

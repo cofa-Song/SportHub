@@ -1,0 +1,25 @@
+# Walkthrough - Deposit Order Query Enhancements
+
+I have improved the "Deposit Order" query interface by adding new filtering capabilities and fixing several UI/UX issues.
+
+## Changes Made
+
+### 1. New "Status" Filter
+- **Feature**: Added a "狀態" (Status) multi-select dropdown to the search bar.
+- **Functionality**: Allows users to filter orders by one or more statuses (e.g., Pending, Success, Failed).
+- **Localization**: Uses existing i18n keys for status labels.
+
+### 2. Layout & Height Fix
+- **Improvement**: Both the "Payment Channel" and the new "Status" dropdowns now use **`max-tag-count="responsive"`**.
+- **Result**: When multiple options are selected, the input field will correctly collapse extra tags into a "+X" indicator, preventing the search bar from expanding vertically and breaking the layout.
+
+### 3. Selection Visibility Fix
+- **CSS**: Optimized the `.tech-select-light` styling.
+- **Fix**: Ensuring that the text within selected tags is clearly visible (dark slate color) against the light background, resolving the "white text on white background" issue.
+
+## Verification Results
+- The search bar now correctly displays "語言範圍", "P ID 搜尋", "支付渠道", and "狀態".
+- Selecting multiple statuses or channels correctly updates the UI without causing layout shifts.
+- Selected option tags are now easily readable.
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/DepositOrders.vue)

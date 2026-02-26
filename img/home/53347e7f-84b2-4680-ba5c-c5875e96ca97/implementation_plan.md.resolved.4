@@ -1,0 +1,20 @@
+# OPE-604 Refinement - Distribution Chart Update
+
+## Goal
+Add "In Progress" (Current Bonus Balance) to the "Total Distribution Composition" chart.
+
+## Changes
+
+### API Layer
+#### [MODIFY] [finance.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/finance.ts)
+- Add `totalInProgress` to [FinanceStats](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/finance.ts#3-22).
+- Update mock logic: `totalDistribution = totalRecovery + totalConversion + totalInProgress`.
+
+### UI Components
+#### [MODIFY] [FinancialOverview.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/FinancialOverview.vue)
+- Update [stats](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#29-60) default value.
+- Update `distributionChart` series to include `{ value: stats.totalInProgress, name: '進行中' }`.
+
+## Verification
+- Verify the 3rd pie chart shows 3 segments: 回收, 轉換, 進行中.
+- Verify Total Distribution equals the sum of the three.

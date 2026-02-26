@@ -1,0 +1,39 @@
+# Plan: Filter Disabled Members in Group Management
+
+The objective is to refine the member selection logic in the Group Management interface. When managing group members, users with the status "DISABLED" should no longer appear in the "Available Members" list.
+
+## Proposed Changes
+
+### Master Views
+
+#### [MODIFY] [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GroupManagement.vue)
+
+Update the [getAvailableMembers](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GroupManagement.vue#267-281) function to include a condition that excludes accounts with `status === 'DISABLED'`.
+
+```diff
+-  return mockAdminAccounts.filter(
+-    acc =>
+-      acc.role === 'USER' &&
+-      !groupMemberIds.includes(acc.id) &&
+-      !acc.deleted_at
+-  )
++  return mockAdminAccounts.filter(
++    acc =>
++      acc.role === 'USER' &&
++      !groupMemberIds.includes(acc.id) &&
++      !acc.deleted_at &&
++      acc.status !== 'DISABLED'
++  )
+```
+
+## Verification Plan
+
+### Automated Tests
+- None.
+
+### Manual Verification
+1. Navigate to the Group Management page (`/admin/groups`).
+2. Click on the "Member Management" icon (People icon) for any group.
+3. Observe the "Available Members" (可加入成員) list.
+4. Verify that users with status "DISABLED" (e.g., "停用帳號" in mock data) are not visible in the list.
+5. Verify that active users (status "ENABLED") still appear in the list if they are not already in the group.

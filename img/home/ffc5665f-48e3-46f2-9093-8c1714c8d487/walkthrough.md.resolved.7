@@ -1,0 +1,40 @@
+# 金流通道管理開發報告 (OPE-605)
+
+本模組已完成開發，為平台提供了全方位的支付管道管控能力，結合了自動熔斷機制與精細化的玩家分層功能。
+
+## 核心功能展現
+
+### 1. 亮色高端科技視覺 (Premium Light Tech UI)
+延續了整潔且具備專業感的設計語言：
+- **玻璃擬態卡片**：提供輕盈的懸浮視覺層次。
+- **精密數據展示**：所有數值均採用等寬字體並具備微陰影效果。
+
+### 2. 多維度通道管控
+- **熔斷監控**：列表即時顯示「今日累計 / 上限」，並透過進度條顏色（綠/黃/紅）提示風險級別 (AC 7)。
+- **審核模式**：具備一鍵「審核遮蔽」開關，方便 App 送審期間動態調整可用通道 (Control B.2)。
+- **權限分層**：支援按 VIP 等級與玩家標籤 (如：測試帳號專屬) 進行通道投放，確保不同族群的支付環境隔離 (AC 1/5)。
+
+### 3. 配置引擎 (Configuration Engine)
+新增/編輯彈窗採用分組標籤設計：
+- **基礎設定**：通道名稱、供應商與圖示。
+- **API 導航**：Merchant ID、API Key 及 **加密處理的 Secret Key** (AC 6)。
+- **風控策略**：設定單筆最小/最大額度及每日每日熔斷上限 (AC 3)。
+- **顯示控制**：多選適用平台（iOS/Android/Web）。
+
+## 技術變更清單
+- **[NEW] [PaymentChannels.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PaymentChannels.vue)**: 核心管理頁面。
+- **[NEW] [paymentChannel.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/paymentChannel.ts)**: 嚴格的類型定義。
+- **[NEW] [paymentChannel.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/paymentChannel.ts)**: API 封裝層。
+- **[MODIFY] [router/index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)**: 新增路由。
+- **[MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)**: 整合導航選單。
+
+## 已完成的驗收項目 (AC)
+- [x] AC 1 & 5: VIP 等級與測試帳號標籤過濾。
+- [x] AC 2: 排序權重管理。
+- [x] AC 3: 單筆與全日限額檢查。
+- [x] AC 4: 維護模式標記與切換。
+- [x] AC 6: 敏感參數脫敏輸入。
+- [x] AC 7: 數據累加與熔斷視覺反饋。
+
+---
+開發完成，建議管理員登入後從左側菜單 **「帳務管理 > 金流通道管理」** 進入體驗。

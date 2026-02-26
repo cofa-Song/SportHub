@@ -1,0 +1,13 @@
+# 任務清單：修復 i18n 鍵值缺失
+
+- [x] 研究語系檔與組件上下文
+- [x] 辨識 [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue#72-75) 和 `zh-TW` 語系中缺失的鍵值
+- [x] 在語系檔中補齊缺失鍵值
+    - [x] `permission.personalAccount.success`
+    - [x] `permission.operationLog.login` / `logout`
+    - [x] `game.provider.maintenance`
+- [x] 優化 [GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue)
+    - [x] 使用正確的維護狀態鍵值
+    - [x] 修復 `authStore.user` 屬性引用錯誤 (`user_id`)
+    - [x] 移除未使用的引用 (`NSpace`, `dialog`)
+- [x] 驗證修復結果

@@ -1,0 +1,21 @@
+# 錯誤修復：whitelist.ts 中的 TypeError
+
+`TypeError: ip.split is not a function` 錯誤是由於 `currentIp`（一個 Vue `ref`）被當作物件傳遞給了 `whitelistApi` 函數，而不是傳遞其字串值。
+
+## 建議變更
+
+### 前端視圖 (Frontend View)
+
+#### [MODIFY] [AdminWhitelist.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+- 更新 `whitelistApi.update` 和 `whitelistApi.remove` 的調用，改為使用 `currentIp.value`。
+
+### API 層
+
+#### [MODIFY] [whitelist.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/whitelist.ts)
+- 在 [src/api/whitelist.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts) 的 [ipToInt](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts#7-13) 函數開頭加入類型檢查，確保輸入是字串。
+
+## 驗證計畫
+
+### 手動驗證
+- 在 UI 中嘗試刪除白名單項目，確保不再報錯。
+- 檢查「防誤刪當前 IP」功能是否正常運作（嘗試刪除符合自己 IP 的規則時應被阻止）。

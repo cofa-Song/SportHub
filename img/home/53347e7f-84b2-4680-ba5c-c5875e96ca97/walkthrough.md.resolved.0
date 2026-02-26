@@ -1,0 +1,45 @@
+# OPE-603 Manual Adjustment Verification Walkthrough
+
+## 1. Feature Overview
+The generic "Manual Adjustment" feature allows admins to Deposit/Withdraw funds for players with various reasons and validations.
+
+## 2. Verification Steps
+
+### AC 1: Immediate Balance Update
+- [ ] **Action**: Search for a player (e.g., ID `P001`). Note current `CASH` balance.
+- [ ] **Action**: Select `Deposit`, `CASH`, Amount `500`.
+- [ ] **Action**: Submit form.
+- [ ] **Expected**: Toast success message. Player info refreshes automatically showing balance + 500.
+
+### AC 2: Required Fields & Validations
+- [ ] **Action**: Click "Submit" with empty form.
+- [ ] **Expected**: Red error messages under required fields.
+- [ ] **Action**: Select reason `Offline Deposit` (線下充值) but do not upload image.
+- [ ] **Expected**: Submit blocked, error message "線下充值必須上傳憑證".
+- [ ] **Action**: Select `Withdraw`, Amount `99999999` (exceeding balance).
+- [ ] **Expected**: Field validation error "餘額不足以扣除".
+
+### AC 3: Rollover Logic (Bonus Only)
+- [ ] **Action**: Select `Deposit`, `BONUS`.
+- [ ] **Expected**: "計入流水" (Count Rollover) switch appears (default OFF).
+- [ ] **Action**: Toggle "計入流水" ON.
+- [ ] **Expected**: "流水倍率" (Rollover Multiplier) input appears.
+- [ ] **Action**: Submit with Rollover ON.
+- [ ] **Data Verification**: In checking API logs (console), `isRollover: true` and `rolloverMultiplier` should be sent.
+
+### AC 4: Audit Log
+- [ ] **Action**: Perform any adjustment.
+- [ ] **Expected**: Console log `[API] Create Adjustment: { ...details }`. In real system, check `OPE-104` audit logs for entry with Reason and Note.
+
+### AC 5: Double Submit Protection
+- [ ] **Action**: Click "Submit" button multiple times quickly.
+- [ ] **Expected**: Button enters loading state immediately on first click, preventing subsequent clicks.
+
+## 3. Test Cases (Simulated)
+
+| Case ID | Type     | Wallet | Amount | Reason          | Result  |
+| :---    | :---     | :---   | :---   | :---            | :---    |
+| T-001   | Deposit  | CASH   | 100    | Event Reward    | Success |
+| T-002   | Withdraw | CASH   | > Bal  | Other           | Fail    |
+| T-003   | Deposit  | CASH   | 100    | Offline Deposit | Fail (No Image) |
+| T-004   | Deposit  | CASH   | 100    | Offline Deposit | Success (With Image) |

@@ -1,0 +1,41 @@
+# 重構營運參數配置頁面實作計劃
+
+根據用戶需求，對「營運參數配置」頁面進行結構調整，將欄位重新劃分為四個主要區塊，並補齊缺少的控制欄位。
+
+## 擬議變更
+
+### 1. 數據模型與 API 調整
+
+#### [修改] [operationConfig.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/operationConfig.ts)
+新增以下欄位到 [OperationConfig](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/operationConfig.ts#2-24) 介面：
+- `allow_test_login`: boolean (允許測試登入)
+- `registration_enabled`: boolean (註冊功能開關)
+- `site_title`: string (網站標題)
+- `default_language`: string (預設語系)
+- `timezone`: string (時區設定)
+- `captcha_enabled`: boolean (驗證碼開關)
+- `force_phone_binding`: boolean (強制手機綁定)
+- `whitelist_ips`: string (白名單，以逗號或換行分隔)
+
+#### [修改] [config.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/config.ts)
+為新增欄位提供預設 Mock 數據。
+
+### 2. UI 佈局重構
+
+#### [修改] [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+- 使用 `n-grid` 或 `n-space` 搭配 `n-card` 或 `n-divider` 重新組織區塊。
+- 區塊劃分：
+  1. **營運與維護**：包含維護開關、公告內容、強制踢線、允許測試登入、註冊功能開關。
+  2. **網站基礎設定**：包含網站標題、預設語系、時區設定。
+  3. **推廣與財務參數**：包含 P2P 交易手續費、活動錢包流水倍數 M、註冊贈點金額、流水結算極小值。
+  4. **安全性設定**：包含登入錯誤上限、驗證碼開關、強制手機綁定、白名單。
+- 更新 `rules` 以包含新欄位的驗證邏輯。
+
+## 驗證計劃
+
+### 手動驗證
+1. 進入「營運參數配置」頁面，檢查區塊標題是否正確（營運與維護、推廣與財務參數、網站基礎設定、安全性設定）。
+2. 檢查新欄位是否正確顯示及其元件類型（Switch, Select, Input, Textarea）。
+3. 測試修改新欄位（如網站標題、預設語系）並點擊「存取操作」儲存。
+4. 儲存後重新整理頁面，確認數據已成功持久化（Mock 環境下為內存持久化）。
+5. 驗證欄位校驗邏輯（如整數欄位是否接受非法字符）。

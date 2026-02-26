@@ -1,0 +1,35 @@
+# Fix Operation Config Validation
+
+The validation for numeric fields in the Operation Config page is failing because the validation rules are missing the `type: 'number'` property. In `naive-ui` (which uses `async-validator`), validation rules default to string validation if the type is not specified. This causes issues when validating numeric values provided by `NInputNumber`.
+
+## Proposed Changes
+
+### Frontend
+
+#### [MODIFY] [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+
+Update the `rules` object to include `type: 'number'` and `trigger: ['blur', 'change']` for the following fields:
+- `p2p_transaction_fee`
+- `bonus_rollover_multiplier`
+- `login_error_limit`
+
+```diff
+ const rules = {
+-  p2p_transaction_fee: { min: 0, max: 100, message: '手續費應在 0-100% 之間' },
+-  bonus_rollover_multiplier: { min: 0, max: 100, message: '流水倍數應在 0-100 之間' },
+-  login_error_limit: { min: 1, max: 20, message: '錯誤上限應在 1-20 之間' }
++  p2p_transaction_fee: { type: 'number', min: 0, max: 100, message: '手續費應在 0-100% 之間', trigger: ['blur', 'change'] },
++  bonus_rollover_multiplier: { type: 'number', min: 0, max: 100, message: '流水倍數應在 0-100 之間', trigger: ['blur', 'change'] },
++  login_error_limit: { type: 'number', min: 1, max: 20, message: '錯誤上限應在 1-20 之間', trigger: ['blur', 'change'] }
+ }
+```
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to the "營運參數配置" (Operation Config) page.
+2. In the "P2P 轉帳手續費" field, enter "5.00".
+3. Check if the error message "手續費應在 0-100% 之間" disappears or doesn't appear.
+4. Test "活動錢包流水倍數" with a valid value (e.g., 20.0).
+5. Test "登入錯誤上限" with a valid value (e.g., 5).
+6. Click "存取操作" and verify that form validation passes.

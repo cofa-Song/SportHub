@@ -1,0 +1,25 @@
+# 錯誤修復：白名單 IP 管理報錯
+
+已成功解決在刪除或更新白名單時出現的 `TypeError: ip.split is not a function` 錯誤。
+
+## 變更內容
+
+### [AdminWhitelist.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+- 修正 `currentIp` (Vue Ref) 的傳遞方式，確保向 API 傳遞的是字串值。
+- 更新模板中的 IP 偵測逻辑。
+- 移除未使用的 `useI18n` 變數。
+
+### [whitelist.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/whitelist.ts)
+- 在 [ipToInt](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/whitelist.ts#7-14) 函數中加入 `typeof ip !== 'string'` 檢查，防止非字串輸入導致崩潰。
+
+## 驗證結果
+
+### 程式碼修復
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AdminWhitelist.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/api/whitelist.ts)
+
+### 功能測試
+- [x] **新增白名單**：功能正常，無報錯。
+- [x] **刪除白名單**：修正後可正常執行，不再出現 `ip.split` 錯誤。
+- [x] **加入當前 IP**：模板語法修正後，可正確填入偵測到的 IP。
+- [x] **防誤刪機制**：驗證邏輯仍能正確識別並阻止移除當前 IP 的規則（若為唯一匹配項）。

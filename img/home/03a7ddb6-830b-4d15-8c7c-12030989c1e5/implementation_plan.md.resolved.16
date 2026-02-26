@@ -1,0 +1,30 @@
+# 遊戲廠商管理模組重構計劃
+
+本計劃旨在將「遊戲平台管理」更名為「遊戲廠商管理」，並優化搜尋條件與展示欄位，使其更貼合實際營運監控需求。
+
+## 變更項目
+
+### 1. 語系與導覽 ([src/locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts))
+- [x] 將 `game.provider.title` 由「遊戲平台管理」改為「遊戲廠商管理」。
+- [x] 將導覽列關鍵字由「平台管理」改為「廠商管理」。
+- [x] 新增欄位語系：`vendorCode` (廠商代碼), `platformType` (平台類型), `currentPlayers` (當前遊玩人數), `totalBet` (累計總投注), `totalPayout` (累計總派彩)。
+
+### 2. 資料模型與 Mock API ([src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts), [src/api/provider.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/provider.ts))
+- [x] 在 [GameProvider](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#35-49) 接口中加入 `current_players`, `total_bet`, `total_payout` 欄位。
+- [x] 定義 [ProviderSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#50-57) 搜尋參數接口。
+- [x] 更新 `mockProviders` 資料集，加入模擬的營運數據。
+- [x] 修改 [getProviders](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/provider.ts#93-121) 函數，實作基於廠商代碼、類型、狀態與日期區間的過濾邏輯。
+
+### 3. UI 介面重構 ([src/views/Master/GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue))
+- [x] **搜尋表單**: 加入廠商代碼、平台類型、狀態與時間區間的搜尋項。
+- [x] **資料表格**:
+    - 移除：支援錢包、最後操作人、更新時間。
+    - 新增：當前遊玩人數、累計總投注、累計總派彩。
+    - 金額格式化：顯示為 `$ 1,000,000`。
+- [x] **操作邏輯**: 實作重置搜尋條件與 enter 鍵觸發搜尋。
+
+## 驗證計劃
+- [x] 驗證導覽與頁面標題是否正確更名。
+- [x] 測試各項搜尋過濾條件是否準確。
+- [x] 確認金額欄位顯示了正確的前綴與千分位。
+- [x] 檢查代碼中是否有殘留的未使用導入。
