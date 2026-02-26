@@ -101,7 +101,7 @@ export const LiveTicker: React.FC = () => {
 
             <style jsx>{`
         .animate-ticker {
-          animation: ticker 40s linear infinite;
+          animation: ticker 90s linear infinite;
         }
         @keyframes ticker {
           0% { transform: translateX(0); }

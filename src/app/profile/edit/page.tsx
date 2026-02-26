@@ -273,9 +273,8 @@ export default function ModifyProfilePage() {
                                                 onChange={(e) => setFormData({ ...formData, gender: e.target.value as any })}
                                                 className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-brand-primary/5 focus:border-brand-primary/30 transition-all appearance-none"
                                             >
-                                                <option value="MALE">男性風格 (Male)</option>
-                                                <option value="FEMALE">女性風格 (Female)</option>
-                                                <option value="OTHER">其他 (Other)</option>
+                                                <option value="MALE">男性</option>
+                                                <option value="FEMALE">女性</option>
                                             </select>
                                             <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
