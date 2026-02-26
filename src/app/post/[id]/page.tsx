@@ -9,6 +9,20 @@ import { InteractionBar } from '@/components/news/InteractionBar';
 import { RelatedArticles } from '@/components/article/RelatedArticles';
 import { AuthorCard } from '@/components/article/AuthorCard';
 
+export async function generateStaticParams() {
+    const prefixes = ['hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest'];
+    const params = [];
+
+    // Generate IDs based on the SportApi.generateArticles logic
+    for (const prefix of prefixes) {
+        for (let i = 1; i <= 20; i++) {
+            params.push({ id: `${prefix}-${i}` });
+        }
+    }
+
+    return params;
+}
+
 // Helper to inject ads into content
 const ContentWithAds = ({ content }: { content: string }) => {
     // Split by double newline to identify paragraphs

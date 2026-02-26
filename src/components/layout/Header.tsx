@@ -20,10 +20,9 @@ export const Header: React.FC = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
     const [navItems, setNavItems] = useState<any[]>([]);
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const { locale, setLocale, t } = useTranslation();
-    const { user, isLoggedIn, logout } = useAuth();
+    const { user, isLoggedIn, logout, isAuthModalOpen, setIsAuthModalOpen } = useAuth();
     const lastScrollCall = useRef(0);
     const userMenuRef = useRef<HTMLDivElement>(null);
 

@@ -4,6 +4,16 @@ import { AdBanner } from '@/components/shared/AdBanner';
 import { ScoreCard } from '@/components/shared/ScoreCard';
 import { SportApi } from '@/services/api';
 
+export async function generateStaticParams() {
+    return [
+        { category: 'basketball' },
+        { category: 'baseball' },
+        { category: 'football' },
+        { category: 'tennis' },
+        { category: 'esports' }
+    ];
+}
+
 export default async function MatchCategoryPage({ params }: { params: { category: string } }) {
     const { category } = await params;
     const response = await SportApi.getMatchesHallData(category);

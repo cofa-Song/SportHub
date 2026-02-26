@@ -12,6 +12,14 @@ interface NewsCategoryPageProps {
     };
 }
 
+export async function generateStaticParams() {
+    return [
+        { category: 'baseball' },
+        { category: 'basketball' },
+        { category: 'others' }
+    ];
+}
+
 export async function generateMetadata({ params }: NewsCategoryPageProps) {
     const { category } = await Promise.resolve(params);
     const categoryName = category.charAt(0).toUpperCase() + category.slice(1);

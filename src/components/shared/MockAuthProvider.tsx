@@ -7,6 +7,8 @@ import { SportApi } from '@/services/api';
 interface AuthContextType {
     user: User | null;
     isLoggedIn: boolean;
+    isAuthModalOpen: boolean;
+    setIsAuthModalOpen: (isOpen: boolean) => void;
     login: (username: string, password: string) => Promise<{ success: boolean; message: string }>;
     register: (username: string, password: string, email: string, gender: any) => Promise<{ success: boolean; message: string }>;
     logout: () => void;
@@ -17,6 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     // Initial check for logged in user
     useEffect(() => {
@@ -60,7 +63,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn: !!user, login, register, logout, updateUser }}>
+        <AuthContext.Provider value={{
+            user,
+            isLoggedIn: !!user,
+            isAuthModalOpen,
+            setIsAuthModalOpen,
+            login,
+            register,
+            logout,
+            updateUser
+        }}>
             {children}
         </AuthContext.Provider>
     );

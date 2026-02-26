@@ -9,14 +9,13 @@ interface InteractionBarProps {
 }
 
 export const InteractionBar: React.FC<InteractionBarProps> = ({ article }) => {
-    const { isLoggedIn, login } = useAuth();
+    const { isLoggedIn, setIsAuthModalOpen } = useAuth();
     const [isCollected, setIsCollected] = useState(false);
     const [showCopyToast, setShowCopyToast] = useState(false);
 
     const handleCollect = () => {
         if (!isLoggedIn) {
-            alert('請先登入');
-            login();
+            setIsAuthModalOpen(true);
             return;
         }
         setIsCollected(!isCollected);

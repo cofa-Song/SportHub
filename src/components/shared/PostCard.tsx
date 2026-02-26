@@ -2,11 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { Card } from '../ui/Card';
 import { Skeleton } from '../ui/Skeleton';
-import { Post } from '@/types';
+import { ArticleDTO } from '@/types';
 import { useTranslation } from '@/lib/i18n/LanguageProvider';
 
 interface PostCardProps {
-    post?: Post;
+    post?: ArticleDTO;
     isLoading?: boolean;
 }
 
@@ -38,7 +38,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, isLoading }) => {
             {/* Image Container */}
             <div className="relative h-48 overflow-hidden">
                 <img
-                    src={post.coverImage}
+                    src={post.cover_url}
                     alt={post.title}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
@@ -53,11 +53,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post, isLoading }) => {
             <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-3">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        {post.publishedAt}
+                        {new Date(post.created_at).toLocaleDateString()}
                     </span>
                     <span className="w-1 h-1 rounded-full bg-brand-primary/20"></span>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        {post.author}
+                        {post.author.name}
                     </span>
                 </div>
 
@@ -71,7 +71,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, isLoading }) => {
 
                 <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
-                        href={`/post/${post.id}`}
+                        href={post.target_url || `/post/${post.id}`}
                         className="text-xs font-black text-brand-primary uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all"
                     >
                         {t.common.readMore}

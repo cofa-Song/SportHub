@@ -11,6 +11,14 @@ interface AnalysisCategoryPageProps {
     };
 }
 
+export async function generateStaticParams() {
+    return [
+        { category: 'baseball' },
+        { category: 'basketball' },
+        { category: 'others' }
+    ];
+}
+
 export const metadata = {
     title: '賽事分析 - 分類 | SportHub',
     description: '依分類查看深度賽事分析',

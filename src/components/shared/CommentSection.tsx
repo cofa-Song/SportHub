@@ -11,7 +11,7 @@ interface CommentSectionProps {
 }
 
 export const CommentSection: React.FC<CommentSectionProps> = ({ articleId, initialComments }) => {
-    const { isLoggedIn, login, user } = useAuth();
+    const { isLoggedIn, setIsAuthModalOpen, user } = useAuth();
     const [comments, setComments] = useState<CommentDTO[]>(initialComments);
     const [newComment, setNewComment] = useState('');
     const [page, setPage] = useState(1);
@@ -412,7 +412,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ articleId, initi
                     <div className="text-center py-8">
                         <p className="text-slate-500 mb-4">登入後參與討論</p>
                         <button
-                            onClick={login}
+                            onClick={() => setIsAuthModalOpen(true)}
                             className="bg-brand-heading text-white px-8 py-2 rounded-full font-bold hover:bg-black transition-colors"
                         >
                             立即登入
@@ -438,8 +438,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ articleId, initi
                     onClick={handleLoadMore}
                     disabled={isLoadingMore || !hasMoreComments}
                     className={`font-bold transition-all items-center gap-2 inline-flex px-8 py-3 rounded-full border-2 ${!hasMoreComments
-                            ? 'border-slate-100 text-slate-300 cursor-not-allowed'
-                            : 'border-brand-primary/10 text-brand-primary hover:border-brand-primary hover:bg-brand-primary/5'
+                        ? 'border-slate-100 text-slate-300 cursor-not-allowed'
+                        : 'border-brand-primary/10 text-brand-primary hover:border-brand-primary hover:bg-brand-primary/5'
                         }`}
                 >
                     {isLoadingMore ? (
