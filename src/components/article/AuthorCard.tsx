@@ -41,7 +41,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, latestArticles, 
                     <div className="p-1 bg-white rounded-2xl shadow-lg">
                         <div className="w-20 h-20 rounded-xl overflow-hidden bg-slate-200">
                             <img
-                                src={author.avatar || '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png'}
+                                src={author.avatar || '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png'}
                                 alt={author.name}
                                 className="w-full h-full object-cover"
                             />
@@ -57,7 +57,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, latestArticles, 
                         {isMobile && (
                             <div className="md:hidden w-16 h-16 rounded-xl overflow-hidden bg-slate-200 shadow-md">
                                 <img
-                                    src={author.avatar || '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png'}
+                                    src={author.avatar || '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png'}
                                     alt={author.name}
                                     className="w-full h-full object-cover"
                                 />

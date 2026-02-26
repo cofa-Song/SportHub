@@ -63,7 +63,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
             <div className="container mx-auto px-4 max-w-4xl mb-8">
                 <AdBanner ads={[{
                     ad_id: 'top-ad',
-                    image_url: '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/ad_sports_gear_1770628472549.png',
+                    image_url: '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/ad_sports_gear_1770628472549.png',
                     target_url: '#', label_text: '贊助', campaign_id: 'c1', track_click_url: '', track_impression_url: ''
                 }]} position="TOP" />
             </div>

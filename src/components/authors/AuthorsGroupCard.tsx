@@ -22,7 +22,7 @@ export const AuthorsGroupCard: React.FC<AuthorsGroupCardProps> = ({ data }) => {
         setIsFollowed(!isFollowed);
     };
 
-    const defaultAvatar = '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png';
+    const defaultAvatar = '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png';
     const latestArticle = latest_articles?.[0];
 
     return (
@@ -69,8 +69,8 @@ export const AuthorsGroupCard: React.FC<AuthorsGroupCardProps> = ({ data }) => {
                 <button
                     onClick={handleFollowClick}
                     className={`w-full py-2.5 rounded-xl text-sm font-black transition-all duration-300 ${isFollowed
-                            ? 'bg-slate-100 text-slate-500'
-                            : 'bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white'
+                        ? 'bg-slate-100 text-slate-500'
+                        : 'bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white'
                         }`}
                 >
                     {isFollowed ? '已追蹤' : '+ 追蹤作者'}

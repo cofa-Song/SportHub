@@ -6,7 +6,7 @@ import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, B
  */
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const ASSET_PATH = '/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c';
+const ASSET_PATH = '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c';
 
 // --- Mock Data Arrays ---
 
