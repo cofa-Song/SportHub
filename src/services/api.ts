@@ -1,4 +1,8 @@
-import { MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse, BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus, AuthorListItemDTO, PaginatedResponse, User } from '@/types';
+import {
+    MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse,
+    BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus,
+    AuthorListItemDTO, PaginatedResponse, User, CreatorStatsDTO
+} from '@/types';
 
 /**
  * Base API Service.
@@ -86,6 +90,14 @@ const generateArticles = (count: number, prefix: string, options?: { type?: 'NEW
         // Determine Cover
         const coverSuffix = category === 'Basketball' ? 'hero_nba_finals_1770628434041.png' : 'hero_mlb_game_1770628451873.png';
 
+        // Determine League
+        let league = undefined;
+        if (category === 'Baseball') {
+            league = i % 2 === 0 ? 'MLB' : 'CPBL';
+        } else if (category === 'Basketball') {
+            league = 'NBA';
+        }
+
         return {
             id: `${prefix}-${i + 1}`,
             title: title,
@@ -94,6 +106,7 @@ const generateArticles = (count: number, prefix: string, options?: { type?: 'NEW
             author: author,
             created_at: new Date(Date.now() - Math.floor(Math.random() * 86400000 * 7)).toISOString(), // Last 7 days
             category: category,
+            league: league,
             comment_count: Math.floor(Math.random() * 50),
             view_count: Math.floor(Math.random() * 10000),
             share_count: Math.floor(Math.random() * 500),
@@ -702,6 +715,56 @@ export const SportApi = {
             }
             return { status: 200, data: null, message: '綁定成功' };
         }
-        return { status: 400, data: null, message: '驗證碼錯誤或已過期' };
+        return { status: 400, data: null, message: '驗證碼錯誤 or 已過期' };
+    },
+
+    /**
+     * Creator Studio: Get Personal Stats
+     */
+    getCreatorStats: async (): Promise<ApiResponse<CreatorStatsDTO>> => {
+        await delay(600);
+        return {
+            status: 200,
+            data: {
+                total_articles: 124,
+                total_views: 45800,
+                total_collections: 1205,
+                account_days: 365,
+                followers_count: 850,
+                followed_articles: 42,
+                total_comments: 312
+            }
+        };
+    },
+
+    /**
+     * Creator Studio: Get Top 10 Articles
+     */
+    getCreatorTopArticles: async (): Promise<ApiResponse<ArticleDTO[]>> => {
+        await delay(500);
+        const articles = generateArticles(10, 'top-art', { type: 'ANALYSIS' });
+        // Sort by view count descending for "Top 10" feel
+        articles.sort((a, b) => b.view_count - a.view_count);
+        return { status: 200, data: articles };
+    },
+
+    /**
+     * Creator Studio: Get Latest Comments on user's posts
+     */
+    getCreatorLatestComments: async (): Promise<ApiResponse<CommentDTO[]>> => {
+        await delay(500);
+        const comments = Array.from({ length: 5 }).map((_, i) => ({
+            id: `creator-c-${i}`,
+            content: `這篇文章分析得太到位了！對於${i % 2 === 0 ? '季後賽' : '球員交易'}的看法我也深有同感。`,
+            author: { id: `u-fan-${i}`, name: `熱心讀者 ${i + 1}`, avatar: '', level_tag: '鑽石粉絲' },
+            created_at: new Date(Date.now() - i * 7200000).toISOString(),
+            like_count: Math.floor(Math.random() * 10),
+            reply_count: 0,
+            is_author: false,
+            is_like: false,
+            article_id: `top-art-${i + 1}`,
+            article_title: MOCK_ANALYSIS_TITLES[i % MOCK_ANALYSIS_TITLES.length]
+        }));
+        return { status: 200, data: comments };
     }
 };

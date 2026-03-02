@@ -6,10 +6,12 @@ import { FeaturedAnalysisCards } from '@/components/analysis/FeaturedAnalysisCar
 import { AnalysisList } from '@/components/analysis/AnalysisList';
 
 interface AnalysisCategoryPageProps {
-    params: {
+    params: Promise<{
         category: string;
-    };
+    }>;
 }
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
     return [
@@ -25,7 +27,7 @@ export const metadata = {
 };
 
 export default async function AnalysisCategoryPage({ params }: AnalysisCategoryPageProps) {
-    const { category } = await Promise.resolve(params);
+    const { category } = await params;
     const response = await SportApi.getAnalysisData(category);
     const data = {
         ...response.data,

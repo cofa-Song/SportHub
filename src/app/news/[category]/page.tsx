@@ -7,10 +7,12 @@ import { NewsList } from '@/components/news/NewsList';
 import { notFound } from 'next/navigation';
 
 interface NewsCategoryPageProps {
-    params: {
+    params: Promise<{
         category: string;
-    };
+    }>;
 }
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
     return [
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: NewsCategoryPageProps) {
 }
 
 export default async function NewsCategoryPage({ params }: NewsCategoryPageProps) {
-    const { category } = await Promise.resolve(params);
+    const { category } = await params;
 
     // Validate allowed categories? For now, we trust the API or just pass it through.
     // Ideally, we'd check if specific categories are valid.

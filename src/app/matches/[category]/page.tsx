@@ -4,6 +4,8 @@ import { AdBanner } from '@/components/shared/AdBanner';
 import { ScoreCard } from '@/components/shared/ScoreCard';
 import { SportApi } from '@/services/api';
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
     return [
         { category: 'basketball' },
@@ -14,7 +16,7 @@ export async function generateStaticParams() {
     ];
 }
 
-export default async function MatchCategoryPage({ params }: { params: { category: string } }) {
+export default async function MatchCategoryPage({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
     const response = await SportApi.getMatchesHallData(category);
     const data = response.data;

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { SportApi } from '@/services/api';
 
 export default function ModifyProfilePage() {
-    const { user, isLoggedIn, updateUser } = useAuth();
+    const { user, isLoggedIn, updateProfile } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -108,7 +108,7 @@ export default function ModifyProfilePage() {
             setMessage({ text: '綁定成功', type: 'success' });
             setBindingState({ ...bindingState, step: 'idle', code: '', countdown: 0 });
             const updatedUser = SportApi.getCurrentUser();
-            if (updatedUser) updateUser(updatedUser);
+            if (updatedUser) updateProfile(updatedUser);
         } else {
             setMessage({ text: res.message || '驗證碼錯誤', type: 'error' });
         }
@@ -164,7 +164,7 @@ export default function ModifyProfilePage() {
             updateData.password = formData.password;
         }
 
-        const res = await updateUser(updateData);
+        const res = await updateProfile(updateData);
         setIsLoading(false);
 
         if (res.success) {

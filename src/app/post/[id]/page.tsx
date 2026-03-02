@@ -9,6 +9,8 @@ import { InteractionBar } from '@/components/news/InteractionBar';
 import { RelatedArticles } from '@/components/article/RelatedArticles';
 import { AuthorCard } from '@/components/article/AuthorCard';
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
     const prefixes = ['hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest'];
     const params = [];
@@ -47,7 +49,7 @@ const ContentWithAds = ({ content }: { content: string }) => {
     );
 };
 
-export default async function PostPage({ params }: { params: { id: string } }) {
+export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const response = await SportApi.getArticleDetail(id);
 

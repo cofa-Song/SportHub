@@ -22,7 +22,7 @@ export const AuthorsGroupCard: React.FC<AuthorsGroupCardProps> = ({ data }) => {
         setIsFollowed(!isFollowed);
     };
 
-    const defaultAvatar = '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png';
+    const defaultAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${author.name || 'default'}`;
     const latestArticle = latest_articles?.[0];
 
     return (
@@ -34,19 +34,23 @@ export const AuthorsGroupCard: React.FC<AuthorsGroupCardProps> = ({ data }) => {
 
                 {/* Avatar */}
                 <div className="relative z-10 w-20 h-20 mb-4 mx-auto">
-                    <div className="w-full h-full rounded-full border-4 border-white shadow-sm overflow-hidden bg-slate-200">
-                        <img
-                            src={author.avatar || defaultAvatar}
-                            alt={author.name}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
+                    <Link href={`/authors/${author.id}`} className="block w-full h-full">
+                        <div className="w-full h-full rounded-full border-4 border-white shadow-sm overflow-hidden bg-slate-200 hover:ring-2 hover:ring-brand-primary/50 transition-all">
+                            <img
+                                src={author.avatar || defaultAvatar}
+                                alt={author.name}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    </Link>
                 </div>
 
                 {/* Name & Tag */}
-                <h3 className="text-xl font-black text-brand-heading mb-2 group-hover:text-brand-primary transition-colors">
-                    {author.name}
-                </h3>
+                <Link href={`/authors/${author.id}`} className="group-hover:text-brand-primary transition-colors">
+                    <h3 className="text-xl font-black text-brand-heading mb-2 hover:text-brand-primary transition-colors">
+                        {author.name}
+                    </h3>
+                </Link>
                 <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full mb-4">
                     {author.level_tag || '駐站作家'}
                 </span>

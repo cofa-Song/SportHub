@@ -12,7 +12,8 @@ interface AuthContextType {
     login: (username: string, password: string) => Promise<{ success: boolean; message: string }>;
     register: (username: string, password: string, email: string, gender: any) => Promise<{ success: boolean; message: string }>;
     logout: () => void;
-    updateUser: (data: Partial<User>) => Promise<{ success: boolean; message: string }>;
+    updateProfile: (data: Partial<User>) => Promise<{ success: boolean; message: string }>;
+    isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Initial check for logged in user
     useEffect(() => {
@@ -27,6 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (currentUser) {
             setUser(currentUser);
         }
+        setIsLoading(false);
     }, []);
 
     const login = async (username: string, password: string) => {
@@ -52,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
     };
 
-    const updateUser = async (data: Partial<User>) => {
+    const updateProfile = async (data: Partial<User>) => {
         if (!user) return { success: false, message: '未登入' };
         const res = await SportApi.updateProfile(user.id, data);
         if (res.status === 200) {
@@ -71,7 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             login,
             register,
             logout,
-            updateUser
+            updateProfile,
+            isLoading
         }}>
             {children}
         </AuthContext.Provider>

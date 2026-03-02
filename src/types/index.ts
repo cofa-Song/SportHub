@@ -99,7 +99,34 @@ export interface ArticleDTO {
     created_at: string;         // 生成時間 (ISO 8601 DateTime)
     target_url: string;         // 跳轉路徑
     excerpt?: string;           // 摘要（選填，用於卡片預覽）
+    league?: string;            // 聯盟 (MLB, CPBL, NBA etc)
     source?: string;            // 文章來源 (僅 type='NEWS' 時有值, e.g., "聯合新聞網")
+}
+
+// ============================================================================
+// 4. 創作者中心規格 (Creator Studio DTO)
+// ============================================================================
+
+/**
+ * 創作者統計數據 DTO
+ */
+export interface CreatorStatsDTO {
+    total_articles: number;      // 發表文章總數
+    total_views: number;         // 文章被瀏覽量
+    total_collections: number;   // 文章被收藏數
+    account_days: number;        // 帳號創立天數
+    followers_count: number;     // 追蹤人數
+    followed_articles: number;   // 收藏文章數 (自己收藏別人的)
+    total_comments: number;      // 文章留言總數
+}
+
+/**
+ * 創作者儀表板 DTO
+ */
+export interface CreatorDashboardDTO {
+    stats: CreatorStatsDTO;
+    top_articles: ArticleDTO[];
+    latest_comments: CommentDTO[];
 }
 
 // ============================================================================
@@ -189,6 +216,8 @@ export interface CommentDTO {
     reply_count: number;
     is_author: boolean;
     is_like: boolean;
+    article_id?: string;
+    article_title?: string;
     replies?: CommentDTO[];
 }
 
@@ -228,6 +257,7 @@ export interface User {
     ig_link?: string;           // IG 連結
     yt_link?: string;           // Youtube 連結
     password?: string;          // 密碼 (Mock 用)
+    banner_url?: string;        // 個人化背景圖片 URL
 }
 
 /**
