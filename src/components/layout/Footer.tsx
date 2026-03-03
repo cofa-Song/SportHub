@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
                             <ul className="space-y-4">
                                 {['aboutUs', 'becomeAuthor', 'faq', 'announcements'].map((key) => (
                                     <li key={key}>
-                                        <Link href={`/${key}`} className="text-sm font-bold text-white/40 hover:text-brand-primary transition-all flex items-center gap-3 group">
+                                        <Link href="/coming-soon" className="text-sm font-bold text-white/40 hover:text-brand-primary transition-all flex items-center gap-3 group">
                                             <span className="w-1.5 h-1.5 bg-brand-primary/20 rounded-full group-hover:scale-150 group-hover:bg-brand-primary transition-all"></span>
                                             {t.footer.about[key as keyof typeof t.footer.about]}
                                         </Link>
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                         <ul className="space-y-4">
                             {['tos', 'authorTerms'].map((key) => (
                                 <li key={key}>
-                                    <Link href={`/${key}`} className="text-sm font-bold text-white/40 hover:text-white transition-colors block">
+                                    <Link href="/coming-soon" className="text-sm font-bold text-white/40 hover:text-white transition-colors block">
                                         {t.footer.rights[key as keyof typeof t.footer.rights]}
                                     </Link>
                                 </li>
@@ -97,7 +97,7 @@ export const Footer: React.FC = () => {
                         <ul className="space-y-4">
                             {['ads', 'support'].map((key) => (
                                 <li key={key}>
-                                    <Link href={`/${key}`} className="text-sm font-bold text-white/40 hover:text-white transition-colors block">
+                                    <Link href="/coming-soon" className="text-sm font-bold text-white/40 hover:text-white transition-colors block">
                                         {t.footer.sponsorship[key as keyof typeof t.footer.sponsorship]}
                                     </Link>
                                 </li>
@@ -142,7 +142,7 @@ export const Footer: React.FC = () => {
                     <p>© 2026 SPORTHUB BLOG. ENGINEERED FOR VICTORY.</p>
                     <div className="flex gap-10">
                         {['Privacy', 'Cookies', 'Sitemap'].map(item => (
-                            <Link key={item} href={`/${item.toLowerCase()}`} className="hover:text-brand-primary transition-colors">
+                            <Link key={item} href="/coming-soon" className="hover:text-brand-primary transition-colors">
                                 {item}
                             </Link>
                         ))}
