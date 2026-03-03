@@ -12,12 +12,13 @@ import { AuthorCard } from '@/components/article/AuthorCard';
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-    const prefixes = ['hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest'];
+    const prefixes = ['hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest', 'my-art'];
     const params = [];
 
     // Generate IDs based on the SportApi.generateArticles logic
     for (const prefix of prefixes) {
-        for (let i = 1; i <= 20; i++) {
+        const count = prefix === 'my-art' ? 15 : 20;
+        for (let i = 1; i <= count; i++) {
             params.push({ id: `${prefix}-${i}` });
         }
     }

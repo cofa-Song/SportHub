@@ -97,8 +97,12 @@ export interface ArticleDTO {
     collect_count: number;      // 總收藏次數
     type: 'NEWS' | 'ANALYSIS' | 'AD'; // 文章類型：新聞、分析(文章)、廣告
     created_at: string;         // 生成時間 (ISO 8601 DateTime)
+    updated_at?: string;        // 最後修改時間 (ISO 8601 DateTime)
+    status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'; // 文章狀態
     target_url: string;         // 跳轉路徑
     excerpt?: string;           // 摘要（選填，用於卡片預覽）
+    content?: string;           // 內文（選填，用於草稿或完整資料）
+    tags?: string[];            // 標籤（選填）
     league?: string;            // 聯盟 (MLB, CPBL, NBA etc)
     source?: string;            // 文章來源 (僅 type='NEWS' 時有值, e.g., "聯合新聞網")
 }
@@ -127,6 +131,31 @@ export interface CreatorDashboardDTO {
     stats: CreatorStatsDTO;
     top_articles: ArticleDTO[];
     latest_comments: CommentDTO[];
+}
+
+/**
+ * 創作者數據報表項目 DTO - 用於圖表數據點
+ */
+export interface AnalyticsItemDTO {
+    date: string;               // 時間標記 (e.g., "2026-03-01", "Week 10", "2026-03")
+    posts: number;              // 發表數
+    views: number;              // 瀏覽數
+    followers: number;          // 粉絲增長數/總數
+}
+
+/**
+ * 數據報表響應 DTO
+ */
+export interface AnalyticsReportDTO {
+    summary: {
+        total_posts: number;
+        total_views: number;
+        total_followers_growth: number;
+        posts_trend: number;    // 百分比變化 (e.g., 5.2 代表 +5.2%)
+        views_trend: number;
+        followers_trend: number;
+    };
+    chart_data: AnalyticsItemDTO[];
 }
 
 // ============================================================================

@@ -1,8 +1,14 @@
 import {
     MatchScoreDTO, ArticleDTO, ArticleDetailDTO, CommentDTO, ApiResponse,
     BannerDTO, AdDTO, HomeData, NewsData, SportType, MatchStatus,
-    AuthorListItemDTO, PaginatedResponse, User, CreatorStatsDTO
+    AuthorListItemDTO, PaginatedResponse, User, CreatorStatsDTO,
+    AnalyticsReportDTO, AnalyticsItemDTO
 } from '@/types';
+import {
+    subDays, subMonths, format, startOfWeek,
+    startOfMonth, eachDayOfInterval, eachWeekOfInterval,
+    eachMonthOfInterval, subYears
+} from 'date-fns';
 
 /**
  * Base API Service.
@@ -439,11 +445,34 @@ export const SportApi = {
             "總結來說，本週的賽事精彩紛呈，充滿了戲劇性和話題性。隨著賽季進入白熱化階段，各隊的競爭也將更加激烈。身為球迷的我們，只需準備好爆米花，盡情享受這場體育盛宴吧！"
         ].join('\n\n');
 
-        const isAnalysis = id.includes('analysis') || Math.random() > 0.5;
+        const isAnalysis = id.includes('analysis') || id.includes('my-art') || Math.random() > 0.5;
         const type = isAnalysis ? 'ANALYSIS' : 'NEWS';
 
         const article = generateArticles(1, 'post', { type })[0] as ArticleDetailDTO;
         article.id = id; // Ensure ID matches
+
+        // For our specific mock IDs, we can provide set titles if they are in our list
+        if (id.startsWith('my-art-')) {
+            const idx = parseInt(id.replace('my-art-', '')) - 1;
+            const myTitles = [
+                "【深入解析】2026 NBA 總決賽戰力評比：誰能阻擋衛冕軍？",
+                "大谷翔平再進化？數據告訴你為什麼他依然是聯盟第一人",
+                "中職賽季回顧：味全龍奪冠背後的重建之路",
+                "戰術板：現代足球的高位壓迫是如何改變比賽節奏的？",
+                "CPBL 潛力新秀觀察清單：下一個王柏融在哪裡？",
+                "轉世天才？探討文班亞馬對馬刺隊防守體系的質變",
+                "MLB 季後賽預測：為什麼道奇隊今年最有冠軍相？",
+                "電競專欄：LoL 世界大賽版本強勢英雄深度分析",
+                "網球快訊：網壇新三巨頭時代正式來臨？",
+                "心理素質：如何在關鍵的第七場比賽維持高水準表現",
+                "【專題報導】那些被傷病帶走的體育天才們",
+                "NBA 薪資空間專題：哪些球隊在自由市場大獲全勝？",
+                "中職啦啦隊文化：如何成功帶動球場氛圍與產值？",
+                "進階數據看球：為什麼這名球員的正負值被嚴重低估？",
+                "世界盃資格賽展望：中華男籃的優勢與隱憂分析"
+            ];
+            if (myTitles[idx]) article.title = myTitles[idx];
+        }
         article.content = content;
         article.tags = ['NBA', 'Lakers', 'LeBron', 'Defense', 'Analysis'];
         article.related_articles = generateArticles(3, 'related', { category: article.category });
@@ -766,5 +795,323 @@ export const SportApi = {
             article_title: MOCK_ANALYSIS_TITLES[i % MOCK_ANALYSIS_TITLES.length]
         }));
         return { status: 200, data: comments };
+    },
+
+    /**
+     * Creator Studio: Create New Article
+     */
+    createArticle: async (data: Partial<ArticleDTO>): Promise<ApiResponse<ArticleDTO>> => {
+        await delay(1000);
+        const user = SportApi.getCurrentUser();
+        const newArticle: ArticleDTO = {
+            id: `post-new-${Date.now()}`,
+            title: data.title || '無標題文章',
+            excerpt: data.excerpt || '文章摘要...',
+            cover_url: data.cover_url || `${ASSET_PATH}/hero_nba_finals_1770628434041.png`,
+            author: {
+                id: user?.id || 'u-unknown',
+                name: user?.name || '匿名作者',
+                avatar: user?.avatar || '',
+                level_tag: '駐站作家'
+            },
+            created_at: new Date().toISOString(),
+            category: data.category || 'Basketball',
+            league: data.league,
+            comment_count: 0,
+            view_count: 0,
+            share_count: 0,
+            collect_count: 0,
+            type: data.type || 'ANALYSIS',
+            target_url: `/post/post-new-${Date.now()}`
+        };
+
+        // In a real mock DB, we'd push this to an array. 
+        // For now, we just return it as success.
+        return { status: 200, data: newArticle, message: '發表成功' };
+    },
+
+    /**
+     * Creator Studio: Draft Management
+     */
+    getDrafts: async (): Promise<ApiResponse<ArticleDTO[]>> => {
+        await delay(500);
+        if (typeof window === 'undefined') return { status: 200, data: [] };
+        const stored = localStorage.getItem('sporthub_drafts');
+        if (stored) return { status: 200, data: JSON.parse(stored) };
+
+        // Seed initial drafts for simulation
+        const initialDrafts: ArticleDTO[] = [
+            {
+                id: 'draft-welcome-1',
+                title: '【草稿】我的第一篇體育評論：從數據看中職新賽季',
+                excerpt: '這是一篇關於中職新賽季的分析草稿...',
+                content: '這是在編輯器中儲存的文章內容...',
+                cover_url: `${ASSET_PATH}/hero_mlb_game_1770628451873.png`,
+                author: { id: 'u-1', name: '測試作者', avatar: '', level_tag: '註站作家' },
+                created_at: new Date().toISOString(),
+                category: 'Baseball',
+                league: 'CPBL',
+                comment_count: 0,
+                view_count: 0,
+                share_count: 0,
+                collect_count: 0,
+                type: 'ANALYSIS',
+                target_url: ''
+            },
+            {
+                id: 'draft-welcome-2',
+                title: 'Draft: NBA Playoffs 2026 Predictions',
+                excerpt: 'Initial thoughts on who will win...',
+                content: 'Starting point for the playoff analysis...',
+                cover_url: `${ASSET_PATH}/hero_nba_finals_1770628434041.png`,
+                author: { id: 'u-1', name: '測試作者', avatar: '', level_tag: '駐站作家' },
+                created_at: new Date(Date.now() - 3600000).toISOString(),
+                category: 'Basketball',
+                league: 'NBA',
+                comment_count: 0,
+                view_count: 0,
+                share_count: 0,
+                collect_count: 0,
+                type: 'ANALYSIS',
+                target_url: ''
+            }
+        ];
+        return { status: 200, data: initialDrafts };
+    },
+
+    saveDraft: async (data: Partial<ArticleDTO>): Promise<ApiResponse<ArticleDTO>> => {
+        await delay(800);
+        if (typeof window === 'undefined') return { status: 400, data: null as any };
+
+        const stored = localStorage.getItem('sporthub_drafts');
+        let drafts: ArticleDTO[] = stored ? JSON.parse(stored) : [];
+
+        const user = SportApi.getCurrentUser();
+        const draftId = data.id || `draft-${Date.now()}`;
+
+        const newDraft: ArticleDTO = {
+            id: draftId,
+            title: data.title || '',
+            excerpt: data.excerpt || '',
+            content: (data as any).content || '', // Handle content which isn't in ArticleDTO normally
+            cover_url: data.cover_url || '',
+            author: {
+                id: user?.id || 'u-unknown',
+                name: user?.name || '匿名作者',
+                avatar: user?.avatar || '',
+                level_tag: '駐站作家'
+            },
+            created_at: data.created_at || new Date().toISOString(),
+            category: data.category || 'Basketball',
+            league: data.league || '全部',
+            comment_count: 0,
+            view_count: 0,
+            share_count: 0,
+            collect_count: 0,
+            type: data.type || 'ANALYSIS',
+            target_url: '#'
+        };
+
+        const existingIndex = drafts.findIndex(d => d.id === draftId);
+        if (existingIndex >= 0) {
+            drafts[existingIndex] = newDraft;
+        } else {
+            drafts.unshift(newDraft);
+        }
+
+        localStorage.setItem('sporthub_drafts', JSON.stringify(drafts));
+        return { status: 200, data: newDraft, message: '草稿儲存成功' };
+    },
+
+    deleteDraft: async (id: string): Promise<ApiResponse<null>> => {
+        await delay(500);
+        if (typeof window === 'undefined') return { status: 400, data: null };
+
+        const stored = localStorage.getItem('sporthub_drafts');
+        if (stored) {
+            let drafts: ArticleDTO[] = JSON.parse(stored);
+            drafts = drafts.filter(d => d.id !== id);
+            localStorage.setItem('sporthub_drafts', JSON.stringify(drafts));
+        }
+        return { status: 200, data: null, message: '草稿已刪除' };
+    },
+
+    /**
+     * Creator Studio: Published Article Management
+     */
+    getMyArticles: async (params: {
+        category?: string,
+        league?: string,
+        query?: string,
+        status?: string,
+        page?: number
+    }): Promise<ApiResponse<PaginatedResponse<ArticleDTO>>> => {
+        await delay(800);
+        const user = SportApi.getCurrentUser() || { id: 'u-1', name: '測試作者', avatar: '', level_tag: '駐站作家' };
+
+        // Define a set of specific titles for the creator's portfolio to make it look "real"
+        const myTitles = [
+            "【深入解析】2026 NBA 總決賽戰力評比：誰能阻擋衛冕軍？",
+            "大谷翔平再進化？數據告訴你為什麼他依然是聯盟第一人",
+            "中職賽季回顧：味全龍奪冠背後的重建之路",
+            "戰術板：現代足球的高位壓迫是如何改變比賽節奏的？",
+            "CPBL 潛力新秀觀察清單：下一個王柏融在哪裡？",
+            "轉世天才？探討文班亞馬對馬刺隊防守體系的質變",
+            "MLB 季後賽預測：為什麼道奇隊今年最有冠軍相？",
+            "電競專欄：LoL 世界大賽版本強勢英雄深度分析",
+            "網球快訊：網壇新三巨頭時代正式來臨？",
+            "心理素質：如何在關鍵的第七場比賽維持高水準表現",
+            "【專題報導】那些被傷病帶走的體育天才們",
+            "NBA 薪資空間專題：哪些球隊在自由市場大獲全勝？",
+            "中職啦啦隊文化：如何成功帶動球場氛圍與產值？",
+            "進階數據看球：為什麼這名球員的正負值被嚴重低估？",
+            "世界盃資格賽展望：中華男籃的優勢與隱憂分析"
+        ];
+
+        // Generate mock data specifically for "Me"
+        let myArticles: ArticleDTO[] = myTitles.map((title, idx) => {
+            const category = idx % 3 === 0 ? 'Basketball' : idx % 3 === 1 ? 'Baseball' : 'Others';
+            const league = category === 'Basketball' ? 'NBA' : category === 'Baseball' ? (idx % 2 === 0 ? 'MLB' : 'CPBL') : undefined;
+            const status: 'PUBLISHED' | 'ARCHIVED' | 'DRAFT' = idx === 0 ? 'DRAFT' : idx % 5 === 0 ? 'ARCHIVED' : 'PUBLISHED';
+
+            return {
+                id: `my-art-${idx + 1}`,
+                title: title,
+                excerpt: "這是我撰寫的專業分析文章摘要，內容涵蓋了賽事的關鍵數據與戰術分析...",
+                cover_url: `${ASSET_PATH}/${category === 'Basketball' ? 'hero_nba_finals_1770628434041.png' : 'hero_mlb_game_1770628451873.png'}`,
+                author: {
+                    id: user.id || 'u-1',
+                    name: user.name || '測試作者',
+                    avatar: user.avatar || '',
+                    level_tag: '駐站作家'
+                },
+                created_at: new Date(Date.now() - (idx * 86400000 * 2)).toISOString(),
+                updated_at: new Date(Date.now() - (idx * 3600000 * 2)).toISOString(),
+                category: category,
+                league: league,
+                status: status,
+                comment_count: Math.floor(Math.random() * 80) + 10,
+                view_count: Math.floor(Math.random() * 20000) + 5000,
+                share_count: Math.floor(Math.random() * 100),
+                collect_count: Math.floor(Math.random() * 500),
+                type: 'ANALYSIS',
+                target_url: `/post/my-art-${idx + 1}`,
+                source: undefined
+            };
+        });
+
+        // Apply search/filters
+        if (params.query) {
+            const q = params.query.toLowerCase();
+            myArticles = myArticles.filter((art: ArticleDTO) => art.title.toLowerCase().includes(q));
+        }
+        if (params.category && params.category !== '全部') {
+            myArticles = myArticles.filter((art: ArticleDTO) => art.category === params.category);
+        }
+        if (params.league && params.league !== '全部') {
+            myArticles = myArticles.filter((art: ArticleDTO) => art.league === params.league);
+        }
+        if (params.status && params.status !== '全部') {
+            myArticles = myArticles.filter((art: ArticleDTO) => art.status === params.status);
+        }
+
+        const pageSize = 10;
+        const page = params.page || 1;
+        const totalPages = Math.ceil(myArticles.length / pageSize);
+        const start = (page - 1) * pageSize;
+        const data = myArticles.slice(start, start + pageSize);
+
+        return {
+            status: 200,
+            data: {
+                data,
+                total_pages: totalPages,
+                current_page: page
+            }
+        };
+    },
+
+    deleteArticle: async (id: string): Promise<ApiResponse<null>> => {
+        await delay(500);
+        // In this mock, we just return success
+        return { status: 200, data: null, message: '文章已刪除' };
+    },
+
+    /**
+     * Creator Studio: Analytics Reports
+     */
+    getAnalyticsReport: async (params: {
+        range: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR',
+        startDate?: string,
+        endDate?: string
+    }): Promise<ApiResponse<AnalyticsReportDTO>> => {
+        await delay(1000);
+
+        const endDate = params.endDate ? new Date(params.endDate) : new Date();
+        let startDate: Date;
+        let intervals: Date[] = [];
+        let dateFormat = 'MM/dd';
+
+        switch (params.range) {
+            case 'DAY':
+                startDate = params.startDate ? new Date(params.startDate) : subDays(endDate, 30);
+                intervals = eachDayOfInterval({ start: startDate, end: endDate });
+                dateFormat = 'MM/dd';
+                break;
+            case 'WEEK':
+                startDate = params.startDate ? new Date(params.startDate) : subMonths(endDate, 3);
+                intervals = eachWeekOfInterval({ start: startDate, end: endDate });
+                dateFormat = 'MM/dd';
+                break;
+            case 'MONTH':
+                startDate = params.startDate ? new Date(params.startDate) : subYears(endDate, 1);
+                intervals = eachMonthOfInterval({ start: startDate, end: endDate });
+                dateFormat = 'yyyy/MM';
+                break;
+            case 'YEAR':
+                startDate = params.startDate ? new Date(params.startDate) : subYears(endDate, 5);
+                // Simple manually generated years
+                for (let i = startDate.getFullYear(); i <= endDate.getFullYear(); i++) {
+                    intervals.push(new Date(i, 0, 1));
+                }
+                dateFormat = 'yyyy';
+                break;
+            default:
+                startDate = subDays(endDate, 30);
+                intervals = eachDayOfInterval({ start: startDate, end: endDate });
+        }
+
+        let currentFollowers = Math.floor(Math.random() * 500) + 1000;
+
+        const chart_data: AnalyticsItemDTO[] = intervals.map((date, idx) => {
+            // Generate some "organic" looking growth
+            const baseMultiplier = idx + 1;
+            const volatility = Math.random() * 0.5 + 0.5; // 0.5 to 1.0
+
+            const growth = Math.floor(Math.random() * 20) - 2; // -2 to 17
+            currentFollowers = Math.max(0, currentFollowers + growth);
+
+            return {
+                date: format(date, dateFormat),
+                posts: Math.floor(Math.random() * 3), // 0 to 2 posts per interval
+                views: Math.floor(baseMultiplier * 500 * volatility) + 100,
+                followers: currentFollowers
+            };
+        });
+
+        return {
+            status: 200,
+            data: {
+                summary: {
+                    total_posts: chart_data.reduce((sum, item) => sum + item.posts, 0),
+                    total_views: chart_data.reduce((sum, item) => sum + item.views, 0),
+                    total_followers_growth: chart_data[chart_data.length - 1].followers,
+                    posts_trend: 12.5,
+                    views_trend: 24.8,
+                    followers_trend: 8.2
+                },
+                chart_data
+            }
+        };
     }
 };
