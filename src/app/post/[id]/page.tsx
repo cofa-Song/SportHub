@@ -12,14 +12,33 @@ import { AuthorCard } from '@/components/article/AuthorCard';
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-    const prefixes = ['hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest', 'my-art'];
+    const prefixes = [
+        'hot', 'news', 'special', 'feed-1', 'feed-2', 'feed-3', 'related', 'author-latest', 'my-art',
+        'page-news', 'page-analysis', 'news-hot', 'news-featured', 'news-latest',
+        'analysis-hot', 'analysis-featured', 'analysis-latest', 'feed-ad', 'post'
+    ];
     const params = [];
 
-    // Generate IDs based on the SportApi.generateArticles logic
+    // 1. Standard prefixes (mostly 20 or 10)
     for (const prefix of prefixes) {
-        const count = prefix === 'my-art' ? 15 : 20;
+        let count = 20;
+        if (prefix === 'my-art') count = 15;
+        if (prefix.includes('featured') || prefix === 'special') count = 2;
+        if (prefix.includes('latest')) count = 10;
+        if (prefix === 'feed-ad' || prefix === 'post') count = 1;
+        if (prefix === 'related') count = 3;
+        if (prefix === 'author-latest') count = 5;
+
         for (let i = 1; i <= count; i++) {
             params.push({ id: `${prefix}-${i}` });
+        }
+    }
+
+    // 2. Author Specific Articles (author-art-i)
+    // From api.ts: getAuthorsGroupData repeats for 48 authors, each with 4 articles
+    for (let i = 0; i < 48; i++) {
+        for (let j = 1; j <= 4; j++) {
+            params.push({ id: `author-art-${i}-${j}` });
         }
     }
 

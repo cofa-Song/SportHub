@@ -23,7 +23,7 @@ export const AuthorsRankingList: React.FC<AuthorsRankingListProps> = ({ data, ra
         setIsFollowed(!isFollowed);
     };
 
-    const defaultAvatar = '/SportHub/img/home/db1a163c-c47d-4442-a6b7-2467c0b7ec5c/avatar_user_1770628545803.png';
+    const defaultAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${author.name || 'default'}`;
 
     // Helper to format numbers like 1,234
     const formatNumber = (num?: number) => {
@@ -53,21 +53,25 @@ export const AuthorsRankingList: React.FC<AuthorsRankingListProps> = ({ data, ra
             <div className="flex-1 flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full text-center sm:text-left">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full border-2 border-slate-100 shadow-sm overflow-hidden bg-slate-200">
-                        <img
-                            src={author.avatar || defaultAvatar}
-                            alt={author.name}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
+                    <Link href={`/authors/${author.id}`}>
+                        <div className="w-16 h-16 rounded-full border-2 border-slate-100 shadow-sm overflow-hidden bg-slate-200 hover:ring-2 hover:ring-brand-primary/50 transition-all">
+                            <img
+                                src={author.avatar || defaultAvatar}
+                                alt={author.name}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    </Link>
                 </div>
 
                 {/* Name & Bio */}
                 <div className="flex-1 flex flex-col justify-center">
                     <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                        <h3 className="text-xl font-black text-brand-heading group-hover:text-brand-primary transition-colors">
-                            {author.name}
-                        </h3>
+                        <Link href={`/authors/${author.id}`} className="hover:text-brand-primary transition-colors">
+                            <h3 className="text-xl font-black text-brand-heading transition-colors">
+                                {author.name}
+                            </h3>
+                        </Link>
                         <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded">
                             {author.level_tag || '駐站作家'}
                         </span>
