@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { CoverAdModel } from './CoverAdModel';
 import { SportApi } from '@/services/api';
 import { AdDTO } from '@/types';
+import { useAuth } from '../shared/MockAuthProvider';
 
 /**
  * GetAdFetch Component.
@@ -12,8 +13,14 @@ import { AdDTO } from '@/types';
 export const GetAdFetch: React.FC = () => {
     const [ad, setAd] = useState<AdDTO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { user } = useAuth();
 
     useEffect(() => {
+        // If user is subscribed, do not fetch/show ads
+        if (user?.is_ad_free) {
+            setIsLoading(false);
+            return;
+        }
         const fetchGlobalAds = async () => {
             try {
                 const response = await SportApi.getGlobalAds();

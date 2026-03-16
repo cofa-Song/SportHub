@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { AdDTO } from '@/types';
 
+import { useAuth } from '../shared/MockAuthProvider';
+
 interface CoverAdModelProps {
     ad?: AdDTO;
 }
@@ -14,8 +16,9 @@ interface CoverAdModelProps {
 export const CoverAdModel: React.FC<CoverAdModelProps> = ({ ad }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
+    const { user } = useAuth();
 
-    if (!ad || !isVisible) return null;
+    if (!ad || !isVisible || user?.is_ad_free) return null;
 
     return (
         <div

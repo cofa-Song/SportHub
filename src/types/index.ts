@@ -287,6 +287,9 @@ export interface User {
     yt_link?: string;           // Youtube 連結
     password?: string;          // 密碼 (Mock 用)
     banner_url?: string;        // 個人化背景圖片 URL
+    is_ad_free?: boolean;       // 是否為免廣告用戶
+    subscription_status?: 'active' | 'canceled' | 'none'; // 訂閱狀態
+    subscription_end_date?: string; // 訂閱到期日 (ISO Date)
 }
 
 /**

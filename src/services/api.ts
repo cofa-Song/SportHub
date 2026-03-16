@@ -748,6 +748,53 @@ export const SportApi = {
     },
 
     /**
+     * Subscriptions
+     */
+    createSubscriptionOrder: async (planType: 'monthly' | 'yearly'): Promise<ApiResponse<{ checkout_url: string }>> => {
+        await delay(800);
+        const user = SportApi.getCurrentUser();
+        if (!user) return { status: 401, data: null as any, message: '未登入' };
+
+        // Mock saving a pending order here if needed
+        return {
+            status: 200,
+            data: { checkout_url: '/checkout-simulation' },
+            message: '訂單建立成功，準備跳轉金流'
+        };
+    },
+
+    mockWebhookPaymentSuccess: async (): Promise<ApiResponse<User>> => {
+        await delay(1000);
+        const user = SportApi.getCurrentUser();
+        if (!user) return { status: 401, data: null as any, message: '未登入' };
+
+        // 模擬剛購買月費
+        const endDate = new Date();
+        endDate.setMonth(endDate.getMonth() + 1);
+
+        const updatedData: Partial<User> = {
+            is_ad_free: true,
+            subscription_status: 'active',
+            subscription_end_date: endDate.toISOString()
+        };
+
+        return await SportApi.updateProfile(user.id, updatedData);
+    },
+
+    cancelSubscription: async (): Promise<ApiResponse<User>> => {
+        await delay(800);
+        const user = SportApi.getCurrentUser();
+        if (!user) return { status: 401, data: null as any, message: '未登入' };
+
+        // 保持 ad_free 權限，僅改變狀態為 canceled
+        const updatedData: Partial<User> = {
+            subscription_status: 'canceled'
+        };
+
+        return await SportApi.updateProfile(user.id, updatedData);
+    },
+
+    /**
      * Creator Studio: Get Personal Stats
      */
     getCreatorStats: async (): Promise<ApiResponse<CreatorStatsDTO>> => {

@@ -10,6 +10,7 @@ export default function ModifyProfilePage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
     // Form states
     const [formData, setFormData] = useState({
@@ -174,6 +175,25 @@ export default function ModifyProfilePage() {
             }
         } else {
             setMessage({ text: res.message, type: 'error' });
+        }
+    };
+
+    const handleCancelSubscription = async () => {
+        setIsLoading(true);
+        try {
+            const res = await SportApi.cancelSubscription();
+            if (res.status === 200) {
+                setMessage({ text: '訂閱已成功取消，您仍可享有免廣告服務至到期日。', type: 'success' });
+                const updatedUser = SportApi.getCurrentUser();
+                if (updatedUser) updateProfile(updatedUser);
+            } else {
+                setMessage({ text: res.message || '取消失敗', type: 'error' });
+            }
+        } catch (error) {
+            setMessage({ text: '系統錯誤', type: 'error' });
+        } finally {
+            setIsLoading(false);
+            setShowCancelConfirm(false);
         }
     };
 
@@ -588,6 +608,110 @@ export default function ModifyProfilePage() {
                                     </div>
                                 )}
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Section 4: Subscription Management */}
+                    <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 p-8 sm:p-12 lg:p-14">
+                        <h2 className="text-xl font-black text-slate-800 mb-10 flex items-center gap-4">
+                            <span className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </span>
+                            訂閱管理
+                        </h2>
+
+                        <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex flex-col gap-6">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div>
+                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">當前狀態 (Status)</p>
+                                    <div className="flex items-center gap-3">
+                                        {user?.subscription_status === 'active' ? (
+                                            <>
+                                                <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+                                                <p className="text-lg font-black text-slate-700">已訂閱免廣告服務</p>
+                                            </>
+                                        ) : user?.subscription_status === 'canceled' ? (
+                                            <>
+                                                <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+                                                <p className="text-lg font-black text-slate-700">已取消續約</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="w-3 h-3 rounded-full bg-slate-300"></span>
+                                                <p className="text-lg font-black text-slate-700">尚未訂閱</p>
+                                            </>
+                                        )}
+                                    </div>
+                                    {user?.subscription_end_date && (
+                                        <p className="text-sm font-bold text-slate-500 mt-2">
+                                            {user.subscription_status === 'active' ? '下次扣款日：' : '服務到期日：'}
+                                            {new Date(user.subscription_end_date).toLocaleDateString()}
+                                        </p>
+                                    )}
+                                </div>
+                                
+                                <div className="flex gap-4">
+                                    {(!user?.subscription_status || user.subscription_status === 'none') && (
+                                        <button
+                                            type="button"
+                                            onClick={() => router.push('/subscription')}
+                                            className="px-6 py-3 bg-brand-primary text-white text-sm font-black rounded-xl hover:-translate-y-1 shadow-lg shadow-brand-primary/25 transition-all"
+                                        >
+                                            立即訂閱
+                                        </button>
+                                    )}
+                                    {user?.subscription_status === 'canceled' && (
+                                        <button
+                                            type="button"
+                                            onClick={() => router.push('/subscription')}
+                                            className="px-6 py-3 bg-brand-primary text-white text-sm font-black rounded-xl hover:-translate-y-1 shadow-lg shadow-brand-primary/25 transition-all"
+                                        >
+                                            重新訂閱
+                                        </button>
+                                    )}
+                                    {user?.subscription_status === 'active' && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowCancelConfirm(true)}
+                                            disabled={isLoading}
+                                            className="px-6 py-3 bg-white text-red-500 border-2 border-red-100 text-sm font-black rounded-xl hover:bg-red-50 hover:border-red-200 transition-all"
+                                        >
+                                            解除訂閱
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Cancel Confirmation Dialog */}
+                            {showCancelConfirm && (
+                                <div className="mt-4 p-6 bg-red-50 border border-red-100 rounded-2xl animate-in slide-in-from-top-4 duration-300">
+                                    <h3 className="text-md font-black text-red-600 mb-2 flex items-center gap-2">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                        確定要解除訂閱嗎？
+                                    </h3>
+                                    <p className="text-sm text-red-500/80 font-bold mb-6 max-w-lg">
+                                        解除後，您的免廣告服務將會維持至 <span className="text-red-600 border-b border-red-200">{user?.subscription_end_date ? new Date(user.subscription_end_date).toLocaleDateString() : '到期日'}</span> 為止。之後系統將不再自動扣款，且您的帳號將恢復為一般會員並顯示廣告。
+                                    </p>
+                                    <div className="flex gap-4">
+                                        <button
+                                            type="button"
+                                            onClick={handleCancelSubscription}
+                                            disabled={isLoading}
+                                            className="px-6 py-2.5 bg-red-500 text-white text-sm font-black rounded-xl hover:bg-red-600 disabled:opacity-50 transition-all"
+                                        >
+                                            {isLoading ? '處理中...' : '確認解除'}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowCancelConfirm(false)}
+                                            disabled={isLoading}
+                                            className="px-6 py-2.5 bg-white text-slate-500 text-sm font-black rounded-xl hover:bg-slate-100 border border-slate-200 transition-all"
+                                        >
+                                            保留訂閱
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

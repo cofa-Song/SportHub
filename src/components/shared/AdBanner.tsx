@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import { AdDTO } from '@/types';
+import { useAuth } from './MockAuthProvider';
 
 interface AdBannerProps {
     ads?: AdDTO[];
@@ -11,6 +14,11 @@ interface AdBannerProps {
  * Unified way to display ads in different positions.
  */
 export const AdBanner: React.FC<AdBannerProps> = ({ ads, position }) => {
+    const { user } = useAuth();
+
+    // If user is subscribed and ad-free, do not render ads
+    if (user?.is_ad_free) return null;
+
     // Parent component is responsible for passing the correct filtered ads
     // Since AdDTO no longer has 'position', we rely on the passed 'ads' array
     const relevantAds = ads || [];
