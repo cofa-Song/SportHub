@@ -1,0 +1,22 @@
+- [x] **OPE-203 Asset & Turnover Logs**
+    - [x] Define [AssetLog](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/log.ts#3-17) type in [src/types/log.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/log.ts) <!-- id: 24 -->
+    - [x] Implement `AssetLogService` mock in [src/api/log.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/log.ts) <!-- id: 25 -->
+    - [x] Update [RolloverEngine](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#6-315) to generate AssetLogs on events <!-- id: 26 -->
+    - [x] Implement [AssetLogs.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/AssetLogs.vue) with filtering and reporting <!-- id: 27 -->
+    - [x] Verify AC1: Currency Isolation <!-- id: 28 -->
+    - [x] Verify AC2: Exchange Logic & Logs <!-- id: 29 -->
+    - [x] Verify AC3: Unlock/Wipe Flow Logs <!-- id: 30 -->
+    - [x] Verify AC4: P2P Transfer Logs <!-- id: 31 -->
+
+- [x] **Refactoring Sidebar Menu**
+    - [x] Group Player List, Asset Logs, Operation Log under Player Management <!-- id: 32 -->
+    - [x] Create [PlayerLogs.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerLogs.vue) for player-specific audit logs <!-- id: 33 -->
+    - [x] Separate Player Logs and Admin Logs routing <!-- id: 34 -->
+
+- [x] **OPE-204 Game Round Records**
+    - [x] Define [GameLog](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#3-19) type in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 35 -->
+    - [ ] Create `GameLogService` mock in `src/api/game.ts` <!-- id: 36 -->
+    - [ ] Implement [GameLogs.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameLogs.vue) with advanced filtering and detail view <!-- id: 37 -->
+    - [ ] Verify AC1: Data Consistency (Mock) <!-- id: 38 -->
+    - [ ] Verify AC2: Valid Turnover Display <!-- id: 39 -->
+    - [ ] Verify AC3: Detail Modal with Raw JSON <!-- id: 40 -->

@@ -1,0 +1,51 @@
+# Plan: Implementing Advanced Menu-Based Breadcrumbs
+
+Refactor the breadcrumb logic to support both static menu hierarchy and dynamic detail pages, ensuring parent links are clickable.
+
+## Proposed Changes
+
+### 1. Router Configuration
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add `meta.breadcrumb` to routes.
+    - `PlayerDetail`: '詳情'
+    - `PlayerList`: '玩家列表' (optional, can fallback to menu label)
+    - Ensure all leaf pages have appropriate labels if not covered by menu.
+
+### 2. Layout Logic & Sidebar
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+
+1.  **Enhanced Sidebar Selection**:
+    - Update the `watch` logic for `selectedKey`.
+    - Instead of exact match, use intelligent matching (e.g., if path starts with `/admin/players/`, select `player-list`).
+    - This ensures `Player Detail` page keeps "Player List" highlighted in the menu.
+
+2.  **Breadcrumb Construction Algorithm**:
+    - **Step 1: Menu Path**: Find the path of `MenuOption` objects to the *currently selected menu key*.
+        - Example: `[Player Management Group, Player List Item]`
+    - **Step 2: Link Resolution**:
+        - For each item in the menu path, check if it has a mapped route in `menuKeyToRoute`.
+        - If yes, assign that route as the breadcrumb link.
+    - **Step 3: Dynamic Append**:
+        - Check if the *current active route* is different from the *selected menu item's route*.
+        - If different (e.g., we are on Detail page `/admin/players/123` but menu item is `/admin/players`), append an extra breadcrumb item.
+        - Label: Use `route.meta.breadcrumb` (e.g., "詳情").
+        - Link: None (it's the current page).
+    - **Final Result**: `[Group (Text), Player List (Link), Detail (Text)]`.
+
+3.  **Template**:
+    - Render `NBreadcrumb`.
+    - Loop through generated items.
+    - If `to` is present, render `<RouterLink>` or clickable span. Otherwise text.
+
+## Verification
+1.  **Scenario: Standard Page**
+    - Go to "Game Management > Game List".
+    - Breadcrumb: `Game Management > Game List`.
+    - "Game Management" is text (no link). "Game List" is text (current page).
+2.  **Scenario: Detail Page**
+    - Go to "Player List". Click a player.
+    - Path: `/admin/players/123`.
+    - Sidebar: "Player List" stays selected.
+    - Breadcrumb: `Player Management > Player List > 詳情`.
+    - Click "Player List": Redirects to `/admin/players`.
+

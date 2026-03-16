@@ -1,0 +1,23 @@
+# Walkthrough - Article Management Modifications
+
+I have modified the "Article Management" editor to include a more powerful rich text editor and simplified the SEO metadata options.
+
+## Changes Made
+
+### 1. TinyMCE Editor Integration
+- **New Feature**: Replaced the basic textarea with a full **TinyMCE** rich text editor.
+- **Functionality**: Provides standard formatting tools (bold, italic, alignment, lists, etc.) while keeping the implementation lightweight via CDN.
+- **Component**: Created a reusable [TinymceEditor.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/components/TinymceEditor.vue) component.
+
+### 2. SEO Field Cleanup
+- **Requirement**: Removed the "Meta Keywords" field from the SEO optimization tab, as requested.
+- **Consistency**: Updated the data types and initial states to ensure the application remains stable after the field removal.
+
+## Verification Results
+- **Editor**: TinyMCE loads correctly when opening the Add/Edit drawer and supports real-time synchronization with the form state.
+- **SEO**: The "SEO 優化" tab now only contains "Meta Title" and "Meta Description".
+- **Data Integrity**: Articles can still be saved and updated correctly; the `meta_keywords` property is no longer sent to the API.
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ArticleManager.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/types/article.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/components/TinymceEditor.vue)

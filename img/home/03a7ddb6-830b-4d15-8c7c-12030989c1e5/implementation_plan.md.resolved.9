@@ -1,0 +1,31 @@
+# Plan: Adding Affiliation Column to Player List
+
+Add a new column "Affiliation" (所屬) to the Player List to display the original agent account associated with the invitation code used during registration.
+
+## Proposed Changes
+
+### Data Layer
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/player.ts)
+- Add `agent_name` (optional or string) field to the [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-56) interface.
+
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/player.ts)
+- Update mock data generation to populate `agent_name` with random agent names (e.g., `agent_001`, `super_agent`).
+
+### UI Layer
+#### [MODIFY] [PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add a new column definition in the `columns` computed property.
+- Position the column between "Tags" and "Account Status".
+- Title Key: `navigation.affiliation` (Need to add this key).
+- Render `row.agent_name` or a hyphen if empty.
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add `affiliation` key to `player` section or `navigation` section.
+- zhTW: '所屬'
+- zhCN: '所属'
+- en: 'Affiliation'
+
+## Verification Plan
+1.  Check the Player List table.
+2.  Verify the new column "所屬" appears between "標籤" and "帳戶狀態".
+3.  Verify the content displays the agent name.

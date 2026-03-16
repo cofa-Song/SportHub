@@ -1,0 +1,37 @@
+# OPE-702 Risk Alert System Implementation Plan
+
+## Goal Description
+Implement a "Risk Alert System" to monitor and manage anomalous player behavior (e.g., IP conflicts, abnormally high wins). This system feeds into the OPE-701 Dashboard.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [risk.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/risk.ts)
+- `getAlerts(params)`: List alerts with pagination and filters.
+- `updateAlertStatus(id, status, note)`: Process alert (Dismiss/Punish).
+- `mockRiskTrigger()`: Helper to generate a fresh alert (for verification).
+
+### UI Components
+#### [NEW] [AlertList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Risk/AlertList.vue)
+- **Filters**: Status (Unresolved, Processing, Resolved), Type (IP, Win, etc.), Risk Level.
+- **Table**:
+    - ID, Player (Link), Type, Level (Color Coded), Time, Status, Operator.
+- **Detail/Action Modal**:
+    - Show full "Reason" (e.g., "Linked with User A, User B").
+    - Actions:
+        - **Ignore/Dismiss**: Mark as False Alarm.
+        - **Punish**: Restrict Withdraw / Freeze Account (Mock action).
+
+### Routing & Menu
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add `/risk/alerts`.
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Add "Risk Management" (風控管理) menu group.
+- Item: "異常預警列表" (Risk Alerts).
+
+## Verification Plan
+1.  **Mock Trigger**: Use a hidden button or console command to generate a 'High Risk' alert.
+2.  **Dashboard Sync**: Check if OPE-701 'Risk Alerts' count increases.
+3.  **Process Flow**: Open alert -> Mark as 'Resolved' -> Check if count decreases in Dashboard.
+4.  **RBAC**: Verify only authorized roles can see the menu.

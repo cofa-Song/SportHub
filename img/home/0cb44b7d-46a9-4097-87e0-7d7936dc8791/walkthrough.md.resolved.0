@@ -1,0 +1,36 @@
+# 修復營運配置驗證問題完成報告
+
+我們已經修復了「營運參數配置」頁面中數值欄位（P2P 轉帳手續費、活動錢包流水倍數、登入錯誤上限）的驗證失敗問題。
+
+## 變更內容
+
+### 前端
+
+#### [修改] [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+
+- 為 `p2p_transaction_fee`、`bonus_rollover_multiplier` 和 `login_error_limit` 欄位的驗證規則新增了 `type: 'number'`。
+- 新增了 `trigger: ['blur', 'change']` 以確保驗證在正確的時機觸發。
+- 導入了 `FormRules` 類型以解決 TypeScript 類型推斷問題。
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+
+## 驗證結果
+
+### 手動驗證建議
+請協助進行以下手動測試以確認修復效果：
+
+1. **P2P 轉帳手續費**：
+   - 在欄位輸入 `5.00`。
+   - **預期結果**：不再出現「手續費應在 0-100% 之間」的錯誤提示。
+
+2. **活動錢包流水倍數**：
+   - 輸入 `20.0` 或其他有效數值。
+   - **預期結果**：驗證通過，不顯示錯誤提示。
+
+3. **登入錯誤上限**：
+   - 輸入 `5` 或其他 1-20 之間的整數。
+   - **預期結果**：驗證通過。
+
+4. **提交表單**：
+   - 點擊「存取操作」按鈕。
+   - **預期結果**：系統應彈出變更原因對話框，而不是提示「表單驗證失敗」。

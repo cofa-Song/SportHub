@@ -1,0 +1,29 @@
+# Plan: Adding IP and Date Range Search Criteria
+
+Add "Registration IP" and "Registration Date Range" as new search parameters to the Player List.
+
+## Proposed Changes
+
+### Data Layer
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/player.ts)
+- Update [getPlayers](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/player.ts#21-83) mock logic:
+    - Add filtering by `register_ip` (substring match).
+    - Add filtering by `register_date_start` and `register_date_end` (date comparison).
+
+### UI Layer
+#### [MODIFY] [PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add `NFormItem` for "Registration Date" using `NDatePicker` (type="daterange").
+- Add `NFormItem` for "Registration IP" using `NInput`.
+- Bind these to `searchForm.register_date_range` (local helper) and `searchForm.register_ip`.
+- Ensure proper alignment with existing search rows.
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add keys:
+    - `player.list.registerIp`: '註冊 IP'
+    - `player.list.registerDate`: '註冊時間'
+
+## Verification Plan
+1. Test IP search with partial values.
+2. Test Date Range search with various intervals.
+3. Verify layout remains aligned.

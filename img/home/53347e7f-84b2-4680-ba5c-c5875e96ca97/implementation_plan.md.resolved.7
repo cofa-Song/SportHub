@@ -1,0 +1,35 @@
+# OPE-703 System Health Monitoring Implementation Plan
+
+## Goal Description
+Implement a real-time system health monitoring dashboard to track the status of external APIs (Game, Payment) and internal services. Alerts from this module feed into OPE-701.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [systemStatus.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/systemStatus.ts)
+- `getHealthStats()`: Returns list of services with status (`ALIVE`, `WARNING`, `CRITICAL`), latency, and timestamp.
+- `checkServiceIntegity(id)`: Manual re-check trigger.
+- `mockServiceFailure(id)`: Toggle service status for verification.
+
+### UI Components
+#### [NEW] [SystemStatus.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/SystemStatus.vue)
+- **Layout**: Grouped Grid/List (Payment, Game, System, Core).
+- **Features**:
+    - **Visual Indicators**: Green/Yellow/Red dots or badges.
+    - **Latency**: Show [ms](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/risk.ts#15-22) with color coding (Green < 500ms, Red > 2000ms).
+    - **Actions**: "Refresh All", "Maintenance Mode" (Toggle).
+
+### Routing
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Update `SystemStatus` route to point to the new `SystemStatus.vue`.
+- Ensure permissions are restricted to `DEVELOPER`, `MANAGER` (Ops).
+
+### Integration
+#### [MODIFY] [dashboard.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/dashboard.ts)
+- Update mock logic to count `CRITICAL` services from `systemStatus` logic (shared mock state if possible, or independent mock for simplicity).
+
+## Verification Plan
+1.  **Status Check**: Verify all services show "Normal" initially.
+2.  **Mock Failure**: Use a dev tool/button to simulate "Game Provider A" disconnect.
+3.  **Alert Propagation**: Verify OPE-701 shows "System Health" alert.
+4.  **Recovery**: Restore service and verify alert clears.

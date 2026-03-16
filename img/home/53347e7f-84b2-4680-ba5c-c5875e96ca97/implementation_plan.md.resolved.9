@@ -1,0 +1,43 @@
+# System Health Monitoring Enhancement
+
+Enhance the "System Health Monitoring" dashboard with new visualizations for Server Load, API Latency, System Errors, and Traffic Trends.
+
+## Proposed Changes
+
+### API Layer
+
+#### [MODIFY] [systemStatus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/systemStatus.ts)
+Add new interfaces and mock data generators:
+- `SystemOverviewStats`: Server Load %, API Avg Latency, Error Count (24h)
+- `TrafficPoint`: Timestamp + Request Count for trend chart
+- `getSystemOverview()`: Returns load, latency, error metrics
+- `getTrafficTrend()`: Returns 24 hourly data points
+
+---
+
+### UI Layer
+
+#### [MODIFY] [SystemStatus.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/SystemStatus.vue)
+Add new sections before the existing service groups:
+
+1. **KPI Cards Row** (4 columns):
+   - **伺服器負載 (Server Load)**: Gauge chart (0-100%)
+   - **API 平均延遲 (Avg Latency)**: Number + color indicator
+   - **系統錯誤 (Error Alerts)**: Count + severity level
+   - **當前 QPS**: Realtime requests/second
+
+2. **Traffic Trend Chart**:
+   - Line chart showing API traffic over past 24 hours
+   - X-axis: Time (hourly), Y-axis: Request count
+   - Use ECharts consistent with RealtimeDashboard
+
+---
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "數據中心 > 系統健康監測"
+2. Confirm new KPI cards display with animated values
+3. Confirm gauge chart renders correctly for Server Load
+4. Confirm traffic trend chart shows 24 data points
+5. Confirm auto-refresh updates all new metrics

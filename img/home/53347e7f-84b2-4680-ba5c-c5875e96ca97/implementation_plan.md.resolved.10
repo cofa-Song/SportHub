@@ -1,0 +1,47 @@
+# Guild Member List View Implementation
+
+Add a "Member List" column to the Guild Management table to allow operators to view the members of a specific guild.
+
+## Proposed Changes
+
+### Types & API
+
+#### [MODIFY] [guild.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/guild.ts)
+Add `GuildMember` interface:
+- `player_id`: string
+- `username`: string
+- `rank`: 'LEADER' | 'ELDER' | 'MEMBER'
+- `join_time`: string
+- `total_contribution`: number
+- `last_active`: string
+
+#### [MODIFY] [guild.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/guild.ts)
+Add `getMembers(guildId: string)` method to fetch members (mock implementation).
+
+---
+
+### UI Layer
+
+#### [MODIFY] [GuildManagement.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GuildManagement.vue)
+- Update `columns` to add "成員名單" button in the "操作" column.
+- Add `showMembersModal` ref.
+- Add `membersData` ref to store the fetched member list.
+- Implement `handleShowMembers(guildId: string)` to fetch data and open the modal.
+- Add an `NModal` containing an `NDataTable` to display:
+  - 玩家 ID (with link to player detail)
+  - 使用者名稱
+  - 職位 (with colored tags)
+  - 累積貢獻
+  - 加入時間
+  - 最後在線
+
+---
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "玩家管理 > 公會設定".
+2. Scroll to any guild in the list.
+3. Click "成員名單" in the actions column.
+4. Verify that a modal opens displaying the member list correctly.
+5. Click a player ID in the member list to verify navigation to player details.

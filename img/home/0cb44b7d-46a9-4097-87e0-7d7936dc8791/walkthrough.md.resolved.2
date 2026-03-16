@@ -1,0 +1,56 @@
+# 修復營運配置驗證問題完成報告
+
+我們已經修復了「營運參數配置」頁面中數值欄位（P2P 轉帳手續費、活動錢包流水倍數、登入錯誤上限）的驗證失敗問題。
+
+## 變更內容
+
+### 前端
+
+#### [修改] [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+
+- 為 `p2p_transaction_fee`、`bonus_rollover_multiplier` 和 `login_error_limit` 欄位的驗證規則新增了 `type: 'number'`。
+- 新增了 `trigger: ['blur', 'change']` 以確保驗證在正確的時機觸發。
+- 導入了 `FormRules` 類型以解決 TypeScript 類型推斷問題。
+
+### 業務邏輯描述更正
+
+- 修正了「活動錢包流水倍數 (M)」設為 `0` 時的提示文字：
+  - **舊**：⚠️ 設為 0 將禁用所有贈點
+  - **新**：💡 設為 0 將取消流水限制，贈點可直接轉入儲值錢包
+- 修正了存檔時的警告對話框：
+  - 標題由「警告」改為「確認」。
+  - 內容更正為描述取消流水限制而非禁用贈點。
+
+### Walkthrough
+
+- [x] 修復多語系缺漏
+    - [x] 在 [src/locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) 中新增 `navigation.operationConfig`：
+      - `zhTW`: 營運參數配置
+      - `zhCN`: 营运参数配置
+      - [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue#31-34): Operation Config
+    - [x] 將 [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) 的標題改為使用 `$t('navigation.operationConfig')`
+    - [x] 更新完成報告 (Walkthrough)
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/OperationConfig.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+
+## 驗證結果
+
+### 手動驗證建議
+請協助進行以下手動測試以確認修復效果：
+
+1. **P2P 轉帳手續費**：
+   - 在欄位輸入 `5.00`。
+   - **預期結果**：不再出現「手續費應在 0-100% 之間」的錯誤提示。
+
+2. **活動錢包流水倍數**：
+   - 輸入 `20.0` 或其他有效數值。
+   - **預期結果**：驗證通過，不顯示錯誤提示。
+
+3. **登入錯誤上限**：
+   - 輸入 `5` 或其他 1-20 之間的整數。
+   - **預期結果**：驗證通過。
+
+4. **提交表單**：
+   - 點擊「存取操作」按鈕。
+   - **預期結果**：系統應彈出變更原因對話框，而不是提示「表單驗證失敗」。

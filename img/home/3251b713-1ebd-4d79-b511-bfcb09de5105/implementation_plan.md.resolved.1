@@ -1,0 +1,36 @@
+# Implementation Plan - OPE-201 & OPE-202
+
+## OPE-201 Player Management (Completed)
+- [x] Defined logical types for Player and Wallet.
+- [x] Implemented List and Detail views.
+- [x] Implemented Status Control.
+
+## OPE-202 Core Accounting Engine (New)
+
+> [!NOTE]
+> This module simulates the complex backend logic for processing Bonus Rollovers.
+
+### 1. Data Models (`src/types/bonus.ts`)
+- **BonusCard**: Represents a single bonus item. fields: `id`, `currency` (SILVER), `start_amount`, `lave_amount`, `multiplier`, `target`, `cap`, `end_time`.
+- **RolloverContainer**: Represents the active wagering state. fields: `status`, `active_card_id`, `start_balance`, `lave_balance`, `current_wagering`, `target_wagering`, `cap`.
+- **PlayerExtension**: Add `bonus_queue` and `rollover_container` to [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#12-36) type.
+
+### 2. Logic & Simulation (`src/mocks/engine.ts`)
+We need a `RolloverEngine` class to encapsulate the rules:
+- **`addBonus(player, amount, multiplier, cap)`**: Creates card, adds to queue.
+- **`activateBonus(player)`**: Moves card from queue to container. Checks expiry.
+- **`processBet(player, walletType, amount)`**: Updates wagering progress if wallet is BONUS.
+- **`processWin(player, walletType, amount)`**: Adds win amount to container if BONUS.
+- **`settle(player)`**: Checks condition `current >= target`. If yes, moves [min(balance, cap)](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/index.ts#47-63) to Cash wallet and clears container.
+
+### 3. UI Updates
+#### [MODIFY] [src/views/Master/PlayerDetail.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerDetail.vue)
+- **Container Display**: Detailed view of the "Rollover Activity Wallet" card. Show Progress Bar `current / target`.
+- **Queue Display**: A list showing pending bonus cards.
+- **Simulation Tools**: A developer-only section (or a specific action button) to "Simulate Bet" and "Simulate Win" to test the wagering logic visually.
+
+### 4. Verification Plan
+- **AC1 Wagering**: Simulate 10 Silver bet -> Progress increases by 10. Simulate Gold bet -> Progress unchanged.
+- **AC2 Settlement**: Increase wagering to target -> Verify Cash wallet increases by Cap, Bonus wallet clears.
+- **AC3 Abandon**: Use existing Abandon button -> Verify container resets, queue loads next (if auto-load implemented).
+- **AC4 Bankruptcy**: Reduce Bonus balance to 0 -> Verify container resets.

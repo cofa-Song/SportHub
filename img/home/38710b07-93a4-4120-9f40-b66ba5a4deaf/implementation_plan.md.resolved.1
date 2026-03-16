@@ -1,0 +1,32 @@
+# implementation_plan.md
+
+## Goal Description
+Modify the "Image Management" (圖片管理) creation interface to improve user experience and clarity.
+1. Update terminology: "公告類型" -> "圖片類型", "公告標題" -> "圖片標題".
+2. Change the input for "圖片類型" from a radio group to a dropdown menu (Select).
+
+## User Review Required
+> [!IMPORTANT]
+> The labels "公告類型" and "公告標題" are currently shared with the Announcement system. I will create new translation keys specifically for Image Management to avoid affecting other modules.
+
+## Aligning Article Management UI with Image Management
+
+### Article Management View
+#### [MODIFY] [ArticleManager.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ArticleManager.vue)
+- Move "新增文章" button:
+    - From search form toolbar to `<template #header-extra>` of the main `NCard`.
+    - Change button type to `info`.
+    - Remove icon as per [ImageConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/ImageConfig.vue) style.
+- Move "存取操作" button:
+    - From search form toolbar to a separate `div` with `class="flex gap-2"` inside the `NCard`'s content, above the search section.
+
+## Verification Plan
+
+### Automated Tests
+- No existing automated tests for this UI. Verification will be done manually.
+
+### Manual Verification
+1.  Navigate to **前台設定 > 圖片管理** to observe the base UI.
+2.  Navigate to **前台設定 > 文章管理**.
+3.  Verify the "新增文章" button is now in the top-right header of the card and has a blue (info) color.
+4.  Verify the "存取操作" button is now located above the search filters, consistent with the Image Management layout.

@@ -1,0 +1,42 @@
+# Remove Environment and Add Proxy Field in Third-party Key Management
+
+This plan outlines the steps to modify the "Third-party Key Management" interface to remove the "Environment" field and add a "Proxy" field.
+
+## Proposed Changes
+
+### [Backend/Data Layer]
+
+#### [MODIFY] [thirdparty.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/thirdparty.ts)
+- Remove `Environment` type.
+- Remove `environment` field from `ThirdPartyKey` and `CreateThirdPartyKeyRequest` interfaces.
+- Add `proxy?: string` field to both interfaces.
+
+#### [MODIFY] [thirdparty.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/thirdparty.ts)
+- Update `create` and `update` methods to remove `environment` logic and include `proxy` logic.
+
+#### [MODIFY] [thirdparty.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/thirdparty.ts)
+- Remove `environment` field from mock data.
+- Add optional `proxy` field to mock data.
+
+### [Frontend/UI]
+
+#### [MODIFY] [ThirdPartyKeys.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ThirdPartyKeys.vue)
+- Update `formModel` to include `proxy` and remove `environment`.
+- Update `columns` to remove the "環境" (Environment) column.
+- Update the modal form:
+    - Remove the "連線環境" (Connection Environment) radio buttons.
+    - Add a "Proxy" input field (string, optional).
+
+## Verification Plan
+
+### Manual Verification
+- [ ] Navigate to "系統設定 > 第三方 Key 管理".
+- [ ] Verify that the "環境" column is gone from the list.
+- [ ] Click "新增金鑰":
+    - [ ] Verify "連線環境" field is gone.
+    - [ ] Verify "Proxy" field is present.
+    - [ ] Fill in data (including Proxy) and save.
+- [ ] Edit an existing key:
+    - [ ] Verify "連線環境" field is gone.
+    - [ ] Verify "Proxy" field is present and correct.
+- [ ] Verify that "測試連線" still works (mocked).

@@ -1,0 +1,35 @@
+# Plan: Adding Affiliation Column to Player List
+
+Add a new column "Affiliation" (所屬) to the Player List to display the original agent account associated with the invitation code used during registration.
+
+## Proposed Changes
+
+### Data Layer
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/player.ts)
+- Add `agent_name?: string` field to the [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-56) interface.
+
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/player.ts)
+- Update mock data generation.
+- Randomly populate `agent_name` for some players to simulate invited users.
+- Leave `agent_name` undefined for others to simulate organic users.
+
+### UI Layer
+#### [MODIFY] [PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add a new column definition in the `columns` computed property.
+- Position the column between "Tags" and "Account Status".
+- Title Key: `navigation.affiliation`.
+- Render Logic:
+    - If `row.agent_name` exists, display it.
+    - If empty/undefined, display [t('common.none')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#21-27) or [t('player.noAgent')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#21-27).
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- **Navigation/Player Section**:
+    - `affiliation`: '所屬' / '所属' / 'Affiliation'
+- **Common/Player Section**:
+    - `none`: '無' / '无' / 'None' (Existing check required, otherwise add it)
+
+## Verification Plan
+1.  Check the "所屬" column position.
+2.  Verify players with agents show the agent name.
+3.  Verify players without agents show "無" (in TW/CN) or "None" (in EN).

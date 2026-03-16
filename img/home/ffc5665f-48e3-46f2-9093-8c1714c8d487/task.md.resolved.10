@@ -1,0 +1,16 @@
+# OPE-605 金流通道管理任務清單
+
+- [/] 基礎建設 (Foundations)
+    - [ ] 定義 TypeScript 介面 `src/types/paymentChannel.ts`
+    - [ ] 實作 Mock 數據 `src/mocks/paymentChannel.ts`
+    - [ ] 實作 API 介面 `src/api/paymentChannel.ts`
+- [ ] 核心功能開發 (Core Features)
+    - [ ] 實作 `/admin/payment-channels` 路由與選單整合
+    - [ ] 開發 `PaymentChannels.vue` 主頁面 (亮色高端科技感)
+    - [ ] 實作通道列表 (含累計進度條、狀態切換、審核遮蔽 Toggle)
+    - [ ] 實作新增/編輯彈窗 (API 參數加密欄位、風控限額、VIP/標籤分層)
+- [ ] 業務邏輯與驗證 (Logic & Verification)
+    - [ ] 驗證熔斷機制 (今日累計 vs 上限) 視覺反饋
+    - [ ] 驗證 VIP 與標籤的多選過濾邏輯
+    - [ ] 測試 API Key/Secret 的脫敏與輸入安全性
+    - [ ] 驗證審核遮蔽開關的狀態持久化

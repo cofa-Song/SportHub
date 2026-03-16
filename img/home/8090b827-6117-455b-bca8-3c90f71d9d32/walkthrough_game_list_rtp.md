@@ -1,0 +1,29 @@
+# Walkthrough - Game List Terminology Update (RTP)
+
+I have updated the "Game List" module to use "RTP" (Return to Player) terminology instead of "Win Rate" or "Kill Rate" (殺率), as requested.
+
+## Changes Made
+
+### 1. Translation Updates
+- **Statistics**: "統計殺率" has been renamed to **"統計RTP"**.
+- **Settings**: "設置殺率" has been renamed to **"設置RTP"**.
+- **Edit Modal**: The field "殺率" has been renamed to **"RTP"**.
+- Updated both instances of these keys in `src/locales/index.ts` to ensure consistency.
+
+### 2. Logic & Calculation Adjustments (`GameList.vue`)
+To ensure the values displayed correctly reflect the new "RTP" labels, I have adjusted the underlying logic:
+
+- **Stats RTP Column**:
+    - Changed calculation from Margin (`(Bet - Payout) / Bet`) to actual RTP (`Payout / Bet`).
+    - **Color Coding**: RTP ≤ 100% is now shown in **green** (healthy for the platform), while RTP > 100% is shown in **red**.
+- **Set RTP Column & Editing**:
+    - The UI now displays the **Inverse Margin** (e.g., if the margin is 5%, it displays 95% RTP).
+    - **Edit Modal**: When you input a value like `95` for RTP, the system automatically converts and saves it as a `5%` profit margin in the background, maintaining compatibility with existing data structures.
+
+## Verification Results
+- The "Game List" table now shows "統計RTP" and "設置RTP" columns.
+- The edit modal correctly displays "RTP" as a percentage input.
+- All "殺率" (Kill Rate) mentions have been removed from the source code.
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameList.vue)

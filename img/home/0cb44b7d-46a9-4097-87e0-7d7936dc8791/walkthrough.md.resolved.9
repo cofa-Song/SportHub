@@ -1,0 +1,24 @@
+# 任務完成報告
+
+## 已實作功能
+
+### 1. 導航選單調整
+- 將「營運參數配置」連結從「系統設定」分類移動到「前台設定」分類。
+- 更換圖示為工具圖示。
+
+### 2. 文章管理功能優化 (OPE-505)
+- **列表欄位擴展**：新增「發佈區間」欄位，顯示文章的起始與結束時間（格式化為 YYYY-MM-DD HH:mm）。
+- **操作一致性**：將存檔按鈕文字統一修改為「存取操作」，符合系統整體風格。
+- **組件升級**：封面縮圖欄位由文字 Input 升級為 `NUpload` 圖片上傳組件，支援縮圖預覽。
+- **SEO 與富文本**：整合 Meta 資訊設定與模擬編輯器。
+
+## 代碼變更詳情
+
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ArticleManager.vue)
+render_diffs(file:///c:/Users/Administrator/Desktop/營運後台/src/api/article.ts)
+
+## 驗證結果
+- [x] 發佈區間時間格式化顯示正確
+- [x] 「存取操作」按鈕文字更新完成
+- [x] 封面圖片上傳與移除功能測試成功 (Mock 模擬)
+- [x] 多語系與 SEO 標籤綁定驗證

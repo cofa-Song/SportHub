@@ -1,0 +1,7 @@
+# Tasks
+
+- [ ] Identify the target Markdown "settings" files <!-- id: 0 -->
+- [ ] Determine the import method (raw, HTML, component) <!-- id: 1 -->
+- [ ] Install necessary loading plugins (if needed) <!-- id: 2 -->
+- [ ] Configure [vite.config.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/vite.config.ts) <!-- id: 3 -->
+- [ ] Verify import works <!-- id: 4 -->

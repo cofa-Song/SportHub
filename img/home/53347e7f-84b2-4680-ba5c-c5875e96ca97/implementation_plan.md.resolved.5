@@ -1,0 +1,40 @@
+# OPE-701 Todo Audit Center Implementation Plan
+
+## Goal Description
+Create a centralized "Todo Audit Center" as the dashboard homepage. It aggregates pending items (finance, risk, system health) and provides quick access for administrators to handle them.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [dashboard.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/dashboard.ts)
+- `getTodoStats()`: Returns counts for:
+    - `pendingDeposits` (Timeout & has proof)
+    - `pendingWithdrawals` (Pending Audit)
+    - `riskAlerts` (Unresolved Med/High)
+    - `apiHealth` (Service status)
+    - `ccu` (Concurrent Users)
+
+### UI Components
+#### [NEW] [TodoCenter.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Dashboard/TodoCenter.vue)
+- **Layout**: Grid of Cards.
+- **Features**:
+    - **Auto-Refresh**: Every 30s. Manual refresh with 5s cooldown.
+    - **RBAC**: Hide Finance cards if no finance role; Hide Risk cards if no risk role.
+    - **Navigation**:
+        - Deposit Card -> `/finance/deposit?status=timeout` (Mock query)
+        - Withdraw Card -> `/finance/withdraw?status=pending`
+        - Risk Card -> `/risk/alerts?status=unresolved`
+    - **Visuals**:
+        - Green background/icon if count is 0.
+        - Red/Warn if count > 0 or System Unhealthy.
+
+### Routing
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add `/dashboard` or `/todo-center`.
+- Set as default redirect for `/admin` if appropriate (or keep separate).
+
+## Verification Plan
+1.  **RBAC**: Log in as different roles (verify logic via auth store mock).
+2.  **Navigation**: Click cards and check if router pushes correctly with params.
+3.  **Polling**: Verify `getTodoStats` is called every 30s.
+4.  **Zero State**: Verify cards look "Green/Safe" when counts are 0.

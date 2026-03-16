@@ -1,0 +1,7 @@
+# Task Breakdown: Implementing Breadcrumbs Navigation
+- [/] 規劃麵包屑導覽實作方案 (In Progress)
+- [ ] 在 [Layout.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue) 中導入 `NBreadcrumb` 組件
+- [ ] 實作基於路由的動態麵包屑生成邏輯
+- [ ] 定義路由路徑與語系 Key 的對照表
+- [ ] 調整 [Layout.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue) 佈局以適配面包屑顯示
+- [ ] 驗證導覽點擊功能與視覺效果

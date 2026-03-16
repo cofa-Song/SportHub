@@ -1,0 +1,53 @@
+# Competition Blog Frontend Implementation Plan
+
+## Development Principles
+- **Scalability & Maintainability**: Architecture designed for easy expansion and long-term maintenance.
+- **User Experience**: Mandatory loading states/animations for all asynchronous operations.
+- **Code Quality**: Concise, self-documenting code with strategic comments for complex logic.
+- **High Modularity**: Component-driven development to minimize duplication and maintenance costs.
+
+
+## Proposed Changes
+
+### Multi-language Support (i18n)
+- [NEW] Implement `next-intl` or a custom lightweight i18n context provider.
+- [NEW] Create dictionary files: `zh-TW.json`, `zh-CN.json`, `en.json`.
+- [MODIFY] Wrap the application in an i18n provider for dynamic translation.
+
+### Design System (Bright Theme)
+- [MODIFY] Update [globals.css](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/app/globals.css) to use a light-themed color palette:
+  - Background: Off-white/slate-50.
+  - Surface: White with subtle shadows.
+  - Brand: High-contrast emerald/navy accents.
+- [MODIFY] Ensure all shared components ([Card](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/components/ui/Card.tsx#21-35), [ScoreCard](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/components/shared/ScoreCard.tsx#11-85), [PostCard](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/components/shared/PostCard.tsx#12-85)) adapt to the bright theme while maintaining the "premium" feel.
+
+### Navigation Upgrade
+- [MODIFY] [Header.tsx](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/components/layout/Header.tsx):
+  - Implement a two-level navigation system.
+  - **Level 1**: Home, Live Stats, Latest News, Analyses, Authors.
+  - **Level 2 (Dropdown)**: Baseball, Basketball, Others (for specified Level 1 items).
+  - Add a language switcher component in the header.
+
+### Updated Core Features
+- [MODIFY] [page.tsx](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/app/page.tsx): Update content to use translation keys.
+- [MODIFY] [api.ts](file:///c:/Users/Administrator/.gemini/antigravity/scratch/competition-blog/frontend/src/services/api.ts): Ensure mock data supports multiple languages (if applicable).
+
+
+### Features
+- **Homepage**: Hero section with featured matches, latest news grid, and category filtering.
+- **Match Center**: A dedicated area for real-time scores (mocked initially for later Go backend integration).
+- **SEO Library**: Centralized metadata management for posts and pages.
+- **Editor Experience**: Implementation of a clean UI for content creators.
+- **Loading System**: Global and component-level skeleton screens and spinners.
+
+
+## Verification Plan
+
+### Automated Tests
+- `npm run build`: Verify production build stability.
+- `npx tsc`: Type check all files.
+
+### Manual Verification
+- Verify responsive layouts on desktop and mobile.
+- Check lighthouse scores for SEO and Performance.
+- Test real-time score updates simulation.

@@ -1,0 +1,2 @@
+:HL["/SportHub/_next/static/chunks/8f0abc953c1aaf52.css","style"]
+0:{"buildId":"Y9bVjzZg03x1w5ZflO3qN","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"/_not-found","paramType":null,"paramKey":"/_not-found","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

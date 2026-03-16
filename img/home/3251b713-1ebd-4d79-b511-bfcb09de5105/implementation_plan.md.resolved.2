@@ -1,0 +1,49 @@
+# Implementation Plan - OPE-201, OPE-202 & OPE-203
+
+## OPE-201 Player Management (Completed)
+- [x] Defined logical types for Player and Wallet.
+- [x] Implemented List and Detail views.
+- [x] Implemented Status Control.
+
+## OPE-202 Core Accounting Engine (Completed)
+- [x] Defined Bonus Card and Rollover Container types.
+- [x] Implemented RolloverEngine simulation logic.
+- [x] Integrated Bonus Queue and Container in PlayerDetail.
+
+## OPE-203 Asset and Turnover Change Log (New)
+
+> [!NOTE]
+> This module acts as the central audit trail for all financial movements.
+
+### 1. Data Models (`src/types/log.ts`)
+- **AssetLog**:
+    - `log_id`: string (UUID)
+    - `timestamp`: string (ISO)
+    - `currency`: 'GOLD' | 'SILVER' | 'COPPER'
+    - `wallet_type`: 'CASH' | 'BONUS' | 'SAFE'
+    - `change_type`: 'BET', 'WIN', 'CLAIM', 'UNLOCK', 'WIPE', 'EXCHANGE', 'P2P_OUT', 'P2P_IN'
+    - `amount`: number
+    - `post_balance`: number
+    - `valid_turnover`: number
+    - `remain_target`: number
+    - `related_id`: string (GameID, TransferID, etc.)
+
+### 2. Logic Update ([src/mocks/engine.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts))
+- **Modify [RolloverEngine](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#4-181)**: To return or store logs when operations occur.
+    - [processBet](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#69-99) -> Generate log with `valid_turnover`.
+    - [processWin](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#100-113) -> Generate log.
+    - [checkSettlement](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#114-150) -> Generate logs for Unlock/Wipe.
+    - [abandonBonus](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#151-160) -> Generate log for Wipe.
+- **New `AssetLogService`**: To mock fetching logs with filtering.
+
+### 3. UI Updates
+#### [NEW] [src/views/Master/AssetLogs.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AssetLogs.vue)
+- **Filters**: Player ID, Currency, Change Type, Date Range.
+- **Table**: Display critical fields.
+- **Highlight**: Show `Valid Turnover` in a distinct color to verify OPE-201 logic.
+
+### 4. Verification Plan
+- **AC1 Currency Isolation**: Bet Gold -> Verify Log `valid_turnover` is 0. Bet Silver -> Verify `valid_turnover` = Amount.
+- **AC2 Exchange**: Implement Exchange function (Mock) -> Verify pairs of logs.
+- **AC3 Unlock/Wipe**: Trigger settlement -> Verify 3 logs (Bonus Claim, Cash Unlock, Bonus Wipe).
+- **AC4 P2P**: Implement P2P function (Mock) -> Verify 2 logs with cross-referencing IDs.

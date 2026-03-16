@@ -1,0 +1,53 @@
+# OPE-603 Manual Deposit/Withdrawal Management
+
+## Planning & Setup
+- [x] Explore existing codebase for patterns (Player lookup, Forms, APIs)
+- [x] Create Implementation Plan
+- [x] Define API endpoints (mock or real interfaces)
+
+## Implementation
+- [x] Create [ManualAdjustment.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/ManualAdjustment.vue) view
+    - [x] Player Search Section (ID input, display name/tags)
+    - [x] Operation Form (Type, Wallet, Amount, Reason, Note)
+    - [x] Dynamic Fields (Proof Image, Rollover Toggle, Multiplier)
+- [x] Implement Form Validation & Logic
+    - [x] Balance check (frontend validation if data available)
+    - [x] "Test Account" warning
+    - [x] Offline Deposit proof requirement
+- [x] Implement API Integration
+    - [x] Player Info Search
+    - [x] Submit Adjustment (with double-submit protection)
+- [x] Register Route
+
+## Verification
+- [x] Verify AC 1: Balance update (Unit/Mock test)
+- [x] Verify AC 2: Validations (Required fields)
+- [x] Verify AC 3: Rollover logic (Queue generation mock check)
+- [x] Verify AC 4: Audit Log (data structure check)
+- [x] Verify AC 5: Double-submit protection
+
+# OPE-604 Financial Overview Dashboard
+
+## Planning & Setup
+- [ ] Check for chart libraries (echarts/chart.js)
+- [ ] Create Implementation Plan
+- [ ] Define API `finance.ts` for aggregated data
+
+## Implementation
+- [ ] Create `FinancialOverview.vue`
+    - [ ] Filter Bar (Time range, Test account toggle, Refresh button)
+    - [ ] KPI Cards (Total Deposit, Total Withdraw, Net Revenue, etc.)
+    - [ ] Charts Section (Deposit Composition, Withdrawal Composition)
+    - [ ] Alert System (Manual adjustment threshold check)
+- [ ] Implement Business Logic
+    - [ ] Auto-refresh (60s)
+    - [ ] Permission check (Hide Net Revenue for non-managers)
+    - [ ] Calculations (Net Revenue = Deposit - Withdraw)
+- [ ] Register Route
+
+## Verification
+- [ ] Verify AC 1: Test account exclusion
+- [ ] Verify AC 2: Manual adjustment sum update
+- [ ] Verify AC 3: Data consistency with other modules
+- [ ] Verify AC 4: Time range filtering
+- [ ] Verify AC 5: Permission-based visibility

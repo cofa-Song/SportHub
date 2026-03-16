@@ -1,0 +1,9 @@
+# Task Breakdown: Game List Enhancements
+- [/] Update localization strings (locales/index.ts)
+- [ ] Enhance type definitions (types/game.ts)
+- [ ] Update mock API to support win rate and cumulative logic (api/game.ts)
+- [ ] Implementation in GameList.vue:
+    - [ ] Add search filters: Marketing Tag, Type Tag, Date Range (minutes precision)
+    - [ ] Update table columns: Rename "Monthly" to "Cumulative", rename "Tag Source" to "Type Tag"
+    - [ ] Add "Win Rate" (殺率) column with formula and color-coding
+- [ ] Clean up unused code and verify logic

@@ -1,0 +1,54 @@
+# 實作計畫：儲值訂單管理 (OPE-601)
+
+本計畫旨在建立一個多維度的儲值訂單監控與管理介面，包含即時數據分析、趨勢圖表及詳細的操作紀錄。
+
+## 使用者審閱確認
+
+> [!IMPORTANT]
+> **圖表程式庫選擇**：由於專案目前未安裝圖表庫，我將在 [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/DepositOrders.vue) 中動態載入 `echarts`  CDN 或建議安裝 `echarts` 依賴。為確保穩定性，本計畫優先採用 Naive UI 配合自定義畫布或現有圖表元件。
+
+## 擬議變更
+
+### 1. 資料模型與 API
+
+#### [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/depositOrder.ts)
+- 定義 [DepositOrder](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/depositOrder.ts#5-20) 介面。
+- 定義 [DepositStats](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/depositOrder.ts#21-29) (看板數據) 與 `TrendData` (趨勢圖) 類型。
+
+#### [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/depositOrder.ts)
+- 生成模擬訂單數據，包含各個狀態、渠道、金額及手續費。
+- 提供符合 OPE-601 邏輯的統計聚合方法。
+
+#### [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/depositOrder.ts)
+- [list](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#8-28): 取得訂單列表。
+- [stats](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#29-60): 取得頂部看板數據。
+- [trend](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#61-77): 取得趨勢分析數據。
+- [sync](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#78-82): 查單功能。
+- [manualComplete](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#83-87): 人工補單。
+- [logs](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#88-100): 取得訂單生命週期日誌。
+
+### 2. 前端介面實作
+
+#### [NEW] [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/DepositOrders.vue)
+- **頂部數據看板**：使用 `NGrid` 與 `NCard` 顯示統計指標（總額、手續費、訂單數），並內嵌圓餅圖。
+- **中間趨勢圖**：使用 ECharts 展示成功金額曲線與訂單數長條圖，並標註紅線預警。
+- **查詢條件**：日期範圍、玩家 ID、狀態、渠道、單號過濾。
+- **數據列表**：展示詳細訂單欄位，支援跳轉、查單、補單與日誌詳情。
+
+### 4. UI 視覺優化 (Beautification)
+- **調整佈局**：將數值指標與圖表解耦。上方放置 4 個精美的數據卡片；下方分兩欄，左側為趨勢圖，右側垂直排列兩個加大後的圓餅圖。
+- **美化圖表**：
+    - 為圓餅圖增加漸層色與更平滑的動畫。
+    - 增加圖表標籤引導線。
+    - 調整趨勢圖的長條色調與線條漸層。
+- **內容優化**：增加「儲值成功率」等核心指標。
+
+---
+
+## 驗證計畫
+
+### 自動化/手動測試
+1. **數據一致性**：點擊過濾後，看板、圖表與列表數據必須同步更新。
+2. **手續費試算**：驗證 iOS 訂單（30% 手續費）在列表中的顯示是否正確。
+3. **查單/補單流**：模擬查單成功後狀態變更為「成功」；驗證補單時憑證上傳與必填項檢查。
+4. **日誌完整性**：確認日誌彈窗包含狀態變遷與原始 JSON 數據。

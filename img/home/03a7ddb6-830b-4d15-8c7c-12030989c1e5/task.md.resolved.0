@@ -1,0 +1,6 @@
+# Task Breakdown: Fixing Missing i18n Keys
+
+- [ ] Research locale files and component context [/]
+- [ ] identify missing keys in `en` and `zh-TW` locales
+- [ ] Add missing keys to locale files
+- [ ] Verify fix

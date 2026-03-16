@@ -1,0 +1,34 @@
+# i18n for Layout Menu
+
+Ensure all sidebar menu items and breadcrumbs in the Layout are translatable.
+
+## Proposed Changes
+
+### Locales
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts)
+Add missing keys to `navigation` section for `zhTW`, `zhCN`, and [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/depositOrder.ts#61-77):
+- `dataCenter`
+- `todoCenter`
+- `riskManagement`
+- `realtimeOps`
+- `financialOverview`
+- `manualAdjustment`
+- `commodityConfig`
+- `imageConfig`
+- `systemStatus`
+
+### UI Layer
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue)
+- Update `menuOptions` computed property.
+- Replace remaining static Chinese labels with [t('navigation.xxx')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/guild.ts#58-66).
+
+## Verification Plan
+
+### Manual Verification
+1. Open the dashboard.
+2. Toggle the language switch (if available in the header, or via code/reload if not yet implemented).
+3. Observe the sidebar menu items:
+   - "數據中心", "財務概覽看板", etc. should change according to the selected language.
+4. Verify breadcrumb labels update as well.

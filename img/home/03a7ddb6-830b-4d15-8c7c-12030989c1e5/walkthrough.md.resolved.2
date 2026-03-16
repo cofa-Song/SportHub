@@ -1,0 +1,29 @@
+# 工作報告：群組權限設定優化
+
+我已根據您的要求，優化了「群組與帳號管理」中的權限設定介面與邏輯。
+
+## 變更內容
+
+### 權限層級優化
+- **檔案**: [GroupManagement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GroupManagement.vue)
+- **變更**: 
+    - 將原本的按鈕樣式替換為 `NRadioGroup` 單選按鈕組。
+    - **互斥邏輯**: 現在「無、唯讀、操作」三個選項呈現互斥關係，確保管理員在設定時只能三選一，避免複選疑慮。
+
+### 新增敏感資料控管
+- **變更**: 
+    - 在權限設定的每個 **功能模組**（如：系統設定、帳號管理）標題右側，新增了 **「敏感資料」** 勾選框。
+    - **預設狀態**: 預設為不勾選（即僅能查看脫敏資料）。
+    - **數據結構**: 更新了專案型別與模擬數據，確保此設定能正確保存。
+
+### 技術細節
+- 更新了 [src/types/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/index.ts) 中的 [PermissionGroup](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/index.ts#32-47) 介面，新增 `sensitive_permissions` 紀錄。
+- 同步更新了 [src/mocks/admin.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/admin.ts) 中的初始數據，確保系統穩定運行。
+
+## 驗證結果
+- 編輯群組時，權限選項切換流暢且互斥。
+- 每個模組的敏感資料勾選狀態在保存並重新打開後能正確跳回。
+
+---
+> [!TIP]
+> 此次改動提升了權限管理的精確度，並為未來的資料脫敏功能奠定了基礎。

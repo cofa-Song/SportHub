@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "Implementation plan for OPE modules (Player Management, Accounting, Logs). Includes new views, stores, types, and mock data.",
+  "updatedAt": "2026-01-29T05:57:36.595808200Z"
+}

@@ -1,0 +1,35 @@
+# Add Markdown Support to Vite Project
+
+The goal is to enable the import and usage of [.md](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/README.md) files within the Voice project. This will allow "setting" or documentation files to be rendered directly in the application.
+
+## User Review Required
+
+> [!NOTE]
+> I will configure the project to support importing [.md](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/README.md) files as Vue components. This requires installing `unplugin-vue-markdown`.
+> If you only need the **text content** of the markdown files (not rendered as HTML/Components), you can already do this without new plugins using `import text from './file.md?raw'`.
+>
+> Please let me know if you prefer the simple text import (no install needed) or the full component support. I will assume **Component Support** for this plan as it is more powerful.
+
+## Proposed Changes
+
+### Build Configuration
+
+#### [MODIFY] [package.json](file:///c:/Users/Administrator/Desktop/營運後台/package.json)
+- Add `unplugin-vue-markdown` to `devDependencies`.
+
+#### [MODIFY] [vite.config.ts](file:///c:/Users/Administrator/Desktop/營運後台/vite.config.ts)
+- Configure `Markdown()` plugin.
+- Add `include: [/\.vue$/, /\.md$/]` to the Vue plugin options to allow [.md](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/README.md) extensions to be handled as Vue components.
+
+#### [MODIFY] [tsconfig.json](file:///c:/Users/Administrator/Desktop/營運後台/tsconfig.json) or [src/vite-env.d.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/vite-env.d.ts)
+- Add type declaration for `*.md` files so TypeScript doesn't complain.
+
+## Verification Plan
+
+### Automated Tests
+- I will run `npm run build` to ensure the configuration is valid.
+
+### Manual Verification
+1. Create a dummy `TEST_SETTINGS.md` file in `src/`.
+2. Import it in [App.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/App.vue) or a test view.
+3. Verify it renders correctly.

@@ -1,0 +1,26 @@
+# Plan: Implementing Breadcrumbs Navigation
+
+Add a dynamic breadcrumb component to the [Layout.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue) to improve navigation and provide users with a clear sense of their current location within the application hierarchy.
+
+## Proposed Changes
+
+### Layout Component
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Import `NBreadcrumb` and `NBreadcrumbItem` from `naive-ui`.
+- Compute the breadcrumb items based on the current route `matching` segments.
+- Add a mapping to translate route names/paths to locale keys (e.g., `navigation.playerList`).
+- Insert the `NBreadcrumb` component above the `RouterView` in the main content area.
+
+### Routing (Optional Information)
+
+#### [VIEW] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Review route definitions to ensure parent-child relationships are correctly mapped for breadcrumb generation.
+
+## Verification Plan
+
+### Manual Verification
+1. Log in and navigate through different sub-pages (e.g., Player List -> Player Detail).
+2. Check if the breadcrumbs correctly reflect the path (e.g., Home > Player Management > Player List).
+3. Verify that clicking a breadcrumb item navigates the user to the corresponding page.
+4. Ensure the styling is consistent with the rest of the application.

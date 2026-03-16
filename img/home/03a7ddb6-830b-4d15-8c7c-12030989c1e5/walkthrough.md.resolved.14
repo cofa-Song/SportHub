@@ -1,0 +1,21 @@
+# 工作報告：玩家列表在地化更新
+
+我已修正了玩家列表頁面中，標籤與帳戶狀態僅顯示英文的問題。
+
+## 變更內容
+
+### 1. 語系檔更新
+- **新增 Player 模組**: 在 `zhTW`, `zhCN`, [en](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue#66-67) 語系檔中新增了 `player.status` 與 `player.tags` 區塊，定義了如「正常」、「鎖定」、「測試帳號」、「VIP」等詞彙的翻譯。
+
+### 2. 玩家列表組件更新 ([PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue))
+- **狀態列 (Status Column)**: 
+    - 使用 [t('player.status.' + row.status)](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/auth.ts#82-85) 替代原本的直接顯示。
+    - 狀態篩選下拉選單現在也會顯示翻譯後的名稱。
+- **標籤列 (Tags Column)**:
+    - 實作了翻譯回退機制：[t('player.tags.' + tag, tag)](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/auth.ts#82-85)。
+    - 若語系檔中有對應的標籤翻譯（如 TEST -> 測試帳號），將顯示中文；若無（如自定義新標籤），則顯示原始名稱。
+
+## 驗證結果
+- 切換至繁體中文時，玩家狀態顯示為「正常」、「鎖定」等。
+- 測試帳號標籤顯示為「測試帳號」。
+- 英文語系下則維持顯示 "Active", "Test Account" 等。

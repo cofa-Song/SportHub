@@ -1,0 +1,43 @@
+# Plan: Adding Affiliation Search Criteria
+
+Add a new search field "Affiliation" (所屬) to the Player List search form, allowing users to search by "Invitation Code" or "Referrer ID".
+
+## Proposed Changes
+
+### Data Layer
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/player.ts)
+- Update [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-58) interface:
+    - Add `invite_code?: string` (to support searching by it).
+- Update [PlayerSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#59-71) interface:
+    - Add `affiliation_type?: 'invite_code' | 'referrer_id'`.
+    - Add `affiliation_query?: string`. (Or reuse `referrer` but explicit is better for separating logic). Let's use `affiliation_query`.
+
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/player.ts)
+- Update `mockPlayers` generation:
+    - Populate `invite_code` for players (e.g., matching their referrer's code or random).
+
+#### [MODIFY] [player.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/player.ts)
+- Update [getPlayers](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/player.ts#21-74) mock logic:
+    - Implement filtering for `affiliation_type` and `affiliation_query`.
+    - If `affiliation_type` is 'invite_code', match `invite_code`.
+    - If `affiliation_type` is 'referrer_id', match `referrer_id`.
+
+### UI Layer
+#### [MODIFY] [PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add new `NFormItem` labeled "所屬" (Affiliation).
+- Implement layout similar to the main search:
+    - Radio Group: Invitation Code / Referrer ID.
+    - Input field.
+- Update `searchForm` initialization.
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add keys:
+    - `player.search.inviteCode`: '邀請碼'
+    - `player.search.referrerId`: '推薦人ID'
+    - `navigation.affiliation`: (Already exists)
+
+## Verification Plan
+1.  Check UI layout.
+2.  Search by mock Invitation Code -> Verify result.
+3.  Search by mock Referrer ID -> Verify result.

@@ -1,0 +1,30 @@
+- [x] **OPE-301 Game Platform Management**
+    - [x] Define [GameProvider](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#35-46) types in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 59 -->
+    - [x] Create `ProviderService` mock in [src/api/provider.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/provider.ts) <!-- id: 60 -->
+    - [x] Implement [GameProviders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameProviders.vue) view <!-- id: 61 -->
+    - [x] Verify AC1: Status Change Immediate <!-- id: 62 -->
+    - [x] Verify AC2: Maintenance Mode Display <!-- id: 63 -->
+    - [x] Verify AC3: Sorting Logic <!-- id: 64 -->
+    - [x] Verify AC4: Operation Log <!-- id: 65 -->
+    - [x] Verify AC5: Data Consistency <!-- id: 66 -->
+
+- [x] **OPE-302 Game List Management**
+    - [x] Define [Game](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#57-76) types in [src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts) <!-- id: 67 -->
+    - [x] Create `GameService` mock in [src/api/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/game.ts) <!-- id: 68 -->
+    - [x] Implement [GameList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GameList.vue) view <!-- id: 69 -->
+    - [x] Verify AC1: Complex Search Accuracy <!-- id: 70 -->
+    - [x] Verify AC2: Final Rate Logic <!-- id: 71 -->
+    - [x] Verify AC3: Tag Source Change <!-- id: 72 -->
+    - [x] Verify AC4: Quick Toggle Switch <!-- id: 73 -->
+
+- [ ] **OPE-303 Tag and Type Configuration**
+    - [ ] Define `GameType` and `MarketingTagConfig` types <!-- id: 74 -->
+    - [ ] Create `configApi` mock <!-- id: 75 -->
+    - [ ] Implement `GameTypeConfig.vue` view <!-- id: 76 -->
+    - [ ] Implement `MarketingTagConfig.vue` view <!-- id: 77 -->
+    - [ ] Verify AC1: Type Rate Update <!-- id: 78 -->
+    - [ ] Verify AC2: New Tag 60 Days Logic <!-- id: 79 -->
+    - [ ] Verify AC3: Custom Tag Priority <!-- id: 80 -->
+    - [ ] Verify AC4: Delete Protection <!-- id: 81 -->
+    - [ ] Verify AC5: Tag Disable Immediate <!-- id: 82 -->
+    - [ ] Verify AC6: Permission Restriction <!-- id: 83 -->

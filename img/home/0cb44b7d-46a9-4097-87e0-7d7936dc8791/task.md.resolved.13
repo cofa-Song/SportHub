@@ -1,0 +1,29 @@
+# 任務：修復營運配置驗證問題
+
+- [x] 規劃
+    - [x] 分析問題：識別出驗證規則中缺失的 `type: 'number'`
+    - [x] 建立實作計劃 (中文版)
+    - [x] 取得用戶確認
+- [x] 執行
+    - [x] 更新 [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) 的驗證規則
+- [x] 驗證
+    - [x] 手動驗證表單驗證是否通過
+    - [x] 產生完成報告 (Walkthrough)
+- [x] 更正流水倍數為 0 的描述
+    - [x] 更新實作計劃
+    - [x] 修改 [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) 的提示與警告
+    - [x] 更新完成報告 (Walkthrough)
+- [x] 修復多語系缺漏
+    - [x] 在 [src/locales/index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts) 中新增 `navigation.operationConfig`
+    - [x] 將 [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) 的標題改為使用 i18n
+    - [x] 更新完成報告 (Walkthrough)
+- [x] 調整導航選單
+    - [x] 更新實作計劃
+    - [x] 修改 [Layout.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/Layout.vue) 移動選單並更換圖示
+    - [x] 更新完成報告 (Walkthrough)
+- [x] 重構營運參數配置頁面
+    - [x] 更新 [src/types/operationConfig.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/operationConfig.ts) 以包含新欄位
+    - [x] 更新 [src/mocks/config.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/config.ts) 加入初始數據
+    - [x] 重新設計 [OperationConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/OperationConfig.vue) 的 UI 佈局 (分區塊顯示)
+    - [x] 新增或更新表單驗證規則
+    - [x] 產生驗證 Walkthrough

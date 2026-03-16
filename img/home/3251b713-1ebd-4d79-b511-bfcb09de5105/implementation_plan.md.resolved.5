@@ -1,0 +1,42 @@
+## OPE-206 Bonus Card History
+
+### 1. Data Models ([src/types/bonus.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/bonus.ts))
+- **BonusHistoryLog**:
+    - `id`: string (Log ID)
+    - `card_id`: string
+    - `player_id`: string
+    - `type`: BonusType
+    - `start_amount`: number
+    - `current_wagering`: number
+    - `target_wagering`: number
+    - `cap`: number
+    - `realized_amount`: number (Actual transferred to cash)
+    - `status`: 'SUCCESS' | 'FAIL' | 'ACTIVE' (Snapshot status)
+    - `fail_reason`?: string (Expire, Abandon, Bankruptcy)
+    - `create_time`: string (Card creation)
+    - `settle_time`?: string (When it became Success/Fail)
+    - `event_logs`: Array<{ time: string, action: string, detail: string }> (For Detail View)
+
+### 2. Logic (`src/api/bonus.ts` & [src/mocks/engine.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts))
+- **RolloverEngine**:
+    - Add `historyLog` array to store snapshots.
+    - When [checkSettlement](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#168-220) succeeds -> Create SUCCESS snapshot with `realized_amount`.
+    - When [checkSettlement](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#168-220) finds bankruptcy -> Create FAIL snapshot.
+    - When [processBet](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/mocks/engine.ts#105-148) updates wagering -> Update active snapshot (or just store final). Spec says "Snapshot when status changes". We should probably keep a running history.
+    - `expireCard` / `abandonCard` -> Create FAIL snapshot.
+
+- **BonusHistoryService**:
+    - `getHistory(params)`: Search by PlayerId, CardId, Status, Date.
+
+### 3. UI Components
+#### [NEW] [src/views/Master/BonusHistory.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/BonusHistory.vue)
+- **Filters**: Card ID (Exact), Player ID, Status, Date Range.
+- **Table**: Columns matching OPE-206 spec.
+- **Detail Modal**: Show the timeline of the card.
+
+### 4. Verification
+- **AC1**: Search by Card_ID.
+- **AC2**: Simulate Success flow (Engine) -> Check History.
+- **AC3**: Simulate Expire/Abandon flow -> Check History.
+- **AC4**: Simulate Bankruptcy (Engine) -> Check History.
+- **AC5**: Compare `Current` vs `Target` in history.

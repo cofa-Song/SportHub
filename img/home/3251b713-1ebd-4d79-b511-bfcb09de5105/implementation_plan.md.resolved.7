@@ -1,0 +1,59 @@
+## OPE-302 Game List Management
+
+### 1. Data Models ([src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts))
+- **Game**:
+    - [id](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts#31-32): string
+    - `provider_id`: string (reference to GameProvider)
+    - `provider_game_id`: string (original ID from provider)
+    - `type_id`: string
+    - `name`: string
+    - `name_en`: string
+    - `monthly_turnover`: number
+    - `marketing_tag`: 'HOT' | 'RECOMMENDED' | 'DOUBLE_TURNOVER' | null
+    - `tag_source`: 'AUTO' | 'MANUAL'
+    - `type_rate`: number (base rate from game type)
+    - `tag_rate`: number (rate from marketing tag)
+    - `final_rate`: number (computed: manual > tag > type)
+    - `allowed_currencies`: string[] (e.g., ['GOLD', 'SILVER'])
+    - `min_vip_level`: number
+    - `sort_order`: number
+    - `status`: 'ACTIVE' | 'DISABLED'
+    - `updated_at`: string
+
+- **GameSearchParams**:
+    - `provider_id`?: string
+    - `type_id`?: string
+    - `game_id`?: string (fuzzy search)
+    - `name`?: string (fuzzy search)
+    - `status`?: 'ACTIVE' | 'DISABLED'
+    - `page`: number
+    - `page_size`: number
+
+- **GameUpdateRequest**:
+    - `marketing_tag`?: 'HOT' | 'RECOMMENDED' | 'DOUBLE_TURNOVER' | null
+    - `allowed_currencies`?: string[]
+    - `min_vip_level`?: number
+    - `sort_order`?: number
+    - `status`?: 'ACTIVE' | 'DISABLED'
+
+### 2. Logic ([src/api/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/game.ts))
+- **Mock Games**: 20-30 games from various providers
+- **GameService**:
+    - `getGames(params)`: Fetch with filtering and pagination
+    - `updateGame(id, data)`: Update game config
+
+### 3. UI Components
+#### [MODIFY] [src/types/game.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/game.ts)
+- Add Game, GameSearchParams, GameUpdateRequest
+
+#### [MODIFY] [src/api/game.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/game.ts)
+- Add gameApi with getGames and updateGame
+
+#### [NEW] [src/views/Master/GameList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameList.vue)
+- **Search Form**: Provider, Type, ID, Name, Status
+- **Table**: All columns with inline edit modal
+- **Edit Modal**: Tag, currencies, VIP, sort order
+- **Toggle**: Inline status switch
+
+### 4. Verification
+- AC1-4: Search, rate logic, tag source, toggle switch

@@ -1,0 +1,48 @@
+# 功能實作報告：儲值訂單管理 (OPE-601)
+
+「儲值訂單管理」功能已實作完成，提供營運團隊全面的金流健康度監控工具。
+
+## 完成功能亮點
+
+### 1. 即時分析看板 (Real-time Analytics)
+- 使用 **圓餅圖** 展示渠道儲值金額佔比與訂單狀態分佈。
+- 自動計算支付手續費總額與平均費率。
+
+### 2. 趨勢與異常監控 (Trend Analysis)
+- **ECharts 整合**：展示每日成功儲值金額趨勢（綠線）與訂單總量（背景柱狀圖）。
+- **預警監控**：獨立顯示失敗或驗證異常的訂單趨勢（紅線），用於快速定位金流故障。
+
+### 3. 多維度查詢過濾
+- 支援日期範圍、玩家 ID/帳號、訂單狀態（多選）、渠道（多選）及單號搜尋。
+
+### 4. 訂單操作與審計
+- **查單系統**：主動與第三方核對狀態並同步。
+- **人工補單**：提供彈窗，支持上傳交易憑證與金額填寫（使用 `NInputNumber` 確保類型安全）。
+- **生命週期日誌**：完整記錄訂單從建立到成功的軌跡，包含三方 API 原始 JSON 內容。
+
+## 變更檔案清單
+
+### 資料層
+- [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/depositOrder.ts)：類型定義。
+- [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/depositOrder.ts)：模擬數據產生器。
+- [NEW] [depositOrder.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/depositOrder.ts)：API 封裝。
+
+### UI 組件
+- [NEW] [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/DepositOrders.vue)：主功能頁面。
+
+### 系統配置
+- [MODIFY] [router/index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)：註冊新增路徑。
+- [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)：新增側邊欄選單。
+- [MODIFY] [locales/index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)：新增多語系標籤。
+
+## 驗證紀錄
+
+### 程式碼驗證
+- [x] 修復了 [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/DepositOrders.vue) 中的 20+ 處 Lint 與型別錯誤。
+- [x] 成功安裝 `echarts` 依賴。
+- [x] 驗證了 `NDatePicker` 與 `NInputNumber` 的資料綁定安全性。
+
+### 功能模擬
+- [x] 圓餅圖數據聚合逻辑。
+- [x] 列表手續費動態試算：iOS (30%)、Web-Credit (3%)、其他 (5%)。
+- [x] 查單與補單的交互流暢性。

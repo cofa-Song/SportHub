@@ -1,0 +1,27 @@
+# Plan: Optimizing Currency Display and Formatting
+
+Improve the readability of wallet balances by adding thousands separators and using full currency names instead of abbreviations.
+
+## Proposed Changes
+
+### UI Layer
+#### [MODIFY] [PlayerDetail.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerDetail.vue)
+- Implement a `formatAmount` utility that returns a string with thousands separators.
+- Update `NStatistic` components:
+    - Use [prefix](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/GroupManagement.vue#96-101) slot to display `$`.
+    - Use `formatAmount(getWalletBalance(...))` for the value.
+    - Ensure labels display full names via [t('common.goldBalance')](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/auth.ts#82-85), etc.
+- In lists (e.g., Bonus Queue), replace suffix symbols with prefix `$` and show the full currency name in a tag or label.
+
+### Localization
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Add/Update keys:
+    - `common.gold`: '金幣'
+    - `common.silver`: '銀幣'
+    - `common.copper`: '銅幣'
+    - Ensure `goldBalance`, `silverBalance` are descriptive.
+
+## Verification Plan
+1. Check wallet cards for thousands separators (e.g., `1,234,567`).
+2. Verify currency names are shown in full (e.g., `金幣` instead of `G`).
+3. Switch languages to ensure full names translate correctly.

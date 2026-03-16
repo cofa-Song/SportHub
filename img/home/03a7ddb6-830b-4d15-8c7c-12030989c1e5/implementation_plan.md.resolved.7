@@ -1,0 +1,36 @@
+# Plan: Implementing Menu-Based Breadcrumbs Navigation
+
+Refactor the breadcrumb logic to strictly follow the nested structure defined in `menuOptions`, rather than the flat routing structure.
+
+## Requirement
+- Breadcrumbs should reflect the "Layout Menu" hierarchy.
+- Example: `Home > Player Management > Player List`.
+- Parent menu items (groups) usually do not have a direct route, so they should be non-clickable text in the breadcrumb.
+- The root "Home" should always be present? Or just follow the menu?
+  - Optimization: Always prepend "Home" (link to dashboard) unless the current page is Home. Then follow the computed menu path.
+
+## Proposed Changes
+
+### [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+
+1.  **Helper Function**: `findMenuPath(menus: MenuOption[], targetKey: string): BreadcrumbItem[] | null`
+    - Recursively searches `menuOptions`.
+    - Returns an array of items representing the path to the selected key.
+    - Each item contains `label` and `key`.
+
+2.  **Computed Property**: `breadcrumbItems`
+    - Calls `findMenuPath` with `menuOptions` and `selectedKey`.
+    - If the current key is NOT `admin-dashboard`, prepend a "Home" item.
+
+3.  **Template Update**:
+    - Add `<NBreadcrumb>` component inside `<NLayoutContent>`, before `<RouterView>`.
+    - Iterate over `breadcrumbItems`.
+    - If it's the last item (current page) or a parent group without a route (checked via `menuKeyToRoute`), render as text.
+    - If it's "Home" or has a valid route, render as a link.
+
+## Verification Plan
+1.  Navigate to "Player List".
+2.  Check Breadcrumb: Should show `Home > Player Management > Player List`.
+3.  Click "Home" -> redirects to dashboard.
+4.  Navigate to "Permissions > Personal Account".
+5.  Check Breadcrumb: `Home > Permissions > Personal Account`.

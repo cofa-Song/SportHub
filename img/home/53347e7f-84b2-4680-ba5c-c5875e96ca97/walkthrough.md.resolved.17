@@ -1,0 +1,27 @@
+# Enhancement Walkthrough
+
+Recent updates to the Operation Management Dashboard.
+
+## 1. System Health Monitoring UI/UX
+Redesigned the "System Status" page with a premium layout.
+- **Detailed Resources**: CPU, Memory (GB), Disk usage with circular indicators and status-based coloring.
+- **KPI Cards**: Interactive cards for Latency, Errors, and QPS.
+- **Error Logs**: Clickable error card opens a modal with a detailed table of API endpoints, timestamps, and severity levels.
+- **Automatic Toggles**: Added service status switches with an "Access Operation" batch-save workflow.
+
+## 2. Guild Member List
+Added the ability to view members within the Guild Management module.
+- **Action Button**: "成員名單" (Member List) button in the guild table.
+- **Member Details**: Modal displaying Member IDs, ranks, contribution points, and last active status.
+- **Navigation**: Quick links from Member IDs to their Player Detail pages.
+
+## 3. Commodity Management Improvements
+- **Fallback Imagery**: Implemented automatic placeholder image fallback for broken or invalid product image URLs.
+- **VIP Restriction Logic**: Simplified VIP level requirements from multi-select checkboxes to a single-select "Minimum VIP Level" dropdown.
+- **Diverse Mock Data**: Expanded the product list to include Monthly Cards, First Deposit Bonuses, and Limited Time Offers.
+
+### Verification of VIP Restriction
+The VIP level selection now uses a threshold logic:
+- Selecting **VIP 0** allows all players to buy.
+- Selecting **VIP 5** allows players with VIP 5, 6, 7, 8, 9, or 10 to see/buy the item.
+- The UI automatically calculates the correct permission array for the backend.

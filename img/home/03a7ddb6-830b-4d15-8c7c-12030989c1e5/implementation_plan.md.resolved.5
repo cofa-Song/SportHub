@@ -1,0 +1,33 @@
+# Plan: Menu Restructuring and Home Page Reassignment
+
+The goal is to simplify the navigation by removing unused modules, renaming the entry point, and redirecting the home page to Personal Account Management.
+
+## Proposed Changes
+
+### Locales
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)
+- Rename `navigation.dashboard` to "Home" (`首頁`).
+- (Optional) Remove unused merchant-related translation keys.
+
+### Routing
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Update the redirect for the `/admin` path (or the base route) to point to `/admin/account` (Personal Account Management).
+- Remove the merchant management route if it exists.
+
+### Layout & Navigation
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- Remove the "Merchant Management" item from the menu structure.
+- Ensure the "Home" item (formerly Dashboard) is mapped correctly to the `/admin/account` route in `menuKeyToRoute`.
+- Since "Home" is now "Personal Account Management", we should avoid redundant entries if they both exist in the menu.
+
+## Verification Plan
+
+### Manual Verification
+1. Log in and check if the initial page is "Personal Account Management".
+2. Verify the side menu: "Dashboard" should be "Home" (`首頁`).
+3. Verify that "Merchant Management" is completely removed from the menu.
+4. Click on "Home" and ensure it stays on or navigates to "Personal Account Management".
+5. Verify no broken links or redirect loops.

@@ -1,0 +1,51 @@
+# OPE-603 Manual Deposit/Withdrawal Management Implementation Plan
+
+## Goal Description
+Implement a feature for administrators to manually deposit or withdraw funds (Cash/Bonus) for players. This is required for compensation, rewards, offline deposits, and error corrections.
+
+## Proposed Changes
+
+### API Layer
+#### [NEW] [adjustment.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/adjustment.ts)
+- Define `AdjustmentRequest` interface.
+- Implement `createAdjustment` function (mocked for now, simulating backend).
+- Implement `getAdjustmentReasons` function.
+
+### UI Components
+#### [NEW] [ManualAdjustment.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ManualAdjustment.vue)
+- **Player Search**: Input for Player ID, displays Nickname/Tags/Balance upon found.
+- **Operation Form**:
+    - Type (Deposit/Withdraw) - Radio
+    - Wallet (Cash/Bonus) - Dropdown
+    - Amount - InputNumber (Positive only)
+    - Reason - Dropdown (Reward, Compensation, Offline, Correction, Other)
+    - Note - Textarea (Min 5 chars)
+    - Evidence - Image Upload (Required for Offline Deposit)
+    - Rollover - Toggle (Only for Bonus) & Multiplier Input
+- **Logic**:
+    - Fetch player details on ID change.
+    - Validate sufficiency of funds for withdrawal.
+    - "Test Account" warning.
+    - Double-submit protection (loading state).
+
+### Routing
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add new route `/manual-adjustment` under `masterRoutes`.
+- Breadcrumb: "人工存提".
+
+## Verification Plan
+
+### Manual Verification
+1.  **Access Page**: Navigate to `/admin/manual-adjustment` (or via menu if added, otherwise direct URL).
+2.  **Search Player**: Enter a valid player ID (from `mockPlayers` in [player.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/player.ts)). Verify name and balances appear.
+3.  **Validation**:
+    - Try submitting empty form -> Check error messages.
+    - Select "Offline Deposit" -> Verify "Evidence" is required.
+    - Enter Withdraw amount > Balance -> Verify error (if frontend check implemented) or submit error.
+4.  **Submit**:
+    - Fill valid data (Deposit 100 Cash).
+    - Submit -> Verify success message.
+    - Verify form resets.
+5.  **Bonus**:
+    - Select Bonus wallet.
+    - Enable Rollover -> Verify Multiplier input appears.

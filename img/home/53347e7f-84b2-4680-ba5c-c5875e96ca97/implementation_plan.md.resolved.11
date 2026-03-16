@@ -1,0 +1,35 @@
+# i18n for Deposit Orders Page
+
+Implement multi-language support for the "Deposit Orders" page to ensure all labels, table headers, status tags, and modal content are translatable.
+
+## Proposed Changes
+
+### Locales
+
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/locales/index.ts)
+Add `finance.depositOrder` section to `zhTW`, `zhCN`, and `enUS` (if present) containing:
+- Table headers (OrderID, PlayerID, ProductChannel, Amount, Status, Time, Actions)
+- Filter labels (Range, Subject, Method, SearchBtn)
+- Status labels (Pending, Success, Failed, Expired, Manual, Refunded, VerifyError)
+- Modal titles and labels (ManualIntervention, TraceID, AmountTWD, Logs, Operator, Node)
+- Chart legends (SuccessAmount, TotalCount, FailedCount)
+
+### UI Layer
+
+#### [MODIFY] [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/DepositOrders.vue)
+- Import `useI18n` and destructure `{ t }`.
+- Replace all Chinese template strings with `$t('finance.depositOrder.xxx')`.
+- Update `columns` and `statusOptions` to use [t()](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/commodity.ts#123-127).
+- Update ECharts configurations to use translated names.
+
+## Verification Plan
+
+### Manual Verification
+1. Navigate to "財務管理 > 儲值訂單".
+2. Switch language between Traditional Chinese, Simplified Chinese, and English (if available/supported by Layout).
+3. Verify that:
+   - Page title and statistics cards update.
+   - Charts legends update.
+   - Table headers and row data (status tags) update.
+   - Search filter labels and buttons update.
+   - Modals (Manual Complete & Logs) update.

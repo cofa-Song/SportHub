@@ -1,0 +1,84 @@
+# OPE-603 Manual Deposit/Withdrawal Management
+
+## Planning & Setup
+- [x] Explore existing codebase for patterns (Player lookup, Forms, APIs)
+- [x] Create Implementation Plan
+- [x] Define API endpoints (mock or real interfaces)
+
+## Implementation
+- [x] Create [ManualAdjustment.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/ManualAdjustment.vue) view
+    - [x] Player Search Section (ID input, display name/tags)
+    - [x] Operation Form (Type, Wallet, Amount, Reason, Note)
+    - [x] Dynamic Fields (Proof Image, Rollover Toggle, Multiplier)
+- [x] Implement Form Validation & Logic
+    - [x] Balance check (frontend validation if data available)
+    - [x] "Test Account" warning
+    - [x] Offline Deposit proof requirement
+- [x] Implement API Integration
+    - [x] Player Info Search
+    - [x] Submit Adjustment (with double-submit protection)
+- [x] Register Route
+
+## Verification
+- [x] Verify AC 1: Balance update (Unit/Mock test)
+- [x] Verify AC 2: Validations (Required fields)
+- [x] Verify AC 3: Rollover logic (Queue generation mock check)
+- [x] Verify AC 4: Audit Log (data structure check)
+- [x] Verify AC 5: Double-submit protection
+
+# OPE-604 Financial Overview Dashboard
+
+## Planning & Setup
+- [x] Check for chart libraries (echarts/chart.js)
+- [x] Create Implementation Plan
+- [x] Define API [finance.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/finance.ts) for aggregated data
+
+## Implementation
+- [x] Create [FinancialOverview.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/FinancialOverview.vue)
+    - [x] Filter Bar (Time range, Test account toggle, Refresh button)
+    - [x] KPI Cards (Total Deposit, Total Withdraw, Net Revenue, etc.)
+    - [x] Charts Section (Deposit Composition, Withdrawal Composition)
+    - [x] Alert System (Manual adjustment threshold check)
+- [x] Implement Business Logic
+    - [x] Auto-refresh (60s)
+    - [x] Permission check (Hide Net Revenue for non-managers)
+    - [x] Calculations (Net Revenue = Deposit - Withdraw)
+- [x] Register Route
+
+## Verification
+- [x] Verify AC 1: Test account exclusion
+- [x] Verify AC 2: Manual adjustment sum update
+- [x] Verify AC 3: Data consistency with other modules
+- [x] Verify AC 4: Time range filtering
+- [x] Verify AC 5: Permission-based visibility
+
+# OPE-606 Commodity Configuration Management
+
+## Planning & Setup
+- [x] Create Implementation Plan
+- [x] Define APIs: [badge.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/badge.ts), [commodity.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/commodity.ts)
+
+## Implementation
+- [x] Create `MarketingBadgeModal` component
+    - [x] CRUD for badges
+    - [x] Delete protection logic
+- [x] Create [CommodityConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/CommodityConfig.vue) view
+    - [x] List View (Table with columns)
+    - [x] Edit/Create Form (Tabs for Basic, Content, Pricing, Rules)
+    - [x] Integration with Marketing Badge Modal
+- [x] Implement Business Logic
+    - [x] iOS Tier warning
+    - [x] Product ID validation
+    - [x] Conflict detection for limit rules
+- [x] Register Route
+
+## Verification
+- [x] Verify AC 1: Image upload & preview
+- [x] Verify AC 2: Badge CRUD & linkage
+- [x] Verify AC 3: VIP experience check (Mock)
+- [x] Verify AC 4: Platform ID validation
+- [x] Verify AC 5: Rollover rule check
+
+# Post-Implementation Refinement
+- [x] Fix Naive UI component resolution warnings in [CommodityConfig.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/CommodityConfig.vue), [ManualAdjustment.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/ManualAdjustment.vue), and [FinancialOverview.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/FinancialOverview.vue)
+- [x] Resolve remaining TypeScript/Lint errors in view components

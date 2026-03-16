@@ -1,0 +1,6 @@
+# Task Breakdown: Adding Affiliation Search Criteria
+- [x] Update [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-59) and [PlayerSearchParams](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#60-74) interfaces (Completed)
+- [x] Update `mockPlayers` and `playerApi` logic (Completed)
+- [x] Update `locales` with new search keys (Completed)
+- [x] Update [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue) with new search form item (Completed)
+- [x] Verify affiliation search functionality (Logical verification done)

@@ -1,0 +1,6 @@
+# Task Breakdown: Adding RTP Column to Player List
+- [x] Update [Player](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts#28-58) interface with `rtp` field (Completed)
+- [x] Update Mock Data with random RTP values (Completed)
+- [x] Update Locales with `rtp` key (Completed)
+- [x] Update [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue): Add RTP column with conditional coloring (Completed)
+- [x] Verify display and colors (Logical verification done)

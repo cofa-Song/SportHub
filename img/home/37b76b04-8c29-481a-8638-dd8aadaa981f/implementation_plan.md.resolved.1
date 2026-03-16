@@ -1,0 +1,43 @@
+# OPE-503 圖片管理 (Image Management) Implementation Plan
+
+## Goal Description
+實作前台視覺素材管理系統，支援首頁 Banner、促銷彈窗等圖片的排程、權重排序及點擊行為控制。需區分 PC 與 Mobile 裝置素材，並控制彈窗顯示頻率。
+
+## User Review Required
+> [!IMPORTANT]
+> - 彈窗頻率的「每日一次」定義為 Server Time 00:00:00 重置。
+> - 圖片上傳將使用 Mock 模擬，實際上傳邏輯需對接後端 API。
+
+## Proposed Changes
+
+### Types & API
+#### [NEW] [imageConfig.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/imageConfig.ts)
+- 定義 `ImageConfig` 介面，包含 `type` (Banner/Popup), `platform` (PC/Mobile image urls), `link`, `schedule`, `frequency` 等欄位。
+
+#### [NEW] [imageConfig.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/imageConfig.ts)
+- 實作 CRUD API 及 [toggleStatus](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/announcement.ts#106-125)。
+
+### UI Implementation
+#### [NEW] [ImageConfig.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/ImageConfig.vue)
+- **列表頁**:
+    - 縮圖預覽 (hover 放大)。
+    - 快速開關狀態 (測試/正式)。
+    - 顯示發佈區間與權重。
+- **新增/編輯彈窗**:
+    - 圖片上傳 (模擬)：驗證尺寸比例。
+    - 彈窗頻率設定 (僅 Type=Popup 時顯示)。
+    - 連結設定：支援內部路由或外部 URL。
+
+### Routing & Navigation
+#### [MODIFY] [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- 新增路由 `/admin/image-config`。
+
+#### [MODIFY] [Layout.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Layout.vue)
+- 在「前台設定」選單下新增「圖片管理」。
+
+## Verification Plan
+### Manual Verification
+- **Device Adaptation**: 上傳不同尺寸圖片，驗證資料保存正確。
+- **Frequency**: 驗證 Popup 的頻率設定邏輯 (透過 Console Log 驗證 mock 行為)。
+- **Sorting**: 驗證權重小的排在前面。
+- **Scheduling**: 驗證時間未到或過期不顯示 (API 過濾)。

@@ -1,0 +1,37 @@
+## OPE-205 Member Tag Management
+
+### 1. Data Models ([src/types/player.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/player.ts))
+- **PlayerTag**:
+    - `id`: number
+    - `name`: string
+    - `type`: 'SYSTEM' | 'CUSTOM'
+    - `remark`: string
+    - `status`: 'ACTIVE' | 'INACTIVE'
+    - `member_count`: number (Mock count for validation)
+
+### 2. Logic (`src/api/tag.ts`)
+- **Mock Tags**:
+    - Default System Tags: "一般玩家", "測試帳號", "幣商帳號".
+    - Mock Custom Tags: "大戶", "觀察名單".
+- **Validation**:
+    - Prevent deleting SYSTEM tags.
+    - Prevent disabling tags with `member_count > 0`.
+    - Unique name check on create/update.
+
+### 3. UI Components
+#### [NEW] [src/views/Master/TagManagementDrawer.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/TagManagementDrawer.vue)
+- **Drawer**: Uses `NDrawer` from Naive UI.
+- **Table**: Lists tags with edit/delete actions.
+- **Status Switch**: Toggles status with confirmation/validation.
+- **Add/Edit Modal**: Simple form for Name/Remark.
+
+#### [MODIFY] [src/views/Master/PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue)
+- Add "標籤管理" Button in header.
+- Import and use `TagManagementDrawer`.
+- Ensure Player Edit modal fetches fresh tags on open (AC3).
+
+### 4. Verification
+- **AC1**: Click button -> Drawer opens.
+- **AC2**: Try editing System tag name -> Diabled.
+- **AC3**: Add tag in Drawer -> Open Player Edit -> Tag exists.
+- **AC4**: Disable tag -> Open Player Edit -> Tag gone.

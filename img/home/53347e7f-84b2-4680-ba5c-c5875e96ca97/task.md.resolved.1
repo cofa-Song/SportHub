@@ -1,0 +1,27 @@
+# OPE-603 Manual Deposit/Withdrawal Management
+
+## Planning & Setup
+- [x] Explore existing codebase for patterns (Player lookup, Forms, APIs)
+- [x] Create Implementation Plan
+- [x] Define API endpoints (mock or real interfaces)
+
+## Implementation
+- [ ] Create `ManualAdjustment.vue` view
+    - [ ] Player Search Section (ID input, display name/tags)
+    - [ ] Operation Form (Type, Wallet, Amount, Reason, Note)
+    - [ ] Dynamic Fields (Proof Image, Rollover Toggle, Multiplier)
+- [ ] Implement Form Validation & Logic
+    - [ ] Balance check (frontend validation if data available)
+    - [ ] "Test Account" warning
+    - [ ] Offline Deposit proof requirement
+- [ ] Implement API Integration
+    - [ ] Player Info Search
+    - [ ] Submit Adjustment (with double-submit protection)
+- [ ] Register Route
+
+## Verification
+- [ ] Verify AC 1: Balance update (Unit/Mock test)
+- [ ] Verify AC 2: Validations (Required fields)
+- [ ] Verify AC 3: Rollover logic (Queue generation mock check)
+- [ ] Verify AC 4: Audit Log (data structure check)
+- [ ] Verify AC 5: Double-submit protection

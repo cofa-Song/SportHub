@@ -1,0 +1,78 @@
+# Implementation Plan - OPE-201 to OPE-206
+
+This plan outlines the implementation of the Player Operation & Accounting modules for the admin dashboard.
+
+## User Review Required
+- **Mock Data Strategy**: We will use a local `useOpeStore` and mock data files to simulate backend behavior for this implementation since no backend is provided.
+- **Tech Stack**: Vue 3 + TypeScript + Pinia + Naive UI (consistent with existing project).
+
+## Proposed Changes
+
+### Types & Data Structure
+#### [NEW] [src/types/ope.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/ope.ts)
+- Define interfaces for `Player`, `Wallet`, `Tag`, `RewardCard`, `AssetLog`, `GameLog`.
+- Define Enums for statuses (Freeze, Lock, Ban) and currencies.
+
+### Mock Data & Store
+#### [NEW] [src/mocks/ope.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/mocks/ope.ts)
+- Generate mock data for players, logs, and game records.
+
+#### [NEW] [src/stores/useOpeStore.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/stores/useOpeStore.ts)
+- Pinia store to manage global state for OPE modules.
+- Actions for fetching lists, updating player status, managing tags.
+
+### Views & Components
+
+#### [NEW] [src/views/Master/PlayerList.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerList.vue) (OPE-201)
+- Search filters (ID, Phone, Tags, Status).
+- Data Table with columns defined in spec.
+- "Add Player" modal.
+- Links to detail page.
+
+#### [NEW] [src/views/Master/PlayerDetail.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/PlayerDetail.vue) (OPE-201 Detail)
+- Detailed player info and editing forms.
+- Wallet monitoring and manual adjustment (mocked).
+- "Forfeit Reward" button logic.
+- Change log recording (mocked).
+
+#### [NEW] [src/views/Master/AssetLogs.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/AssetLogs.vue) (OPE-203)
+- Table view for Asset & Wagering logs.
+- Filtering by currency and change type.
+
+#### [NEW] [src/views/Master/GameLogs.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameLogs.vue) (OPE-204)
+- Game session history table.
+- Detail modal for JSON raw data.
+
+#### [NEW] [src/views/Master/RewardHistory.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/RewardHistory.vue) (OPE-206)
+- Reward card history list.
+- Status tracking (Success/Fail/Active).
+
+#### [NEW] [src/components/Ope/TagDrawer.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/components/Ope/TagDrawer.vue) (OPE-205)
+- Drawer component for managing member tags.
+- Integrated into Player List.
+
+### Routing
+
+#### [MODIFY] [src/router/index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/router/index.ts)
+- Add routes for:
+    - `/ope/player-list`
+    - `/ope/player-detail/:id`
+    - `/ope/asset-logs`
+    - `/ope/game-logs`
+    - `/ope/reward-history`
+
+## Verification Plan
+
+### Automated Tests
+- None (Test setup is not configured in this prototype).
+
+### Manual Verification
+1.  **Player List**: Verify search works for "Test Account" tag.
+2.  **Add Player**: Create a new player and verify it appears in the list.
+3.  **Edit Player**: Change status to "Frozen", verify reason modal appears.
+4.  **Tag Management**: Open Drawer, add a "VIP" tag, verify it appears in Player Edit dropdown.
+5.  **Logs**: Check that editing a player creates a log entry (in console or mock store state).
+6.  **Accounting**:
+    - Go to Player Detail.
+    - Click "Forfeit Reward".
+    - Verify balances update in the UI.

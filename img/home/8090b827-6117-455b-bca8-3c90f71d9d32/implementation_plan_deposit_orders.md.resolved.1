@@ -1,0 +1,25 @@
+# Deposit Order Interface Enhancements
+
+This plan outlines the changes to add a "Status" filter to the Deposit Order page and fix two UI issues related to the multi-select dropdowns.
+
+## Proposed Changes
+
+### [Frontend/UI]
+
+#### [MODIFY] [DepositOrders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/DepositOrders.vue)
+- **Refactor Filter Section**: 
+    - Replace the custom `tech-card` flex layout with a standard `NCard` and `NForm inline`, matching [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue).
+    - Remove custom `tech-select-light`, `tech-input-light`, and `tech-picker-light` classes to use standard Naive UI appearance.
+    - Match the `NFormItem` labels and layout style.
+- **Unified Multi-select Behavior**:
+    - Align `NSelect` configuration (multiple, clearable, width) with the "Tags" filter in [PlayerList.vue](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/views/Master/PlayerList.vue).
+    - Remove `max-tag-count="responsive"` if it differs from the reference, or ensure it's used consistently if that's what "working way" implies. (Actually, matching "style and working way" usually means identical props).
+
+## Verification Plan
+
+### Manual Verification
+- [ ] Navigate to "財務管理 > 儲值訂單".
+- [ ] **Status Filter**: Verify the new "Status" filter appears next to "Payment Channel".
+- [ ] **Multi-select Behavior**: Select multiple options in both "Status" and "Payment Channel". Verify that the field height does NOT increase significantly (using "responsive" tag count).
+- [ ] **Text Visibility**: Ensure the text of selected options is clearly visible and not white on a white background.
+- [ ] **Functionality**: Click "Search" and verify that the results are filtered correctly by both Channel and Status (requires mock data support, which seems to exist based on `searchForm` structure).

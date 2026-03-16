@@ -1,0 +1,33 @@
+## OPE-301 Game Platform Management
+
+### 1. Data Models ([src/types/game.ts](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/types/game.ts))
+- **GameProvider**:
+    - `id`: string (e.g., "PV-001")
+    - `code`: string (e.g., "PG", "EVO")
+    - `name`: string (e.g., "PG Soft")
+    - `type`: 'SLOT' | 'LIVE' | 'SPORTS' | 'LOTTERY' | 'CARD'
+    - `status`: 'ACTIVE' | 'DISABLED' | 'MAINTENANCE'
+    - `sort_order`: number
+    - `wallet_support`: 'CASH' | 'BONUS' | 'DUAL'
+    - `last_operator`: string
+    - `updated_at`: string
+
+- **ProviderUpdateRequest**:
+    - `status`?: 'ACTIVE' | 'DISABLED' | 'MAINTENANCE'
+    - `sort_order`?: number
+    - `reason`: string
+
+### 2. Logic (`src/api/provider.ts`)
+- **Mock Providers**: PG, Evolution, JILI, PP, etc.
+- **ProviderService**:
+    - `getProviders()`: Fetch all providers
+    - `updateProvider(id, data, reason)`: Update status/order with audit log
+
+### 3. UI Components
+#### [NEW] [src/views/Master/GameProviders.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/GameProviders.vue)
+- **Table**: Provider list with inline status toggle
+- **Edit Modal**: Change status with reason input
+- **Sorting**: Drag-and-drop or number input for sort_order
+
+### 4. Verification
+- AC1-5: Status changes, maintenance mode, sorting, audit logging

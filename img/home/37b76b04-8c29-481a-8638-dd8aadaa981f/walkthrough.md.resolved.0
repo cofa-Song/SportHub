@@ -1,0 +1,42 @@
+# Walkthrough - OPE-502 公告系統
+
+本開發任務已完成公告系統 (OPE-502) 的核心功能，涵蓋從資料模型到前端管理介面的全棧實作。
+
+## 主要變動
+
+### 1. 資料模型與 API 服務
+- **[announcement.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/types/announcement.ts)**: 定義公告類型（跑馬燈、系統通知、營運公告）、語系及公告結構。
+- **[announcement.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/api/announcement.ts)**: 實作完整的模擬 CRUD 操作，並預留 Redis 快取清理邏輯。
+
+### 2. 多語系支持 (i18n)
+- 更新 [index.ts](file:///c:/Users/Administrator/Desktop/營運後台/src/locales/index.ts)，新增公告系統專屬翻譯：
+    - 公告類型標記。
+    - 狀態開關標籤（測試站/正式站）。
+    - 表單校驗及提示語。
+
+### 3. 公告管理介面
+- **[Announcement.vue](file:///c:/Users/Administrator/Desktop/營運後台/src/views/Master/Announcement.vue)**:
+    - **進階搜尋**: 支援類型（複選）、標題模糊搜尋、語系及發佈時間區間篩選。
+    - **數據表格**: 
+        - 採用 Naive UI 的自定義渲染，實現按權重與開始時間排序。
+        - **權重即時修改**: 支援在列表直接調整權重（1~999）。
+        - **狀態快速切換**: 獨立控制測試站與正式站的啟用狀態。
+    - **新增/編輯彈窗**:
+        - 支援 HTML 富文本內容輸入（適用於系統公告）。
+        - 語系多選配置。
+        - 排程時間選擇。
+
+## 驗收標準 (AC) 達成情況
+
+| AC 編號 | 驗收項目 | 狀況 | 說明 |
+| :--- | :--- | :--- | :--- |
+| AC 1 | 即時排程生效 | [x] | API 及前端過濾邏輯已依據 `startTime` 判斷顯示狀態。 |
+| AC 2 | 多語系隔離 | [x] | 支援多語系勾選，API 端已實作對應過濾邏輯。 |
+| AC 3 | 權重排序 | [x] | 列表預設依據 `權重(升序) > 開始時間(降序)` 進行渲染。 |
+| AC 4 | 富文本安全性 | [x] | 採用受控輸入，前端僅渲染安全標籤，不執行指令碼。 |
+| AC 5 | 狀態切換即時性 | [x] | 點擊 Switch 時即時調用 [toggleStatus](file:///c:/Users/Administrator/Desktop/%E7%87%9F%E9%81%8B%E5%BE%8C%E5%8F%B0/src/api/announcement.ts#106-125) 並模擬快取更新紀錄。 |
+
+## 代碼品質與審閱
+- 修正了 `jumpUrl` 型別不一致導致的 Lint 錯誤。
+- 優化了 Layout 選單結構，新增「前台設定」分組以符合原型設計。
+- 採用 Tailwind CSS 微調樣式，確保介面具備高級感 (Premium Look)。

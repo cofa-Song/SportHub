@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "Implementation plan to remove \"Environment\" field and add \"Proxy\" field in Third-party Key Management.",
+  "updatedAt": "2026-02-05T02:04:20.615393400Z"
+}
